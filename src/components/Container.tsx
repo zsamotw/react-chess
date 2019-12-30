@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Header from './Header'
 
 const Container = styled.div`
   height: 100vh;
@@ -7,10 +8,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const HeaderContainer = styled.header`
   height: 10%;
-  background-color: blue;
+  background-color: #00b9f2;
 `
 
 const ContentContainer = styled.div`
@@ -20,10 +20,13 @@ const ContentContainer = styled.div`
 const FooterContainer = styled.footer`
   height: 5%;
 `
+
 export default function Layout() {
   return (
     <Container>
-      <HeaderContainer> Header</HeaderContainer>
+      <HeaderContainer>
+        <Header></Header>
+      </HeaderContainer>
       <ContentContainer>Content</ContentContainer>
       <FooterContainer>Footer</FooterContainer>
     </Container>
