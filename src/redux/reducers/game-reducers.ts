@@ -1,20 +1,19 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { makeMove } from "../actions";
-import Board from "../../models/Board";
-import { initBoard } from "../../models/Board";
+import { createReducer } from '@reduxjs/toolkit'
+import { makeMove } from '../actions'
+import { rows } from '../../models/Board'
+import { List } from 'immutable'
+import Field from '../../models/Field'
+import Store from '../../models/Store'
 
-interface Store {
-	gameId: string | null;
-	board: any;
-}
+type Row = List<Field>
 
 const initialState = {
-	gameId: null,
-	board: initBoard
-} as Store;
+  gameId: null,
+  board: rows
+} as Store
 
 const gameReducer = createReducer(initialState, {
-	[makeMove.type]: state => state
-});
+  [makeMove.type]: state => state
+})
 
-export { gameReducer };
+export { gameReducer }

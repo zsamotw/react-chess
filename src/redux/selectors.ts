@@ -1,7 +1,8 @@
 import Store from '../models/Store'
 
-const board = (state: Store) => {
-  state.board
+const getBoard = (state: Store) => {
+  const rows = state.board
+  return { rows }
 }
 
-export { board }
+export { getBoard }
