@@ -1,7 +1,7 @@
 import React from 'react'
 import { List } from 'immutable'
-import Field from '../models/Field'
-import Board from '../models/Board'
+import Field from '../models/field-model'
+import Board from '../models/board-model'
 import styled from 'styled-components'
 
 type Row = List<Field>
@@ -35,7 +35,6 @@ const FieldContainer = styled.div`
   height: 1rem;
   width: 1rem;
   padding: 0.5rem;
-  /* border: 1px solid black; */
 `
 const FieldContainerStartsWithWhite = styled(FieldContainer)`
   &:nth-child(even) {

@@ -1,4 +1,4 @@
-import Store from '../models/Store'
+import Store from '../models/store-model'
 
 const getBoard = (state: Store) => {
   const rows = state.board

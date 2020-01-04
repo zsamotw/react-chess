@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { makeMove } from '../actions'
-import { rows } from '../../models/Board'
+import { rows } from '../../models/board-model'
 import { List } from 'immutable'
-import Field from '../../models/Field'
-import Store from '../../models/Store'
+import Field from '../../models/field-model'
+import Store from '../../models/store-model'
 
 type Row = List<Field>
 

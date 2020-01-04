@@ -1,11 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from './Header'
-import BoardView from './BoardView'
-import Store from '../models/Store'
-import { getBoard } from '../redux/selectors'
-import { connect } from 'react-redux'
-import Board from '../models/Board'
+import Content from './Content'
 
 const Container = styled.div`
   height: 100vh;
@@ -26,24 +22,16 @@ const FooterContainer = styled.footer`
   height: 5%;
 `
 
-function Layout(props: { board: Board }) {
-  const { board } = props
+export default function Layout() {
   return (
     <Container>
       <HeaderContainer>
         <Header></Header>
       </HeaderContainer>
       <ContentContainer>
-        <BoardView board={board} />
+        <Content></Content>
       </ContentContainer>
       <FooterContainer>Created by Tomasz</FooterContainer>
     </Container>
   )
 }
-
-const mapStateToProps = (state: Store) => {
-  const board = getBoard(state)
-  return { board }
-}
-
-export default connect(mapStateToProps)(Layout)

@@ -1,5 +1,5 @@
 import { List } from 'immutable'
-import Field from './Field'
+import Field from './field-model'
 
 type Row = List<Field>
 
