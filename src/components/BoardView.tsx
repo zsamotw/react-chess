@@ -46,32 +46,38 @@ const FieldContainerStartsWithGray = styled(FieldContainer)`
     background-color: gray;
   }
 `
-
-const rowStartsWithWhiteField = (r: Row) => (
-  <RowContainer>
-    {r.map((f: Field) => {
-      return (
-        <FieldContainerStartsWithWhite>
-          <FieldContent>{f.figure.symbol}</FieldContent>
-        </FieldContainerStartsWithWhite>
-      )
-    })}
-  </RowContainer>
-)
-
-const rowStartsWithGrayField = (r: Row) => (
-  <RowContainer>
-    {r.map((f: Field) => {
-      return (
-        <FieldContainerStartsWithGray>
-          <FieldContent>{f.figure.symbol}</FieldContent>
-        </FieldContainerStartsWithGray>
-      )
-    })}
-  </RowContainer>
-)
-
 const FieldContent = styled.div``
+
+type FirstFieldColor = 'white' | 'gray'
+
+const rowStartsWith = (color: FirstFieldColor, r: Row) => {
+  switch (color) {
+    case 'white':
+      return (
+        <RowContainer>
+          {r.map((f: Field) => {
+            return (
+              <FieldContainerStartsWithWhite>
+                <FieldContent>{f.figure.symbol}</FieldContent>
+              </FieldContainerStartsWithWhite>
+            )
+          })}
+        </RowContainer>
+      )
+    case 'gray':
+      return (
+        <RowContainer>
+          {r.map((f: Field) => {
+            return (
+              <FieldContainerStartsWithGray>
+                <FieldContent>{f.figure.symbol}</FieldContent>
+              </FieldContainerStartsWithGray>
+            )
+          })}
+        </RowContainer>
+      )
+  }
+}
 
 export default function BoardView(props: { board: Board }) {
   const { board } = props
@@ -80,7 +86,7 @@ export default function BoardView(props: { board: Board }) {
   return (
     <RowsContainer>
       {board.rows.map((r: Row, ri: number) =>
-        isEven(ri) ? rowStartsWithWhiteField(r) : rowStartsWithGrayField(r)
+        isEven(ri) ? rowStartsWith('white', r) : rowStartsWith('gray', r)
       )}
     </RowsContainer>
   )
