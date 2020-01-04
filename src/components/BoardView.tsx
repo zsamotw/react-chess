@@ -47,6 +47,30 @@ const FieldContainerStartsWithGray = styled(FieldContainer)`
   }
 `
 
+const rowStartsWithWhiteField = (r: Row) => (
+  <RowContainer>
+    {r.map((f: Field) => {
+      return (
+        <FieldContainerStartsWithWhite>
+          <FieldContent>{f.figure.symbol}</FieldContent>
+        </FieldContainerStartsWithWhite>
+      )
+    })}
+  </RowContainer>
+)
+
+const rowStartsWithGrayField = (r: Row) => (
+  <RowContainer>
+    {r.map((f: Field) => {
+      return (
+        <FieldContainerStartsWithGray>
+          <FieldContent>{f.figure.symbol}</FieldContent>
+        </FieldContainerStartsWithGray>
+      )
+    })}
+  </RowContainer>
+)
+
 const FieldContent = styled.div``
 
 export default function BoardView(props: { board: Board }) {
@@ -55,29 +79,9 @@ export default function BoardView(props: { board: Board }) {
 
   return (
     <RowsContainer>
-      {board.rows.map((r: Row, ri: number) => {
-        return isEven(ri) ? (
-          <RowContainer>
-            {r.map((f: Field) => {
-              return (
-                <FieldContainerStartsWithWhite>
-                  <FieldContent>{f.figure.symbol}</FieldContent>
-                </FieldContainerStartsWithWhite>
-              )
-            })}
-          </RowContainer>
-        ) : (
-          <RowContainer>
-            {r.map((f: Field) => {
-              return (
-                <FieldContainerStartsWithGray>
-                  <FieldContent>{f.figure.symbol}</FieldContent>
-                </FieldContainerStartsWithGray>
-              )
-            })}
-          </RowContainer>
-        )
-      })}
+      {board.rows.map((r: Row, ri: number) =>
+        isEven(ri) ? rowStartsWithWhiteField(r) : rowStartsWithGrayField(r)
+      )}
     </RowsContainer>
   )
 }
