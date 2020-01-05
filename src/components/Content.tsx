@@ -15,4 +15,7 @@ const mapStateToProps = (state: Store) => {
   return { board }
 }
 
+const mapDispatchToState = () => {
+}
+
 export default connect(mapStateToProps)(Content)

@@ -3,9 +3,14 @@ import { List } from 'immutable'
 import Field from '../models/field-model'
 import Board from '../models/board-model'
 import styled from 'styled-components'
+import MoveInput from './MoveInput'
 
 type Row = List<Field>
 
+const ItIsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 const RowsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,15 +55,17 @@ const FieldContent = styled.div``
 
 type FirstFieldColor = 'white' | 'gray'
 
-const rowStartsWith = (color: FirstFieldColor, r: Row) => {
+const rowStartsWith = (color: FirstFieldColor, row: Row, rowIndex: number) => {
   switch (color) {
     case 'white':
       return (
-        <RowContainer>
-          {r.map((f: Field) => {
+        <RowContainer key={rowIndex}>
+          {row.map((f: Field) => {
             return (
-              <FieldContainerStartsWithWhite>
-                <FieldContent>{f.figure.symbol}</FieldContent>
+              <FieldContainerStartsWithWhite key={f.coordinate}>
+                <FieldContent key={f.coordinate}>
+                  {f.figure.symbol}
+                </FieldContent>
               </FieldContainerStartsWithWhite>
             )
           })}
@@ -66,11 +73,13 @@ const rowStartsWith = (color: FirstFieldColor, r: Row) => {
       )
     case 'gray':
       return (
-        <RowContainer>
-          {r.map((f: Field) => {
+        <RowContainer key={rowIndex}>
+          {row.map((f: Field) => {
             return (
-              <FieldContainerStartsWithGray>
-                <FieldContent>{f.figure.symbol}</FieldContent>
+              <FieldContainerStartsWithGray key={f.coordinate}>
+                <FieldContent key={f.coordinate}>
+                  {f.figure.symbol}
+                </FieldContent>
               </FieldContainerStartsWithGray>
             )
           })}
@@ -82,12 +91,18 @@ const rowStartsWith = (color: FirstFieldColor, r: Row) => {
 export default function BoardView(props: { board: Board }) {
   const { board } = props
   const isEven = (i: number) => i % 2 === 0
+  const handleCommandEnter = (command: string) => console.log(command)
 
   return (
-    <RowsContainer>
-      {board.rows.map((r: Row, ri: number) =>
-        isEven(ri) ? rowStartsWith('white', r) : rowStartsWith('gray', r)
-      )}
-    </RowsContainer>
+    <ItIsContainer>
+      <RowsContainer>
+        {board.rows.map((row: Row, rowIndex: number) =>
+          isEven(rowIndex)
+            ? rowStartsWith('white', row, rowIndex)
+            : rowStartsWith('gray', row, rowIndex)
+        )}
+      </RowsContainer>
+      <MoveInput onCommandEnter={command => handleCommandEnter(command)} />
+    </ItIsContainer>
   )
 }
