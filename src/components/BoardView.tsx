@@ -3,19 +3,13 @@ import { List } from 'immutable'
 import Field from '../models/field-model'
 import Board from '../models/board-model'
 import styled from 'styled-components'
-import MoveInput from './MoveInput'
 
 type Row = List<Field>
 
-const ItIsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`
 const RowsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
 `
 
 const RowContainer = styled.div`
@@ -34,11 +28,13 @@ const RowContainer = styled.div`
 `
 
 const FieldContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 1rem;
-  width: 1rem;
+  height: 2rem;
+  width: 2rem;
+  font-size: 1.2rem;
   padding: 0.5rem;
 `
 const FieldContainerStartsWithWhite = styled(FieldContainer)`
@@ -50,6 +46,13 @@ const FieldContainerStartsWithGray = styled(FieldContainer)`
   &:nth-child(odd) {
     background-color: gray;
   }
+`
+
+const FieldCoordinates = styled.div`
+  position: absolute;
+  top: 69%;
+  left: 69%;
+  font-size: 0.5rem
 `
 const FieldContent = styled.div``
 
@@ -66,6 +69,7 @@ const rowStartsWith = (color: FirstFieldColor, row: Row, rowIndex: number) => {
                 <FieldContent key={f.coordinate}>
                   {f.figure.symbol}
                 </FieldContent>
+                <FieldCoordinates>{f.coordinate}</FieldCoordinates>
               </FieldContainerStartsWithWhite>
             )
           })}
@@ -80,6 +84,7 @@ const rowStartsWith = (color: FirstFieldColor, row: Row, rowIndex: number) => {
                 <FieldContent key={f.coordinate}>
                   {f.figure.symbol}
                 </FieldContent>
+                <FieldCoordinates>{f.coordinate}</FieldCoordinates>
               </FieldContainerStartsWithGray>
             )
           })}
@@ -88,13 +93,13 @@ const rowStartsWith = (color: FirstFieldColor, row: Row, rowIndex: number) => {
   }
 }
 
-export default function BoardView(props: { board: Board }) {
+export default function BoardView(props: {
+  board: Board
+}) {
   const { board } = props
   const isEven = (i: number) => i % 2 === 0
-  const handleCommandEnter = (command: string) => console.log(command)
 
   return (
-    <ItIsContainer>
       <RowsContainer>
         {board.rows.map((row: Row, rowIndex: number) =>
           isEven(rowIndex)
@@ -102,7 +107,5 @@ export default function BoardView(props: { board: Board }) {
             : rowStartsWith('gray', row, rowIndex)
         )}
       </RowsContainer>
-      <MoveInput onCommandEnter={command => handleCommandEnter(command)} />
-    </ItIsContainer>
   )
 }

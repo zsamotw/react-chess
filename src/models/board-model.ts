@@ -9,7 +9,7 @@ export default interface Board {
 
 //* Initial board config */
 
-const numbers = List([3, 4, 5, 6])
+const numbers = List([6, 5, 4, 3])
 const letters = List(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
 const types = List([
   'Rook',
@@ -27,12 +27,12 @@ const symbols = List(['R', 'Kn', 'B', 'K', 'Q', 'B', 'Kn', 'R'])
 const figures = types.zip(symbols)
 
 const blackFiguresRow = letters.zip(figures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}1`, figure: { type: t, symbol: s, color: 'Black' } }
+  return { coordinate: `${l}8`, figure: { type: t, symbol: s, color: 'Black' } }
 }) as Row
 
 const blackPawnRow = letters.map(l => {
   return {
-    coordinate: `${l}2`,
+    coordinate: `${l}7`,
     figure: { type: 'Pawn', symbol: 'P', color: 'Black' }
   }
 }) as Row
@@ -48,13 +48,13 @@ const emptyRows = numbers.map(n => {
 
 const whitePawnRow = letters.map(l => {
   return {
-    coordinate: `${l}7`,
+    coordinate: `${l}2`,
     figure: { type: 'Pawn', symbol: 'P', color: 'White' }
   }
 }) as Row
 
 const whiteFiguresRow = letters.zip(figures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}8`, figure: { type: t, symbol: s, color: 'White' } }
+  return { coordinate: `${l}1`, figure: { type: t, symbol: s, color: 'White' } }
 }) as Row
 
 const rows = List([blackFiguresRow])
