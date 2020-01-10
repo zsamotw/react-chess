@@ -15,7 +15,7 @@ const BoardContainer = styled.div`
   margin-top: 3rem;
 `
 
-function Content(props: { board: Board, moveFigure: any }) {
+function Content(props: { board: Board; moveFigure: any }) {
   const { board } = props
   const handleMoveCoordinates = (moveCoordinates: string) => {
     props.moveFigure(moveCoordinates)
@@ -38,7 +38,9 @@ const mapStateToProps = (state: Store) => {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    moveFigure: (coordinates: string) => { dispatch(makeMove({payload: coordinates}))}
+    moveFigure: (coordinates: string) => {
+      dispatch(makeMove({ payload: coordinates }))
+    }
   }
 }
 

@@ -52,7 +52,7 @@ const FieldCoordinates = styled.div`
   position: absolute;
   top: 69%;
   left: 69%;
-  font-size: 0.5rem
+  font-size: 0.5rem;
 `
 const FieldContent = styled.div``
 

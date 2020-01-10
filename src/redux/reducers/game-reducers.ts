@@ -15,7 +15,6 @@ const initialState = {
 
 const handleMakeMove = (state: Store, coordinates: string) => {
   const { fromRowIndex, fromFieldIndex, toRowIndex, toFieldIndex } = parseMoveData(coordinates)
-  console.log(fromRowIndex, fromFieldIndex, toRowIndex, toFieldIndex)
   const board = state.board as List<Row>
   const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
   const fieldTo = board.getIn([toRowIndex, toFieldIndex])
