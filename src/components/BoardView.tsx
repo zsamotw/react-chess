@@ -39,12 +39,12 @@ const FieldContainer = styled.div`
 `
 const FieldContainerStartsWithWhite = styled(FieldContainer)`
   &:nth-child(even) {
-    background-color: gray;
+    background-color: #c8c4c4;
   }
 `
 const FieldContainerStartsWithGray = styled(FieldContainer)`
   &:nth-child(odd) {
-    background-color: gray;
+    background-color: #c8c4c4;
   }
 `
 
@@ -53,13 +53,15 @@ const FieldCoordinates = styled.div`
   top: 69%;
   left: 69%;
   font-size: 0.5rem;
+  color: #716f6f;
 `
+
 const FieldContent = styled.div``
 
 type FirstFieldColor = 'white' | 'gray'
 
-const rowStartsWith = (color: FirstFieldColor, row: Row, rowIndex: number) => {
-  switch (color) {
+const rowStartsWith = (firstFieldColor: FirstFieldColor, row: Row, rowIndex: number) => {
+  switch (firstFieldColor) {
     case 'white':
       return (
         <RowContainer key={rowIndex}>

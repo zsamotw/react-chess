@@ -3,10 +3,12 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 2rem 0 2rem;
   height: 100%;
 `
+
 const Title = styled.div`
   text-transform: uppercase;
   font-size: 2rem;
