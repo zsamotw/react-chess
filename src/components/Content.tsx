@@ -1,6 +1,6 @@
 import React from 'react'
 import BoardView from './BoardView'
-import Store from '../models/store-model'
+import GameState from '../models/store-model'
 import { getBoard } from '../redux/selectors'
 import { connect } from 'react-redux'
 import Board from '../models/board-model'
@@ -31,7 +31,7 @@ function Content(props: { board: Board; moveFigure: any }) {
   )
 }
 
-const mapStateToProps = (state: Store) => {
+const mapStateToProps = (state: GameState) => {
   const board = getBoard(state)
   return { board }
 }

@@ -1,6 +1,6 @@
-import Store from '../models/store-model'
+import GameState from '../models/store-model'
 
-const getBoard = (state: Store) => {
+const getBoard = (state: GameState) => {
   const rows = state.board
   return { rows }
 }

@@ -1,34 +1,53 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { makeMove } from '../actions'
 import { rows } from '../../models/board-model'
-import { List } from 'immutable'
+import { List, Record } from 'immutable'
 import Field from '../../models/field-model'
-import Store from '../../models/store-model'
+import GameState from '../../models/store-model'
 import { parseMoveData } from '../../helpers/board-helper'
 
 type Row = List<Field>
 
-const initialState = {
+const makeInitialState = Record({
   gameId: null,
-  board: rows
-} as Store
+  board: null
+} as GameState)
 
-const handleMakeMove = (state: Store, coordinates: string) => {
-  const { fromRowIndex, fromFieldIndex, toRowIndex, toFieldIndex } = parseMoveData(coordinates)
-  const board = state.board as List<Row>
+const initialGameState = makeInitialState({ board: rows })
+
+const handleMakeMove = (
+  state: Record<GameState> & Readonly<GameState>,
+  coordinates: string
+) => {
+  const {
+    fromRowIndex,
+    fromFieldIndex,
+    toRowIndex,
+    toFieldIndex
+  } = parseMoveData(coordinates)
+  const board = state.get('board') as List<Row>
   const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
   const fieldTo = board.getIn([toRowIndex, toFieldIndex])
   const figure = fieldFrom.figure
-  const newEmptyField = {coordinate: fieldFrom.coordinate, figure: { type: 'Empty', symbol: '', color: 'None' }}
-  const newNotEmptyField = {coordinate: fieldTo.coordinate, figure}
-  const newBoard = board.setIn([fromRowIndex, fromFieldIndex], newEmptyField).setIn([toRowIndex, toFieldIndex], newNotEmptyField )
-  state.board = newBoard
-  
-  return state
+  const newEmptyField = {
+    coordinate: fieldFrom.coordinate,
+    figure: { type: 'Empty', symbol: '', color: 'None' }
+  }
+  const newNotEmptyField = { coordinate: fieldTo.coordinate, figure }
+  const newBoard = board
+    .setIn([fromRowIndex, fromFieldIndex], newEmptyField)
+    .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
+  const newState = state.set('board', newBoard)
+
+  return newState
 }
 
-const gameReducer = createReducer(initialState, {
-  [makeMove.type]: ( state, action ) => handleMakeMove(state, action.payload)
+const gameReducer = createReducer(initialGameState, {
+  [makeMove.type]: (state, action) =>
+    handleMakeMove(
+      state as Record<GameState> & Readonly<GameState>,
+      action.payload
+    )
 })
 
 export { gameReducer }

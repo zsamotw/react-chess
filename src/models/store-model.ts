@@ -1,9 +1,9 @@
-import { List } from "immutable";
-import Field from "./field-model";
+import { List } from 'immutable'
+import Field from './field-model'
 
 type Row = List<Field>
 
-export default interface Store {
-  gameId: string | null;
-	board: any | List<Row>
+export default interface GameState {
+  gameId: string | null
+  board: any | List<Row>
 }
