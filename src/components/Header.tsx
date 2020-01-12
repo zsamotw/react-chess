@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { newGame } from '../redux/actions'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,11 +26,23 @@ const NewGameButton = styled.button`
   cursor: pointer;
 `
 
-export default function Header() {
+function Header(props: { getNewGame: any }) {
   return (
     <Wrapper>
       <Title>Chess</Title>
-      <NewGameButton>New Game</NewGameButton>
+      <NewGameButton onClick={props.getNewGame}>New Game</NewGameButton>
     </Wrapper>
   )
 }
+
+const mapDispatchToState = (dispatch: any) => {
+  return {
+    getNewGame: () => {
+      axios
+        .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
+        .then(res => dispatch(newGame({ payload: res.data.game_id })))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToState)(Header)

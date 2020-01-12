@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { makeMove } from '../actions'
+import { makeMove, newGame } from '../actions'
 import { rows } from '../../models/board-model'
 import { List, Record } from 'immutable'
-import Field from '../../models/field-model'
 import GameState from '../../models/store-model'
 import { parseMoveData } from '../../helpers/board-helper'
+import Field from '../../models/field-model'
 
 type Row = List<Field>
 
@@ -13,7 +13,7 @@ const makeInitialState = Record({
   board: null
 } as GameState)
 
-const initialGameState = makeInitialState({ board: rows })
+const initialGameState = makeInitialState({ gameId: null, board: rows })
 
 const handleMakeMove = (
   state: Record<GameState> & Readonly<GameState>,
@@ -42,9 +42,21 @@ const handleMakeMove = (
   return newState
 }
 
+const handleNewGameId = (
+  state: Record<GameState> & Readonly<GameState>,
+  gameId: string
+) => {
+  return state.set('gameId', gameId)
+}
+
 const gameReducer = createReducer(initialGameState, {
   [makeMove.type]: (state, action) =>
     handleMakeMove(
+      state as Record<GameState> & Readonly<GameState>,
+      action.payload
+    ),
+  [newGame.type]: (state, action) =>
+    handleNewGameId(
       state as Record<GameState> & Readonly<GameState>,
       action.payload
     )

@@ -1,12 +1,13 @@
 import React from 'react'
 import BoardView from './BoardView'
 import GameState from '../models/store-model'
-import { getBoard } from '../redux/selectors'
+import { getBoard, getGameId } from '../redux/selectors'
 import { connect } from 'react-redux'
 import Board from '../models/board-model'
 import MoveCoordinatesInput from './MoveCoordinatesInput'
 import styled from 'styled-components'
 import { makeMove } from '../redux/actions'
+import { Record } from 'immutable'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -31,9 +32,10 @@ function Content(props: { board: Board; moveFigure: any }) {
   )
 }
 
-const mapStateToProps = (state: GameState) => {
+const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const board = getBoard(state)
-  return { board }
+  const newGameId = getGameId(state)
+  return { board, newGameId }
 }
 
 const mapDispatchToState = (dispatch: any) => {
