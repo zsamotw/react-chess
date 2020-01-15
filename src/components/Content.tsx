@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 import Board from '../models/board-model'
 import MoveCoordinatesInput from './MoveCoordinatesInput'
 import styled from 'styled-components'
-import { makeMove } from '../redux/actions'
+import { makePlayerMove, handleForbiddenMove } from '../redux/actions'
 import { Record } from 'immutable'
+import axios from 'axios'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -34,14 +35,30 @@ function Content(props: { board: Board; moveFigure: any }) {
 
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const board = getBoard(state)
-  const newGameId = getGameId(state)
-  return { board, newGameId }
+  const gameId = getGameId(state)
+  return { board, gameId }
 }
 
 const mapDispatchToState = (dispatch: any) => {
   return {
     moveFigure: (coordinates: string) => {
-      dispatch(makeMove({ payload: coordinates }))
+      return dispatch((dispatch: any, getState: any) => {
+        const [from, to] = coordinates.split(' ')
+        const game_id = getState().get('gameId')
+        axios
+          .post(
+            'http://chess-api-chess.herokuapp.com/api/v1/chess/one/move/player',
+            { from, to, game_id }
+          )
+          .then(result => {
+            debugger
+            if (result.status === '') dispatch(handleForbiddenMove)
+            else {
+              const toSend = { coordinates, result }
+              dispatch(makePlayerMove({ payload: toSend }))
+            }
+          })
+      })
     }
   }
 }
