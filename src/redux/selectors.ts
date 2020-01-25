@@ -8,7 +8,12 @@ const getBoard = (state: Record<GameState> & Readonly<GameState>) => {
 
 const getGameId = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = state.get('gameId')
-  return { gameId }
+  return  gameId 
 }
 
-export { getBoard, getGameId }
+const getMessage = (state: Record<GameState> & Readonly<GameState>) => {
+  const message = state.get('message')
+  return  message 
+}
+
+export { getBoard, getGameId, getMessage }

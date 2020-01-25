@@ -6,4 +6,5 @@ type Row = List<Field>
 export default interface GameState {
   gameId: string | null
   board: any | List<Row>
+  message: string
 }

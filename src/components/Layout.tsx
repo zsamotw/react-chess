@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import Content from './Content'
+import Footer from './Footer'
 
 const Container = styled.div`
   height: 100vh;
@@ -9,29 +10,31 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-const HeaderContainer = styled.header`
-  height: 10%;
+const HeaderWrapper = styled.header`
+  height: 5%;
   background-color: #00b9f2;
 `
 
-const ContentContainer = styled.div`
-  height: 85%;
+const ContentWrapper = styled.div`
+  height: 90%;
 `
 
-const FooterContainer = styled.footer`
+const FooterWrapper = styled.footer`
   height: 5%;
 `
 
 export default function Layout() {
   return (
     <Container>
-      <HeaderContainer>
+      <HeaderWrapper>
         <Header></Header>
-      </HeaderContainer>
-      <ContentContainer>
+      </HeaderWrapper>
+      <ContentWrapper>
         <Content></Content>
-      </ContentContainer>
-      <FooterContainer>Created by Tomasz</FooterContainer>
+      </ContentWrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </Container>
   )
 }

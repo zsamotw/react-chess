@@ -6,9 +6,10 @@ const InputContainer = styled.div`
 `
 
 export default function MoveCoordinatesInput(props: {
-  onPressEnter: (command: string) => void
+  onPressEnter: (command: string) => void, disabled: boolean
 }) {
   const [moveCoordinates, setMoveCoordinates] = useState('')
+  const{disabled} = props
 
   const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMoveCoordinates(event.target.value)
@@ -29,6 +30,7 @@ export default function MoveCoordinatesInput(props: {
         placeholder = "coordinates eg.: a4 b5"
         onChange={event => handleValueChange(event)}
         onKeyDown={event => handleKeyPress(event)}
+        disabled={disabled}
       />
     </InputContainer>
   )

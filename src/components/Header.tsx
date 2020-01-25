@@ -24,6 +24,10 @@ const NewGameButton = styled.button`
   border-color: transparent;
   padding: 0.1rem 0.2rem;
   cursor: pointer;
+  
+  &:hover {
+    background-color: #bd0900
+  }
 `
 
 function Header(props: { getNewGame: any }) {

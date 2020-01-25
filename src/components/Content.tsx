@@ -1,14 +1,13 @@
 import React from 'react'
 import BoardView from './BoardView'
 import GameState from '../models/store-model'
-import { getBoard, getGameId } from '../redux/selectors'
+import { getBoard, getGameId, getMessage } from '../redux/selectors'
 import { connect } from 'react-redux'
 import Board from '../models/board-model'
 import MoveCoordinatesInput from './MoveCoordinatesInput'
 import styled from 'styled-components'
-import { makePlayerMove, handleForbiddenMove } from '../redux/actions'
+import { makePlayerMove } from '../redux/actions'
 import { Record } from 'immutable'
-import axios from 'axios'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -17,17 +16,30 @@ const BoardContainer = styled.div`
   margin-top: 3rem;
 `
 
-function Content(props: { board: Board; moveFigure: any }) {
-  const { board } = props
-  const handleMoveCoordinates = (moveCoordinates: string) => {
-    props.moveFigure(moveCoordinates)
+const MessageBox = styled.div`
+  padding: 1rem 1rem;
+  font-size: 1rem;
+  margin: 1rem 0 1rem;
+`
+
+function Content(props: {
+  board: Board
+  playerMove: any
+  message: string
+  gameId: string
+}) {
+  const { board, message, gameId } = props
+  const handleEnterCoordinates = (coordinates: string) => {
+    props.playerMove(coordinates)
   }
 
   return (
     <BoardContainer>
       <BoardView board={board} />
+      <MessageBox>{message}</MessageBox>
       <MoveCoordinatesInput
-        onPressEnter={moveCoordinates => handleMoveCoordinates(moveCoordinates)}
+        onPressEnter={moveCoordinates => handleEnterCoordinates(moveCoordinates)}
+        disabled={!gameId}
       />
     </BoardContainer>
   )
@@ -36,31 +48,14 @@ function Content(props: { board: Board; moveFigure: any }) {
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const board = getBoard(state)
   const gameId = getGameId(state)
-  return { board, gameId }
+  const message = getMessage(state)
+  return { board, gameId, message }
 }
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    moveFigure: (coordinates: string) => {
-      return dispatch((dispatch: any, getState: any) => {
-        const [from, to] = coordinates.split(' ')
-        const game_id = getState().get('gameId')
-        axios
-          .post(
-            'http://chess-api-chess.herokuapp.com/api/v1/chess/one/move/player',
-            { from, to, game_id }
-          )
-          .then(result => {
-            debugger
-            if (result.status === '') dispatch(handleForbiddenMove)
-            else {
-              const toSend = { coordinates, result }
-              dispatch(makePlayerMove({ payload: toSend }))
-            }
-          })
-      })
-    }
+    playerMove: (coordinates: string) => makePlayerMove(coordinates, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToState)(Content)
+export default connect(mapStateToProps, mapDispatchToState)(Content as any)
