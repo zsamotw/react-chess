@@ -1,15 +1,16 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react'
 import styled from 'styled-components'
 
-const InputContainer = styled.div`
+const Input = styled.input`
   margin-top: 1rem;
 `
 
-export default function MoveCoordinatesInput(props: {
-  onPressEnter: (command: string) => void, disabled: boolean
+export default function CoordinatesInput(props: {
+  onPressEnter: (command: string) => void
+  disabled: boolean
 }) {
   const [moveCoordinates, setMoveCoordinates] = useState('')
-  const{disabled} = props
+  const { disabled } = props
 
   const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMoveCoordinates(event.target.value)
@@ -23,15 +24,13 @@ export default function MoveCoordinatesInput(props: {
   }
 
   return (
-    <InputContainer>
-      <input
-        type='text'
-        value={moveCoordinates}
-        placeholder = "coordinates eg.: a4 b5"
-        onChange={event => handleValueChange(event)}
-        onKeyDown={event => handleKeyPress(event)}
-        disabled={disabled}
-      />
-    </InputContainer>
+    <Input
+      type='text'
+      value={moveCoordinates}
+      placeholder='coordinates eg.: a4 b5'
+      onChange={event => handleValueChange(event)}
+      onKeyDown={event => handleKeyPress(event)}
+      disabled={disabled}
+    />
   )
 }

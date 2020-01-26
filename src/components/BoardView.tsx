@@ -12,7 +12,7 @@ const RowsContainer = styled.div`
   align-items: center;
 `
 
-const RowContainer = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   border-left: 1px solid black;
@@ -27,7 +27,7 @@ const RowContainer = styled.div`
   }
 `
 
-const FieldContainer = styled.div`
+const FieldGeneric = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -37,12 +37,12 @@ const FieldContainer = styled.div`
   font-size: 1.2rem;
   padding: 0.5rem;
 `
-const FieldContainerStartsWithWhite = styled(FieldContainer)`
+const FieldEachEvenGrey = styled(FieldGeneric)`
   &:nth-child(even) {
     background-color: #c8c4c4;
   }
 `
-const FieldContainerStartsWithGray = styled(FieldContainer)`
+const FieldEachOddGrey = styled(FieldGeneric)`
   &:nth-child(odd) {
     background-color: #c8c4c4;
   }
@@ -58,39 +58,39 @@ const FieldCoordinates = styled.div`
 
 const FieldContent = styled.div``
 
-type FirstFieldColor = 'white' | 'gray'
+type FieldColor = 'white' | 'gray'
 
-const rowStartsWith = (firstFieldColor: FirstFieldColor, row: Row, rowIndex: number) => {
-  switch (firstFieldColor) {
+const rowStartsWith = (firstFieldColorInRow: FieldColor, row: Row, rowIndex: number) => {
+  switch (firstFieldColorInRow) {
     case 'white':
       return (
-        <RowContainer key={rowIndex}>
+        <Row key={rowIndex}>
           {row.map((f: Field) => {
             return (
-              <FieldContainerStartsWithWhite key={f.coordinate}>
+              <FieldEachEvenGrey key={f.coordinate}>
                 <FieldContent key={f.coordinate}>
                   {f.figure.symbol}
                 </FieldContent>
                 <FieldCoordinates>{f.coordinate}</FieldCoordinates>
-              </FieldContainerStartsWithWhite>
+              </FieldEachEvenGrey>
             )
           })}
-        </RowContainer>
+        </Row>
       )
     case 'gray':
       return (
-        <RowContainer key={rowIndex}>
+        <Row key={rowIndex}>
           {row.map((f: Field) => {
             return (
-              <FieldContainerStartsWithGray key={f.coordinate}>
+              <FieldEachOddGrey key={f.coordinate}>
                 <FieldContent key={f.coordinate}>
                   {f.figure.symbol}
                 </FieldContent>
                 <FieldCoordinates>{f.coordinate}</FieldCoordinates>
-              </FieldContainerStartsWithGray>
+              </FieldEachOddGrey>
             )
           })}
-        </RowContainer>
+        </Row>
       )
   }
 }

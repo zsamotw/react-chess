@@ -4,7 +4,7 @@ import GameState from '../models/store-model'
 import { getBoard, getGameId, getMessage } from '../redux/selectors'
 import { connect } from 'react-redux'
 import Board from '../models/board-model'
-import MoveCoordinatesInput from './MoveCoordinatesInput'
+import CoordinatesInput from './CoordinatesInput'
 import styled from 'styled-components'
 import { makePlayerMove } from '../redux/actions'
 import { Record } from 'immutable'
@@ -37,7 +37,7 @@ function Content(props: {
     <BoardContainer>
       <BoardView board={board} />
       <MessageBox>{message}</MessageBox>
-      <MoveCoordinatesInput
+      <CoordinatesInput
         onPressEnter={moveCoordinates => handleEnterCoordinates(moveCoordinates)}
         disabled={!gameId}
       />
