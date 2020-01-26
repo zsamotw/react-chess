@@ -60,54 +60,49 @@ const FieldContent = styled.div``
 
 type FieldColor = 'white' | 'gray'
 
-const rowStartsWith = (firstFieldColorInRow: FieldColor, row: Row, rowIndex: number) => {
+const fieldWithBackground = (field: Field, firstFieldColorInRow: FieldColor) => {
   switch (firstFieldColorInRow) {
     case 'white':
       return (
-        <Row key={rowIndex}>
-          {row.map((f: Field) => {
-            return (
-              <FieldEachEvenGrey key={f.coordinate}>
-                <FieldContent key={f.coordinate}>
-                  {f.figure.symbol}
-                </FieldContent>
-                <FieldCoordinates>{f.coordinate}</FieldCoordinates>
-              </FieldEachEvenGrey>
-            )
-          })}
-        </Row>
+        <FieldEachEvenGrey key={field.coordinate}>
+          <FieldContent key={field.coordinate}>{field.figure.symbol}</FieldContent>
+          <FieldCoordinates>{field.coordinate}</FieldCoordinates>
+        </FieldEachEvenGrey>
       )
     case 'gray':
       return (
-        <Row key={rowIndex}>
-          {row.map((f: Field) => {
-            return (
-              <FieldEachOddGrey key={f.coordinate}>
-                <FieldContent key={f.coordinate}>
-                  {f.figure.symbol}
-                </FieldContent>
-                <FieldCoordinates>{f.coordinate}</FieldCoordinates>
-              </FieldEachOddGrey>
-            )
-          })}
-        </Row>
+        <FieldEachOddGrey key={field.coordinate}>
+          <FieldContent key={field.coordinate}>{field.figure.symbol}</FieldContent>
+          <FieldCoordinates>{field.coordinate}</FieldCoordinates>
+        </FieldEachOddGrey>
       )
   }
 }
 
-export default function BoardView(props: {
-  board: Board
-}) {
+const rowWithFields = (
+  firstFieldColorInRow: FieldColor,
+  row: Row,
+  rowIndex: number
+) => {
+      return (
+        <Row key={rowIndex}>
+          {row.map((f: Field) => fieldWithBackground(f, firstFieldColorInRow)
+          )}
+        </Row>
+      )
+}
+
+export default function BoardView(props: { board: Board }) {
   const { board } = props
   const isEven = (i: number) => i % 2 === 0
 
   return (
-      <RowsContainer>
-        {board.rows.map((row: Row, rowIndex: number) =>
-          isEven(rowIndex)
-            ? rowStartsWith('white', row, rowIndex)
-            : rowStartsWith('gray', row, rowIndex)
-        )}
-      </RowsContainer>
+    <RowsContainer>
+      {board.rows.map((row: Row, rowIndex: number) =>
+        isEven(rowIndex)
+          ? rowWithFields('white', row, rowIndex)
+          : rowWithFields('gray', row, rowIndex)
+      )}
+    </RowsContainer>
   )
 }
