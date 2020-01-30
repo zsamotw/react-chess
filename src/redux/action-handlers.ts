@@ -29,7 +29,7 @@ const handleMakeMove = (
   const figure = fieldFrom.figure
   const newEmptyField = {
     coordinate: fieldFrom.coordinate,
-    figure: { type: 'Empty', symbol: '', color: 'None' }
+    figure: { type: 'Empty', icon: '', color: 'None' }
   }
   const newNotEmptyField = { coordinate: fieldTo.coordinate, figure }
   const newBoard = board
@@ -37,7 +37,7 @@ const handleMakeMove = (
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
   const newState = state
     .set('board', newBoard)
-    .set('message', 'Your move is done')
+    .set('message', 'Your move is quite well')
 
   return newState
 }

@@ -65,14 +65,14 @@ const fieldWithBackground = (field: Field, firstFieldColorInRow: FieldColor) => 
     case 'white':
       return (
         <FieldEachEvenGrey key={field.coordinate}>
-          <FieldContent key={field.coordinate}>{field.figure.symbol}</FieldContent>
+          <FieldContent key={field.coordinate}><img src={field.figure.icon} alt=""></img></FieldContent>
           <FieldCoordinates>{field.coordinate}</FieldCoordinates>
         </FieldEachEvenGrey>
       )
     case 'gray':
       return (
         <FieldEachOddGrey key={field.coordinate}>
-          <FieldContent key={field.coordinate}>{field.figure.symbol}</FieldContent>
+          <FieldContent key={field.coordinate}><img src={field.figure.icon} alt=""></img></FieldContent>
           <FieldCoordinates>{field.coordinate}</FieldCoordinates>
         </FieldEachOddGrey>
       )

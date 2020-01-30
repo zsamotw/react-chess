@@ -22,18 +22,39 @@ const types = List([
   'Rook'
 ])
 
-const symbols = List(['R', 'Kn', 'B', 'K', 'Q', 'B', 'Kn', 'R'])
+const whiteIcons = List([
+  'icons/Chess_rlt45.svg',
+  'icons/Chess_nlt45.svg',
+  'icons/Chess_blt45.svg',
+  'icons/Chess_qlt45.svg',
+  'icons/Chess_klt45.svg',
+  'icons/Chess_blt45.svg',
+  'icons/Chess_nlt45.svg',
+  'icons/Chess_rlt45.svg'
+])
 
-const figures = types.zip(symbols)
+const blackIcons = List([
+  'icons/Chess_rdt45.svg',
+  'icons/Chess_ndt45.svg',
+  'icons/Chess_bdt45.svg',
+  'icons/Chess_qdt45.svg',
+  'icons/Chess_kdt45.svg',
+  'icons/Chess_bdt45.svg',
+  'icons/Chess_ndt45.svg',
+  'icons/Chess_rdt45.svg'
+])
 
-const blackFiguresRow = letters.zip(figures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}8`, figure: { type: t, symbol: s, color: 'Black' } }
+const whiteFigures = types.zip(whiteIcons)
+const blackFigures = types.zip(blackIcons)
+
+const blackFiguresRow = letters.zip(blackFigures).map(([l, [t, s]]) => {
+  return { coordinate: `${l}8`, figure: { type: t, icon: s, color: 'Black' } }
 }) as Row
 
 const blackPawnRow = letters.map(l => {
   return {
     coordinate: `${l}7`,
-    figure: { type: 'Pawn', symbol: 'P', color: 'Black' }
+    figure: { type: 'Pawn', icon: 'icons/Chess_pdt45.svg', color: 'Black' }
   }
 }) as Row
 
@@ -41,7 +62,7 @@ const emptyRows = numbers.map(n => {
   return letters.map(l => {
     return {
       coordinate: `${l + n}`,
-      figure: { type: 'Empty', symbol: '', color: 'None' }
+      figure: { type: 'Empty', icon: '', color: 'None' }
     }
   })
 }) as List<Row>
@@ -49,12 +70,12 @@ const emptyRows = numbers.map(n => {
 const whitePawnRow = letters.map(l => {
   return {
     coordinate: `${l}2`,
-    figure: { type: 'Pawn', symbol: 'P', color: 'White' }
+    figure: { type: 'Pawn', icon: 'icons/Chess_plt45.svg', color: 'White' }
   }
 }) as Row
 
-const whiteFiguresRow = letters.zip(figures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}1`, figure: { type: t, symbol: s, color: 'White' } }
+const whiteFiguresRow = letters.zip(whiteFigures).map(([l, [t, s]]) => {
+  return { coordinate: `${l}1`, figure: { type: t, icon: s, color: 'White' } }
 }) as Row
 
 const rows = List([blackFiguresRow])
