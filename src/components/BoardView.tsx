@@ -56,7 +56,9 @@ const FieldCoordinates = styled.div`
   color: #716f6f;
 `
 
-const FieldContent = styled.div``
+const FieldContent = styled.img`
+  width: 88%;
+`
 
 type FieldColor = 'white' | 'gray'
 
@@ -65,21 +67,21 @@ const fieldWithBackground = (field: Field, firstFieldColorInRow: FieldColor) => 
     case 'white':
       return (
         <FieldEachEvenGrey key={field.coordinate}>
-          <FieldContent key={field.coordinate}><img src={field.figure.icon} alt=""></img></FieldContent>
+          <FieldContent key={field.coordinate} src={field.figure.icon} alt=""></FieldContent>
           <FieldCoordinates>{field.coordinate}</FieldCoordinates>
         </FieldEachEvenGrey>
       )
     case 'gray':
       return (
         <FieldEachOddGrey key={field.coordinate}>
-          <FieldContent key={field.coordinate}><img src={field.figure.icon} alt=""></img></FieldContent>
+          <FieldContent key={field.coordinate} src={field.figure.icon} alt=""></FieldContent>
           <FieldCoordinates>{field.coordinate}</FieldCoordinates>
         </FieldEachOddGrey>
       )
   }
 }
 
-const rowWithFields = (
+const rowContainingFields = (
   firstFieldColorInRow: FieldColor,
   row: Row,
   rowIndex: number
@@ -100,8 +102,8 @@ export default function BoardView(props: { board: Board }) {
     <RowsContainer>
       {board.rows.map((row: Row, rowIndex: number) =>
         isEven(rowIndex)
-          ? rowWithFields('white', row, rowIndex)
-          : rowWithFields('gray', row, rowIndex)
+          ? rowContainingFields('white', row, rowIndex)
+          : rowContainingFields('gray', row, rowIndex)
       )}
     </RowsContainer>
   )
