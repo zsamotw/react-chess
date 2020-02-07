@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Header from './Header'
 import Content from './Content'
 import Footer from './Footer'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 
 const Container = styled.div`
   height: 100vh;
@@ -25,16 +27,18 @@ const FooterWrapper = styled.footer`
 
 export default function Layout() {
   return (
-    <Container>
-      <HeaderWrapper>
-        <Header></Header>
-      </HeaderWrapper>
-      <ContentWrapper>
-        <Content></Content>
-      </ContentWrapper>
-      <FooterWrapper>
-        <Footer />
-      </FooterWrapper>
-    </Container>
+    <DndProvider backend={Backend}>
+      <Container>
+        <HeaderWrapper>
+          <Header></Header>
+        </HeaderWrapper>
+        <ContentWrapper>
+          <Content></Content>
+        </ContentWrapper>
+        <FooterWrapper>
+          <Footer />
+        </FooterWrapper>
+      </Container>
+    </DndProvider>
   )
 }
