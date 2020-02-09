@@ -3,6 +3,11 @@ import Field from '../models/field-model'
 import styled from 'styled-components'
 import Icon, { iconType } from './Icon'
 import { useDrop } from 'react-dnd'
+import { connect } from 'react-redux'
+import { setFromCoordinate, makePlayerMove } from '../redux/actions'
+import GameState from '../models/store-model'
+import { getGameId } from '../redux/selectors'
+import { Record } from 'immutable'
 
 const FieldGeneric = styled.div`
   position: relative;
@@ -25,39 +30,72 @@ const FieldEachOddGrey = styled(FieldGeneric)`
   }
 `
 
-const FieldCoordinates = styled.div`
-  position: absolute;
-  top: 69%;
-  left: 69%;
-  font-size: 0.5rem;
-  color: #716f6f;
-`
-
 type FieldColor = 'white' | 'gray'
 
-export default function  BoardField(field: Field, firstFieldColorInRow: FieldColor) {
-  	const [{ isOver }, drop] = useDrop({
+function BoardField(props: {
+  field: Field
+  firstFieldColorInRow: FieldColor
+  setCoordinateForStartingPoint: any
+  dropOnField: any
+  gameId: string | null
+}) {
+  const {
+    field,
+    firstFieldColorInRow,
+    setCoordinateForStartingPoint,
+    dropOnField,
+    gameId
+  } = props
+  const [{ isOver }, drop] = useDrop({
     accept: iconType,
-    drop: () => console.log('hallo drop'),
-		collect: monitor => ({
-			isOver: !!monitor.isOver(),
-		}),
+    drop: () => dropOnField(field.coordinate),
+    collect: monitor => ({
+      isOver: !!monitor.isOver()
+    })
   })
-  
+
+  const backgroundOnOver = {
+    backgroundColor: '#95a6bb'
+  }
+
+  const handleDragFromCoordinate = (coordinate: string) =>
+    setCoordinateForStartingPoint(coordinate)
+
   switch (firstFieldColorInRow) {
     case 'white':
       return (
-        <FieldEachEvenGrey key={field.coordinate} ref={drop}>
-          <Icon icon={field.figure.icon}></Icon>
-          <FieldCoordinates>{field.coordinate}</FieldCoordinates>
+        <FieldEachEvenGrey key={field.coordinate} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
+          <Icon
+            icon={field.figure.icon}
+            coordinate={field.coordinate}
+            gameId={gameId}
+            onDragFromCoordinate={handleDragFromCoordinate}></Icon>
         </FieldEachEvenGrey>
       )
     case 'gray':
       return (
-        <FieldEachOddGrey key={field.coordinate} ref={drop}>
-          <Icon icon={field.figure.icon}></Icon>
-          <FieldCoordinates>{field.coordinate}</FieldCoordinates>
+        <FieldEachOddGrey key={field.coordinate} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
+          <Icon
+            icon={field.figure.icon}
+            coordinate={field.coordinate}
+            gameId={gameId}
+            onDragFromCoordinate={handleDragFromCoordinate}></Icon>
         </FieldEachOddGrey>
       )
   }
 }
+
+const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
+  const gameId = getGameId(state)
+  return { gameId }
+}
+
+const mapDispatchToState = (dispatch: any) => {
+  return {
+    setCoordinateForStartingPoint: (from: string) =>
+      dispatch(setFromCoordinate({ payload: from })),
+    dropOnField: (to: string) => makePlayerMove(to, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToState)(BoardField)

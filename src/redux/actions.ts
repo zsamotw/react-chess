@@ -2,16 +2,14 @@ import { createAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const newGame = createAction('New game', gameId => gameId)
-const makeMove = createAction(
-  'Make move',
-  coordinates => coordinates
-)
+const makeFigureMove = createAction( 'Make move', coordinates => coordinates)
+const setFromCoordinate = createAction('Set from coordinate', coordinates => coordinates)
 const forbiddenMove = createAction('Handle forbidden move')
 
-const makePlayerMove = (coordinates: string, dispatch: any) => {
+const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
-    const [from, to] = coordinates.split(' ')
     const game_id = getState().get('gameId')
+    const from = getState().get('fromCoordinate')
     axios
       .post(
         'http://chess-api-chess.herokuapp.com/api/v1/chess/one/move/player',
@@ -23,10 +21,10 @@ const makePlayerMove = (coordinates: string, dispatch: any) => {
           dispatch(forbiddenMove())
         } 
         else {
-          dispatch(makeMove({ payload: {coordinates} }))
+          dispatch(makeFigureMove({ payload: {from, to} }))
         }
       })
   })
 }
 
-export { makeMove, newGame, forbiddenMove, makePlayerMove }
+export { makeFigureMove , newGame, setFromCoordinate, forbiddenMove, makePlayerMove }

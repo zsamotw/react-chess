@@ -9,20 +9,29 @@ const handleNewGameId = (
   state: Record<GameState> & Readonly<GameState>,
   gameId: string
 ) => {
-  state = state.set('message', 'Start new game').set('gameId', gameId)
-  return state
+  const newState = state.set('message', 'New game starts!').set('gameId', gameId)
+  return newState
 }
 
-const handleMakeMove = (
+const handleSetFromCoordinate = (
   state: Record<GameState> & Readonly<GameState>,
-  coordinates: string
+  from: string
+) => {
+  const newState = state.set('fromCoordinate', from)
+  return newState
+}
+
+const handleMakeFigureMove = (
+  state: Record<GameState> & Readonly<GameState>,
+  from: string,
+  to: string
 ) => {
   const {
     fromRowIndex,
     fromFieldIndex,
     toRowIndex,
     toFieldIndex
-  } = parseMoveData(coordinates)
+  } = parseMoveData(from, to)
   const board = state.get('board') as List<Row>
   const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
   const fieldTo = board.getIn([toRowIndex, toFieldIndex])
@@ -37,7 +46,7 @@ const handleMakeMove = (
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
   const newState = state
     .set('board', newBoard)
-    .set('message', 'Your move is quite well')
+    .set('message', '')
 
   return newState
 }
@@ -49,4 +58,4 @@ const handleForbiddenMove = (
   return state
 }
 
-export { handleNewGameId, handleMakeMove, handleForbiddenMove }
+export { handleNewGameId, handleSetFromCoordinate, handleMakeFigureMove, handleForbiddenMove }

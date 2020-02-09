@@ -1,5 +1,4 @@
-const parseMoveData = (coordinates: string) => {
-  const [from, to] = coordinates.split(' ')
+const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')
   const [toFieldLetter, toRowNumber] = to.split('')
   return {

@@ -37,17 +37,20 @@ const rowContainingFields = (
 ) => {
   return (
     <Row key={rowIndex}>
-      {row.map((f: Field) => BoardField(f, firstFieldColorInRow))}
+      {row.map((f: Field) => <BoardField key={f.coordinate} field={f} firstFieldColorInRow={firstFieldColorInRow}></BoardField>)}
     </Row>
   )
 }
 
-export default function BoardView(props: { board: Board }) {
-  const { board } = props
+export default function BoardView(props: { board: Board, gameId: string }) {
+  const { board, gameId } = props
   const isEven = (i: number) => i % 2 === 0
+  const styles ={
+    opacity: !!gameId ? 1 : 0.4
+  }
 
   return (
-    <RowsContainer>
+    <RowsContainer style={styles}>
       {board.rows.map((row: Row, rowIndex: number) =>
         isEven(rowIndex)
           ? rowContainingFields('white', row, rowIndex)

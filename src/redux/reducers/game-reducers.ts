@@ -1,13 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { makeMove, newGame, forbiddenMove } from '../actions'
+import {
+  makeFigureMove,
+  newGame,
+  forbiddenMove,
+  setFromCoordinate
+} from '../actions'
 import { rows } from '../../models/board-model'
 import { Record } from 'immutable'
 import GameState from '../../models/store-model'
-import { handleNewGameId, handleMakeMove, handleForbiddenMove } from '../action-handlers'
+import {
+  handleNewGameId,
+  handleMakeFigureMove,
+  handleForbiddenMove,
+  handleSetFromCoordinate
+} from '../action-handlers'
 
 const makeInitialState = Record({
   gameId: null,
   board: null,
+  fromCoordinate: '',
   message: 'Start new game!'
 } as GameState)
 
@@ -19,11 +30,17 @@ const gameReducer = createReducer(initialGameState, {
       initialGameState as Record<GameState> & Readonly<GameState>,
       action.payload
     ),
-  [makeMove.type]: (state, action) => {
-    const { coordinates } = action.payload
-    return handleMakeMove(
+  [setFromCoordinate.type]: (state, action) =>
+    handleSetFromCoordinate(
       state as Record<GameState> & Readonly<GameState>,
-      coordinates
+      action.payload
+    ),
+  [makeFigureMove.type]: (state, action) => {
+    const { from, to } = action.payload
+    return handleMakeFigureMove(
+      state as Record<GameState> & Readonly<GameState>,
+      from,
+      to
     )
   },
   [forbiddenMove.type]: (state, action) =>
