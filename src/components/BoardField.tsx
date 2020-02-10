@@ -69,7 +69,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinate={field.coordinate}
             gameId={gameId}
-            onDragFromCoordinate={handleDragFromCoordinate}></Icon>
+            onDragIcon={handleDragFromCoordinate}></Icon>
         </FieldEachEvenGrey>
       )
     case 'gray':
@@ -79,7 +79,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinate={field.coordinate}
             gameId={gameId}
-            onDragFromCoordinate={handleDragFromCoordinate}></Icon>
+            onDragIcon={handleDragFromCoordinate}></Icon>
         </FieldEachOddGrey>
       )
   }

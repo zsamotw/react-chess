@@ -13,14 +13,14 @@ export default function Icon(
   props: {
     icon: string
     coordinate: string
-    onDragFromCoordinate: (coordinate: string) => any
+    onDragIcon: (coordinate: string) => any
     gameId: string | null
   },
 ) {
-  const { icon, coordinate, onDragFromCoordinate, gameId } = props
+  const { icon, coordinate, onDragIcon, gameId } = props
   const [{ isDragging }, drag] = useDrag({
     item: { type: iconType },
-    begin: () => onDragFromCoordinate(coordinate),
+    begin: () => onDragIcon(coordinate),
     canDrag: () => !!gameId,
     collect: monitor => ({
       isDragging: !!monitor.isDragging()

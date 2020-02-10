@@ -58,4 +58,34 @@ const handleForbiddenMove = (
   return state
 }
 
-export { handleNewGameId, handleSetFromCoordinate, handleMakeFigureMove, handleForbiddenMove }
+const handleSetIsFetchingMove = (
+  state: Record<GameState> & Readonly<GameState>,
+  isFetching: boolean
+) => {
+  const fetchingData = state.get('fetchingData')
+  const changedFetchingData = {...fetchingData, isFetchingMove: isFetching}
+  const newState = state.set('fetchingData', changedFetchingData)
+  return newState
+}
+
+const handleSetIsFetchingNewGame = (
+  state: Record<GameState> & Readonly<GameState>,
+  isFetching: boolean
+) => {
+  const fetchingData = state.get('fetchingData')
+  const changedFetchingData = {...fetchingData, isFetchingNewGame: isFetching}
+  const newState = state.set('fetchingData', changedFetchingData)
+  return newState
+}
+
+const handleSetMessage = (
+  state: Record<GameState> & Readonly<GameState>,
+  message: string
+) => {
+  const newState = state.set('message', message)
+  return newState
+}
+
+
+
+export { handleNewGameId, handleSetFromCoordinate, handleMakeFigureMove, handleForbiddenMove, handleSetIsFetchingMove, handleSetIsFetchingNewGame, handleSetMessage }

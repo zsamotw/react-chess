@@ -16,4 +16,9 @@ const getMessage = (state: Record<GameState> & Readonly<GameState>) => {
   return  message 
 }
 
-export { getBoard, getGameId, getMessage }
+const getIsFetchingData = (state: Record<GameState> & Readonly<GameState>) => {
+  const fetchingData = state.get('fetchingData')
+  return fetchingData.isFetchingMove || fetchingData.isFetchingNewGame
+}
+
+export { getBoard, getGameId, getMessage, getIsFetchingData }
