@@ -5,7 +5,7 @@ import {
   forbiddenMove,
   setFromCoordinate,
   setIsFetchingMove,
-  setIsFetchingNewGame,
+  setIsFetchingGameId,
   setMessage,
 } from '../actions'
 import { rows } from '../../models/board-model'
@@ -17,7 +17,7 @@ import {
   handleForbiddenMove,
   handleSetFromCoordinate,
   handleSetIsFetchingMove,
-  handleSetIsFetchingNewGame,
+  handleSetIsFetchingGameId,
   handleSetMessage,
 } from '../action-handlers'
 import Color from '../../models/color'
@@ -25,8 +25,8 @@ import Color from '../../models/color'
 const makeInitialState = Record({
   gameId: null,
   board: null,
-  activePlayer: Color.white,
-  fetchingData: { isFetchingNewGame: false, isFetchingMove: false },
+  activePlayerColor: Color.white,
+  fetchingData: { isFetchingGameId: false, isFetchingMove: false },
   fromCoordinate: '',
   message: 'Start new game!',
 } as GameState)
@@ -59,8 +59,8 @@ const gameReducer = createReducer(initialGameState, {
       state as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),
-  [setIsFetchingNewGame.type]: (state, action) =>
-    handleSetIsFetchingNewGame(
+  [setIsFetchingGameId.type]: (state, action) =>
+    handleSetIsFetchingGameId(
       state as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),

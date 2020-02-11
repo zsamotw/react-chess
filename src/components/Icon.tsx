@@ -9,22 +9,20 @@ const IconWrapper = styled.img`
 
 export const iconType = 'icon'
 
-export default function Icon(
-  props: {
-    icon: string
-    coordinate: string
-    onDragIcon: (coordinate: string) => any
-    gameId: string | null
-  },
-) {
-  const { icon, coordinate, onDragIcon, gameId } = props
+export default function Icon(props: {
+  icon: string
+  coordinate: string
+  onDragIconFromStartingPoint: (coordinate: string) => any
+  gameId: string | null
+}) {
+  const { icon, coordinate, onDragIconFromStartingPoint, gameId } = props
   const [{ isDragging }, drag] = useDrag({
     item: { type: iconType },
-    begin: () => onDragIcon(coordinate),
+    begin: () => onDragIconFromStartingPoint(coordinate),
     canDrag: () => !!gameId,
     collect: monitor => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   })
 
   const styles = {

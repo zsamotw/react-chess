@@ -1,4 +1,4 @@
 export default interface FetchingData {
-  isFetchingNewGame: boolean
+  isFetchingGameId: boolean
   isFetchingMove: boolean
 }

@@ -8,7 +8,7 @@ type Row = List<Field>
 export default interface GameState {
   gameId: string | null
   board: any | List<Row>
-  activePlayer: Color
+  activePlayerColor: Color
   fetchingData: FetchingData
   fromCoordinate: string
   message: string

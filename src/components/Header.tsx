@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { newGame, setIsFetchingNewGame, setMessage } from '../redux/actions'
+import { newGame, setIsFetchingGameId, setMessage } from '../redux/actions'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -42,14 +42,14 @@ function Header(props: { getNewGame: any }) {
 const mapDispatchToState = (dispatch: any) => {
   return {
     getNewGame: () => {
-      dispatch(setIsFetchingNewGame({ payload: true }))
+      dispatch(setIsFetchingGameId({ payload: true }))
       axios
         .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
         .then(res => {
           dispatch(newGame({ payload: res.data.game_id }))
         })
-        .catch(error => dispatch(setMessage({payload: 'Problem with getting game id'})))
-        .then(() => dispatch(setIsFetchingNewGame({ payload: false })))
+        .catch(error => dispatch(setMessage({payload: 'Problem with getting game id. Check you internet connection'})))
+        .then(() => dispatch(setIsFetchingGameId({ payload: false })))
     },
   }
 }

@@ -7,7 +7,7 @@ const setFromCoordinate = createAction('Set from coordinate', coordinates => coo
 const forbiddenMove = createAction('Handle forbidden move')
 const setMessage = createAction('Set message', message => message)
 const setIsFetchingMove = createAction('Set isFetchingMove', isFetching => isFetching)
-const setIsFetchingNewGame = createAction('Set isFetchingNewGame', isFetching => isFetching)
+const setIsFetchingGameId = createAction('Set isFetchingNewGame', isFetching => isFetching)
 
 const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
@@ -41,6 +41,6 @@ export {
   forbiddenMove,
   makePlayerMove,
   setIsFetchingMove,
-  setIsFetchingNewGame,
+  setIsFetchingGameId,
   setMessage,
 }

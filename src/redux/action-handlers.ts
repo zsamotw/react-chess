@@ -1,21 +1,26 @@
 import { List, Record } from 'immutable'
 import GameState from '../models/store-model'
-import { parseMoveData } from '../helpers/board-helper'
+import {
+  parseMoveData,
+  switchPlayerColor,
+} from '../helpers/board-helper'
 import Field from '../models/field-model'
 
 type Row = List<Field>
 
 const handleNewGameId = (
   state: Record<GameState> & Readonly<GameState>,
-  gameId: string
+  gameId: string,
 ) => {
-  const newState = state.set('message', 'New game starts!').set('gameId', gameId)
+  const newState = state
+    .set('message', 'New game starts!')
+    .set('gameId', gameId)
   return newState
 }
 
 const handleSetFromCoordinate = (
   state: Record<GameState> & Readonly<GameState>,
-  from: string
+  from: string,
 ) => {
   const newState = state.set('fromCoordinate', from)
   return newState
@@ -24,13 +29,13 @@ const handleSetFromCoordinate = (
 const handleMakeFigureMove = (
   state: Record<GameState> & Readonly<GameState>,
   from: string,
-  to: string
+  to: string,
 ) => {
   const {
     fromRowIndex,
     fromFieldIndex,
     toRowIndex,
-    toFieldIndex
+    toFieldIndex,
   } = parseMoveData(from, to)
   const board = state.get('board') as List<Row>
   const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
@@ -38,21 +43,25 @@ const handleMakeFigureMove = (
   const figure = fieldFrom.figure
   const newEmptyField = {
     coordinate: fieldFrom.coordinate,
-    figure: { type: 'Empty', icon: '', color: 'None' }
+    figure: { type: 'Empty', icon: '', color: 'None' },
   }
   const newNotEmptyField = { coordinate: fieldTo.coordinate, figure }
   const newBoard = board
     .setIn([fromRowIndex, fromFieldIndex], newEmptyField)
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
+  const currentPlayerColor = state.get('activePlayerColor')
+  const nextPlayerColor = switchPlayerColor(currentPlayerColor)
+  const message = `${currentPlayerColor}: ${from} -> ${to}`
   const newState = state
     .set('board', newBoard)
-    .set('message', '')
+    .set('activePlayerColor', nextPlayerColor)
+    .set('message', message)
 
   return newState
 }
 
 const handleForbiddenMove = (
-  state: Record<GameState> & Readonly<GameState>
+  state: Record<GameState> & Readonly<GameState>,
 ) => {
   state = state.set('message', 'This move is forbidden')
   return state
@@ -60,32 +69,38 @@ const handleForbiddenMove = (
 
 const handleSetIsFetchingMove = (
   state: Record<GameState> & Readonly<GameState>,
-  isFetching: boolean
+  isFetching: boolean,
 ) => {
   const fetchingData = state.get('fetchingData')
-  const changedFetchingData = {...fetchingData, isFetchingMove: isFetching}
+  const changedFetchingData = { ...fetchingData, isFetchingMove: isFetching }
   const newState = state.set('fetchingData', changedFetchingData)
   return newState
 }
 
-const handleSetIsFetchingNewGame = (
+const handleSetIsFetchingGameId = (
   state: Record<GameState> & Readonly<GameState>,
-  isFetching: boolean
+  isFetching: boolean,
 ) => {
   const fetchingData = state.get('fetchingData')
-  const changedFetchingData = {...fetchingData, isFetchingNewGame: isFetching}
+  const changedFetchingData = { ...fetchingData, isFetchingNewGame: isFetching }
   const newState = state.set('fetchingData', changedFetchingData)
   return newState
 }
 
 const handleSetMessage = (
   state: Record<GameState> & Readonly<GameState>,
-  message: string
+  message: string,
 ) => {
   const newState = state.set('message', message)
   return newState
 }
 
-
-
-export { handleNewGameId, handleSetFromCoordinate, handleMakeFigureMove, handleForbiddenMove, handleSetIsFetchingMove, handleSetIsFetchingNewGame, handleSetMessage }
+export {
+  handleNewGameId,
+  handleSetFromCoordinate,
+  handleMakeFigureMove,
+  handleForbiddenMove,
+  handleSetIsFetchingMove,
+  handleSetIsFetchingGameId,
+  handleSetMessage,
+}

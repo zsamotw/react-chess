@@ -1,3 +1,5 @@
+import Color from "../models/color"
+
 const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')
   const [toFieldLetter, toRowNumber] = to.split('')
@@ -32,4 +34,6 @@ const mapLetterToFieldIndex = (letter: string) => {
 
 const mapNumberToIndex = (rowNumber: string) => 8 - parseInt(rowNumber)
 
-export { parseMoveData }
+const switchPlayerColor = (playerColor: Color) => playerColor === Color.white ? Color.black : Color.white
+
+export { parseMoveData, switchPlayerColor }

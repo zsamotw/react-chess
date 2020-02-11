@@ -36,19 +36,19 @@ function BoardField(props: {
   field: Field
   firstFieldColorInRow: FieldColor
   setCoordinateForStartingPoint: any
-  dropOnField: any
+  dropOnEndPointField: any
   gameId: string | null
 }) {
   const {
     field,
     firstFieldColorInRow,
     setCoordinateForStartingPoint,
-    dropOnField,
+    dropOnEndPointField,
     gameId
   } = props
   const [{ isOver }, drop] = useDrop({
     accept: iconType,
-    drop: () => dropOnField(field.coordinate),
+    drop: () => dropOnEndPointField(field.coordinate),
     collect: monitor => ({
       isOver: !!monitor.isOver()
     })
@@ -58,7 +58,7 @@ function BoardField(props: {
     backgroundColor: '#95a6bb'
   }
 
-  const handleDragFromCoordinate = (coordinate: string) =>
+  const handleDragFromStartingPoint = (coordinate: string) =>
     setCoordinateForStartingPoint(coordinate)
 
   switch (firstFieldColorInRow) {
@@ -69,7 +69,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinate={field.coordinate}
             gameId={gameId}
-            onDragIcon={handleDragFromCoordinate}></Icon>
+            onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachEvenGrey>
       )
     case 'gray':
@@ -79,7 +79,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinate={field.coordinate}
             gameId={gameId}
-            onDragIcon={handleDragFromCoordinate}></Icon>
+            onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachOddGrey>
       )
   }
@@ -94,7 +94,7 @@ const mapDispatchToState = (dispatch: any) => {
   return {
     setCoordinateForStartingPoint: (from: string) =>
       dispatch(setFromCoordinate({ payload: from })),
-    dropOnField: (to: string) => makePlayerMove(to, dispatch)
+    dropOnEndPointField: (to: string) => makePlayerMove(to, dispatch)
   }
 }
 
