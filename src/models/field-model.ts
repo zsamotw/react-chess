@@ -1,6 +1,6 @@
 import Figure from './figure-model'
 
 export default interface Field {
-	coordinate: string
+	coordinates: string
 	figure: Figure
 }

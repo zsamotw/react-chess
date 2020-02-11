@@ -3,7 +3,7 @@ import {
   makeFigureMove,
   newGame,
   forbiddenMove,
-  setFromCoordinate,
+  setFromCoordinates,
   setIsFetchingMove,
   setIsFetchingGameId,
   setMessage,
@@ -15,7 +15,7 @@ import {
   handleNewGameId,
   handleMakeFigureMove,
   handleForbiddenMove,
-  handleSetFromCoordinate,
+  handleSetFromCoordinates,
   handleSetIsFetchingMove,
   handleSetIsFetchingGameId,
   handleSetMessage,
@@ -27,7 +27,7 @@ const makeInitialState = Record({
   board: null,
   activePlayerColor: Color.white,
   fetchingData: { isFetchingGameId: false, isFetchingMove: false },
-  fromCoordinate: '',
+  currentMoveStartingPoint: null,
   message: 'Start new game!',
 } as GameState)
 
@@ -39,8 +39,8 @@ const gameReducer = createReducer(initialGameState, {
       initialGameState as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),
-  [setFromCoordinate.type]: (state, action) =>
-    handleSetFromCoordinate(
+  [setFromCoordinates.type]: (state, action) =>
+    handleSetFromCoordinates(
       state as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),

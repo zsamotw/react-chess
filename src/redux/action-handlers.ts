@@ -18,11 +18,11 @@ const handleNewGameId = (
   return newState
 }
 
-const handleSetFromCoordinate = (
+const handleSetFromCoordinates = (
   state: Record<GameState> & Readonly<GameState>,
   from: string,
 ) => {
-  const newState = state.set('fromCoordinate', from)
+  const newState = state.set('currentMoveStartingPoint', from)
   return newState
 }
 
@@ -42,10 +42,10 @@ const handleMakeFigureMove = (
   const fieldTo = board.getIn([toRowIndex, toFieldIndex])
   const figure = fieldFrom.figure
   const newEmptyField = {
-    coordinate: fieldFrom.coordinate,
+    coordinates: fieldFrom.coordinates,
     figure: { type: 'Empty', icon: '', color: 'None' },
   }
-  const newNotEmptyField = { coordinate: fieldTo.coordinate, figure }
+  const newNotEmptyField = { coordinates: fieldTo.coordinates, figure }
   const newBoard = board
     .setIn([fromRowIndex, fromFieldIndex], newEmptyField)
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
@@ -97,7 +97,7 @@ const handleSetMessage = (
 
 export {
   handleNewGameId,
-  handleSetFromCoordinate,
+  handleSetFromCoordinates,
   handleMakeFigureMove,
   handleForbiddenMove,
   handleSetIsFetchingMove,

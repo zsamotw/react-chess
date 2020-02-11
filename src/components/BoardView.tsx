@@ -37,7 +37,7 @@ const rowContainingFields = (
 ) => {
   return (
     <Row key={rowIndex}>
-      {row.map((f: Field) => <BoardField key={f.coordinate} field={f} firstFieldColorInRow={firstFieldColorInRow}></BoardField>)}
+      {row.map((f: Field) => <BoardField key={f.coordinates} field={f} firstFieldColorInRow={firstFieldColorInRow}></BoardField>)}
     </Row>
   )
 }

@@ -10,6 +10,6 @@ export default interface GameState {
   board: any | List<Row>
   activePlayerColor: Color
   fetchingData: FetchingData
-  fromCoordinate: string
+  currentMoveStartingPoint: string | null
   message: string
 }

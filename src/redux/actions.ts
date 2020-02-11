@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const newGame = createAction('New game', gameId => gameId)
 const makeFigureMove = createAction( 'Make move', coordinates => coordinates)
-const setFromCoordinate = createAction('Set from coordinate', coordinates => coordinates)
+const setFromCoordinates = createAction('Set from coordinates', coordinates => coordinates)
 const forbiddenMove = createAction('Handle forbidden move')
 const setMessage = createAction('Set message', message => message)
 const setIsFetchingMove = createAction('Set isFetchingMove', isFetching => isFetching)
@@ -12,7 +12,7 @@ const setIsFetchingGameId = createAction('Set isFetchingNewGame', isFetching => 
 const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
     const game_id = getState().get('gameId')
-    const from = getState().get('fromCoordinate')
+    const from = getState().get('currentMoveStartingPoint')
     dispatch(setIsFetchingMove({ payload: true }))
     axios
       .post(
@@ -37,7 +37,7 @@ const makePlayerMove = (to: string, dispatch: any) => {
 export {
   makeFigureMove,
   newGame,
-  setFromCoordinate,
+  setFromCoordinates,
   forbiddenMove,
   makePlayerMove,
   setIsFetchingMove,

@@ -48,12 +48,12 @@ const whiteFigures = types.zip(whiteIcons)
 const blackFigures = types.zip(blackIcons)
 
 const blackFiguresRow = letters.zip(blackFigures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}8`, figure: { type: t, icon: s, color: 'Black' } }
+  return {coordinates : `${l}8`, figure: { type: t, icon: s, color: 'Black' } }
 }) as Row
 
 const blackPawnRow = letters.map(l => {
   return {
-    coordinate: `${l}7`,
+    coordinates: `${l}7`,
     figure: { type: 'Pawn', icon: 'icons/Chess_pdt45.svg', color: 'Black' }
   }
 }) as Row
@@ -61,7 +61,7 @@ const blackPawnRow = letters.map(l => {
 const emptyRows = numbers.map(n => {
   return letters.map(l => {
     return {
-      coordinate: `${l + n}`,
+      coordinates: `${l + n}`,
       figure: { type: 'Empty', icon: '', color: 'None' }
     }
   })
@@ -69,13 +69,13 @@ const emptyRows = numbers.map(n => {
 
 const whitePawnRow = letters.map(l => {
   return {
-    coordinate: `${l}2`,
+    coordinates: `${l}2`,
     figure: { type: 'Pawn', icon: 'icons/Chess_plt45.svg', color: 'White' }
   }
 }) as Row
 
 const whiteFiguresRow = letters.zip(whiteFigures).map(([l, [t, s]]) => {
-  return { coordinate: `${l}1`, figure: { type: t, icon: s, color: 'White' } }
+  return { coordinates: `${l}1`, figure: { type: t, icon: s, color: 'White' } }
 }) as Row
 
 const rows = List([blackFiguresRow])
