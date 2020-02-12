@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
 import { setFromCoordinates, makePlayerMove } from '../redux/actions'
 import GameState from '../models/store-model'
-import { getGameId } from '../redux/selectors'
+import { getGameId, getGameOver } from '../redux/selectors'
 import { Record } from 'immutable'
 
 const FieldGeneric = styled.div`
@@ -38,13 +38,15 @@ function BoardField(props: {
   setCoordinatesForStartingPoint: any
   dropOnEndPointField: any
   gameId: string | null
+  gameOver: boolean
 }) {
   const {
     field,
     firstFieldColorInRow,
     setCoordinatesForStartingPoint,
     dropOnEndPointField,
-    gameId
+    gameId,
+    gameOver
   } = props
   const [{ isOver }, drop] = useDrop({
     accept: iconType,
@@ -69,6 +71,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinates={field.coordinates}
             gameId={gameId}
+            gameOver={gameOver}
             onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachEvenGrey>
       )
@@ -79,6 +82,7 @@ function BoardField(props: {
             icon={field.figure.icon}
             coordinates={field.coordinates}
             gameId={gameId}
+            gameOver={gameOver}
             onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachOddGrey>
       )
@@ -87,7 +91,8 @@ function BoardField(props: {
 
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
-  return { gameId }
+  const gameOver = getGameOver(state)
+  return { gameId, gameOver }
 }
 
 const mapDispatchToState = (dispatch: any) => {

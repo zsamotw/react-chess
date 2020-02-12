@@ -25,11 +25,22 @@ const makePlayerMove = (to: string, dispatch: any) => {
         if (data.status === 'error: invalid move!') {
           dispatch(forbiddenMove())
         } else {
-          dispatch(makeFigureMove({ payload: { from, to } }))
+          axios
+            .post(
+              'http://chess-api-chess.herokuapp.com/api/v1/chess/two/check',
+              { game_id },
+            )
+            .then(result => {
+              const { status } = result.data
+              dispatch(makeFigureMove({ payload: { from, to, status } }))
+            })
         }
       })
       .catch(error => {
-        const message = {content: 'Problem with realize your move. Check internet connection', status: MessageStatus.error }
+        const message = {
+          content: 'Problem with realize your move. Check internet connection',
+          status: MessageStatus.error,
+        }
         dispatch(setMessage({ payload: message }))
       })
       .then(() => dispatch(setIsFetchingMove({ payload: false })))

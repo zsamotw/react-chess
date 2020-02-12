@@ -7,6 +7,7 @@ import {
   getMessage,
   getIsFetchingGameId,
   getActivePlayerColor,
+  getGameOver,
 } from '../redux/selectors'
 import { connect } from 'react-redux'
 import Board from '../models/board-model'
@@ -54,8 +55,9 @@ function Content(props: {
   gameId: string
   isFetchingGameId: boolean
   activePlayerColor: Color
+  gameOver: boolean
 }) {
-  const { board, message, gameId, isFetchingGameId, activePlayerColor } = props
+  const { board, message, gameId, isFetchingGameId, activePlayerColor, gameOver } = props
 
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
   const [localMessage, setLocalMessage] = React.useState({
@@ -88,7 +90,7 @@ function Content(props: {
 
   const backDropClasses = useStyles()
   const activePlayerColorStyles = {
-    opacity: !!gameId ? 1 : 0,
+    opacity: (!!gameId || !gameOver) ? 1 : 0,
     backgroundColor: isWhitePlayer ? 'white' : 'black',
   }
   const playerStyle = {
@@ -128,7 +130,8 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const message = getMessage(state)
   const isFetchingGameId = getIsFetchingGameId(state)
   const activePlayerColor = getActivePlayerColor(state)
-  return { board, gameId, message, isFetchingGameId, activePlayerColor }
+  const gameOver = getGameOver(state)
+  return { board, gameId, message, isFetchingGameId, activePlayerColor, gameOver }
 }
 
 export default connect(mapStateToProps, null)(Content as any)

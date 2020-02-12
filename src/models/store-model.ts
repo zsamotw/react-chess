@@ -13,4 +13,5 @@ export default interface GameState {
   fetchingData: FetchingData
   currentMoveStartingPoint: string | null
   message: Message
+  gameOver: boolean
 }

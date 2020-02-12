@@ -30,6 +30,7 @@ const makeInitialState = Record({
   fetchingData: { isFetchingGameId: false, isFetchingMove: false },
   currentMoveStartingPoint: null,
   message: { content: 'Start new game', status: MessageStatus.info },
+  gameOver: false
 } as GameState)
 
 const initialGameState = makeInitialState({ gameId: null, board: rows })
@@ -46,11 +47,12 @@ const gameReducer = createReducer(initialGameState, {
       action.payload,
     ),
   [makeFigureMove.type]: (state, action) => {
-    const { from, to } = action.payload
+    const { from, to, status } = action.payload
     return handleMakeFigureMove(
       state as Record<GameState> & Readonly<GameState>,
       from,
       to,
+      status
     )
   },
   [forbiddenMove.type]: (state, action) =>
