@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { newGame, setIsFetchingGameId, setMessage } from '../redux/actions'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import MessageStatus from '../models/message-status'
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,7 +49,10 @@ const mapDispatchToState = (dispatch: any) => {
         .then(res => {
           dispatch(newGame({ payload: res.data.game_id }))
         })
-        .catch(error => dispatch(setMessage({payload: 'Problem with getting game id. Check you internet connection'})))
+        .catch(error => {
+          const message = {content:'Problem with getting game id. Check you internet connection', status: MessageStatus.error }
+          dispatch(setMessage( {payload: message} ))
+        })
         .then(() => dispatch(setIsFetchingGameId({ payload: false })))
     },
   }

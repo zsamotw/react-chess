@@ -2,6 +2,7 @@ import { List } from 'immutable'
 import Field from './field-model'
 import Color from './color'
 import FetchingData from './fetching-data'
+import Message from './message'
 
 type Row = List<Field>
 
@@ -11,5 +12,5 @@ export default interface GameState {
   activePlayerColor: Color
   fetchingData: FetchingData
   currentMoveStartingPoint: string | null
-  message: string
+  message: Message
 }

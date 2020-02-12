@@ -5,6 +5,8 @@ import {
   switchPlayerColor,
 } from '../helpers/board-helper'
 import Field from '../models/field-model'
+import MessageStatus from '../models/message-status'
+import Message from '../models/message'
 
 type Row = List<Field>
 
@@ -12,8 +14,9 @@ const handleNewGameId = (
   state: Record<GameState> & Readonly<GameState>,
   gameId: string,
 ) => {
+  const message = {content: 'New game starts', status: MessageStatus.info}
   const newState = state
-    .set('message', 'New game starts!')
+    .set('message', message)
     .set('gameId', gameId)
   return newState
 }
@@ -51,7 +54,7 @@ const handleMakeFigureMove = (
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
-  const message = `${currentPlayerColor}: ${from} -> ${to}`
+  const message = { content: `${currentPlayerColor}: ${from} -> ${to}`, status: MessageStatus.success }
   const newState = state
     .set('board', newBoard)
     .set('activePlayerColor', nextPlayerColor)
@@ -63,7 +66,8 @@ const handleMakeFigureMove = (
 const handleForbiddenMove = (
   state: Record<GameState> & Readonly<GameState>,
 ) => {
-  state = state.set('message', 'This move is forbidden')
+  const message = {content: 'This is forbidden move', status: MessageStatus.warning}
+  state = state.set('message', message)
   return state
 }
 
@@ -89,7 +93,7 @@ const handleSetIsFetchingGameId = (
 
 const handleSetMessage = (
   state: Record<GameState> & Readonly<GameState>,
-  message: string,
+  message: Message,
 ) => {
   const newState = state.set('message', message)
   return newState

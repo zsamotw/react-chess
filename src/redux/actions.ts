@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import axios from 'axios'
+import MessageStatus from '../models/message-status'
 
 const newGame = createAction('New game', gameId => gameId)
 const makeFigureMove = createAction( 'Make move', coordinates => coordinates)
@@ -27,9 +28,10 @@ const makePlayerMove = (to: string, dispatch: any) => {
           dispatch(makeFigureMove({ payload: { from, to } }))
         }
       })
-      .catch(error =>
-        dispatch(setMessage({ payload: 'Problem with making move' })),
-      )
+      .catch(error => {
+        const message = {content: 'Problem with realize your move. Check internet connection', status: MessageStatus.error }
+        dispatch(setMessage({ payload: message }))
+      })
       .then(() => dispatch(setIsFetchingMove({ payload: false })))
   })
 }

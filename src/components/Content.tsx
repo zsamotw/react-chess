@@ -17,6 +17,8 @@ import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles } from '@material-ui/core/styles'
 import Color from '../models/color'
+import Message from '../models/message'
+import Alert from './Alert'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -37,7 +39,7 @@ const ActivePlayerColor = styled.div`
 `
 
 const Player = styled.div`
-  font-size: .7rem;
+  font-size: 0.7rem;
 `
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 
 function Content(props: {
   board: Board
-  message: string
+  message: Message
   gameId: string
   isFetchingGameId: boolean
   activePlayerColor: Color
@@ -56,15 +58,23 @@ function Content(props: {
   const { board, message, gameId, isFetchingGameId, activePlayerColor } = props
 
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
-  const [localMessage, setLocalMessage] = React.useState('')
+  const [localMessage, setLocalMessage] = React.useState({
+    content: '',
+    status: undefined,
+  } as Message)
 
-  const handleCloseSnackBar = (event: any, reason: string) => {
+  const handleCloseSnackBar = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
     if (reason === 'clickaway') {
       return
     }
 
     setOpenSnackBar(false)
   }
+
+  type Severity = 'error' | 'warning' | 'info' | 'success' | undefined
 
   useEffect(() => {
     if (message !== localMessage) {
@@ -98,10 +108,13 @@ function Content(props: {
         }}
         open={openSnackBar}
         autoHideDuration={3000}
-        onClose={handleCloseSnackBar}
-        message={localMessage}
-        action={<React.Fragment></React.Fragment>}
-      />
+        onClose={handleCloseSnackBar}>
+        <Alert
+          onClose={handleCloseSnackBar}
+          severity={localMessage.status as Severity}>
+          {localMessage.content}
+        </Alert>
+      </Snackbar>
       <Backdrop className={backDropClasses.backdrop} open={isFetchingGameId}>
         <CircularProgress />
       </Backdrop>

@@ -1,4 +1,4 @@
 export default class Color {
-  static  black = 'black'
-  static white = 'white'
+  static  black = 'Black'
+  static white = 'White'
 }
