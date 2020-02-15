@@ -20,7 +20,7 @@ export default function Icon(props: {
   const [{ isDragging }, drag] = useDrag({
     item: { type: iconType },
     begin: () => onDragIconFromStartingPoint(coordinates),
-    canDrag: () => !!gameId || !gameOver,
+    canDrag: () => !!gameId && !gameOver,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),

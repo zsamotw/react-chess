@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
   makeFigureMove,
-  newGame,
+  startNewGame,
   forbiddenMove,
   setFromCoordinates,
   setIsFetchingMove,
@@ -12,7 +12,7 @@ import { rows } from '../../models/board-model'
 import { Record } from 'immutable'
 import GameState from '../../models/store-model'
 import {
-  handleNewGameId,
+  handleStartNewGame,
   handleMakeFigureMove,
   handleForbiddenMove,
   handleSetFromCoordinates,
@@ -33,11 +33,11 @@ const makeInitialState = Record({
   gameOver: false
 } as GameState)
 
-const initialGameState = makeInitialState({ gameId: null, board: rows })
+const initialGameState = makeInitialState({ board: rows })
 
 const gameReducer = createReducer(initialGameState, {
-  [newGame.type]: (state, action) =>
-    handleNewGameId(
+  [startNewGame.type]: (state, action) =>
+    handleStartNewGame(
       initialGameState as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),

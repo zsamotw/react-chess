@@ -11,7 +11,7 @@ import Message from '../models/message'
 
 type Row = List<Field>
 
-const handleNewGameId = (
+const handleStartNewGame = (
   state: Record<GameState> & Readonly<GameState>,
   gameId: string,
 ) => {
@@ -19,6 +19,7 @@ const handleNewGameId = (
   const newState = state
     .set('message', message)
     .set('gameId', gameId)
+    .set('gameOver', false)
   return newState
 }
 
@@ -90,7 +91,7 @@ const handleSetIsFetchingGameId = (
   isFetching: boolean,
 ) => {
   const fetchingData = state.get('fetchingData')
-  const changedFetchingData = { ...fetchingData, isFetchingNewGame: isFetching }
+  const changedFetchingData = { ...fetchingData, isFetchingGameId: isFetching }
   const newState = state.set('fetchingData', changedFetchingData)
   return newState
 }
@@ -104,7 +105,7 @@ const handleSetMessage = (
 }
 
 export {
-  handleNewGameId,
+  handleStartNewGame,
   handleSetFromCoordinates,
   handleMakeFigureMove,
   handleForbiddenMove,

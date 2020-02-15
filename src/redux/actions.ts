@@ -2,13 +2,13 @@ import { createAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import MessageStatus from '../models/message-status'
 
-const newGame = createAction('New game', gameId => gameId)
+const startNewGame = createAction('New game', gameId => gameId)
 const makeFigureMove = createAction( 'Make move', coordinates => coordinates)
 const setFromCoordinates = createAction('Set from coordinates', coordinates => coordinates)
-const forbiddenMove = createAction('Handle forbidden move')
+const forbiddenMove = createAction('Forbidden move')
 const setMessage = createAction('Set message', message => message)
 const setIsFetchingMove = createAction('Set isFetchingMove', isFetching => isFetching)
-const setIsFetchingGameId = createAction('Set isFetchingNewGame', isFetching => isFetching)
+const setIsFetchingGameId = createAction('Set isFetchingGameId', isFetching => isFetching)
 
 const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
@@ -38,7 +38,7 @@ const makePlayerMove = (to: string, dispatch: any) => {
       })
       .catch(error => {
         const message = {
-          content: 'Problem with realize your move. Check internet connection',
+          content: 'Oops. Check internet connection',
           status: MessageStatus.error,
         }
         dispatch(setMessage({ payload: message }))
@@ -49,7 +49,7 @@ const makePlayerMove = (to: string, dispatch: any) => {
 
 export {
   makeFigureMove,
-  newGame,
+  startNewGame,
   setFromCoordinates,
   forbiddenMove,
   makePlayerMove,
