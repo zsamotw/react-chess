@@ -1,5 +1,5 @@
 import { List } from 'immutable'
-import Field from './field-model'
+import { Field } from './field-model'
 import Color from './color'
 import FetchingData from './fetching-data'
 import Message from './message'
@@ -13,5 +13,5 @@ export default interface GameState {
   fetchingData: FetchingData
   currentMoveStartingPoint: string | null
   message: Message
-  gameOver: boolean
+  isGameOver: boolean
 }

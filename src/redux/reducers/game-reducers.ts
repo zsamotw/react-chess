@@ -21,7 +21,6 @@ import {
   handleSetMessage,
 } from '../action-handlers'
 import Color from '../../models/color'
-import MessageStatus from '../../models/message-status'
 
 const makeInitialState = Record({
   gameId: null,
@@ -29,8 +28,8 @@ const makeInitialState = Record({
   activePlayerColor: Color.white,
   fetchingData: { isFetchingGameId: false, isFetchingMove: false },
   currentMoveStartingPoint: null,
-  message: { content: 'Start new game', status: MessageStatus.info },
-  gameOver: false
+  message: { content: '', status: undefined },
+  isGameOver: false
 } as GameState)
 
 const initialGameState = makeInitialState({ board: rows })

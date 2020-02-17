@@ -3,9 +3,8 @@ import GameState from '../models/store-model'
 import {
   parseMoveData,
   switchPlayerColor,
-  getMessage,
 } from '../helpers/board-helper'
-import Field from '../models/field-model'
+import { Field } from '../models/field-model'
 import MessageStatus from '../models/message-status'
 import Message from '../models/message'
 
@@ -19,7 +18,7 @@ const handleStartNewGame = (
   const newState = state
     .set('message', message)
     .set('gameId', gameId)
-    .set('gameOver', false)
+    .set('isGameOver', false)
   return newState
 }
 
@@ -57,13 +56,11 @@ const handleMakeFigureMove = (
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
-  const message = getMessage(status, from, to, currentPlayerColor)
-  const gameOver = status === 'checkmate' ? true : false
+  const isGameOver = status === 'checkmate' ? true : false
   const newState = state
     .set('board', newBoard)
     .set('activePlayerColor', nextPlayerColor)
-    .set('message', message)
-    .set('gameOver', gameOver)
+    .set('isGameOver', isGameOver)
 
   return newState
 }
