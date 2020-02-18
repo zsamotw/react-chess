@@ -16,6 +16,7 @@ const Panel = styled.div`
   width: 30%;
   height: 46rem;
   padding: 1rem;
+  user-select: none;
 `
 const ActivePlayerColor = styled.div`
   display: flex;

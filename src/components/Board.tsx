@@ -19,29 +19,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import Message from '../models/message'
 import Alert from './Alert'
 import Color from '../models/color'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Dialog from '@material-ui/core/Dialog'
-import { startNewGame, setIsFetchingGameId, setMessage } from '../redux/actions'
-import axios from 'axios'
 import MessageStatus from '../models/message-status'
+import GameDialog from './GameDialog'
+import StartGameDialogContent from './StartGameDialogContent'
 
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-
-const NewGameButton = styled.button`
-  color: white;
-  border-radius: 5px;
-  background-color: #db0a00;
-  border-color: transparent;
-  padding: 0.1rem 0.2rem;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #bd0900;
-  }
 `
 
 const useStyles = makeStyles(theme => ({
@@ -58,9 +43,8 @@ function Board(props: {
   isFetchingGameId: boolean
   activePlayerColor: Color
   isGameOver: boolean
-  getNewGame: any
 }) {
-  const { board, message, isGame, isFetchingGameId, getNewGame } = props
+  const { board, message, isGame, isFetchingGameId } = props
 
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
@@ -102,10 +86,9 @@ function Board(props: {
       <Backdrop className={backDropClasses.backdrop} open={openProgressBar}>
         <CircularProgress />
       </Backdrop>
-      <Dialog open={openDialog}>
-        <DialogTitle>Start new game</DialogTitle>
-        <NewGameButton onClick={getNewGame}>New Game</NewGameButton>
-      </Dialog>
+      <GameDialog open={openDialog}>
+        <StartGameDialogContent></StartGameDialogContent>
+      </GameDialog>
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
@@ -134,26 +117,4 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   return { board, isGame, message, isFetchingGameId }
 }
 
-const mapDispatchToState = (dispatch: any) => {
-  return {
-    getNewGame: () => {
-      dispatch(setIsFetchingGameId({ payload: true }))
-      axios
-        .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
-        .then(result => {
-          dispatch(startNewGame({ payload: result.data.game_id }))
-        })
-        .catch(error => {
-          const message = {
-            content:
-              'Problem with getting game id. Check you internet connection',
-            status: MessageStatus.error,
-          }
-          dispatch(setMessage({ payload: message }))
-        })
-        .then(() => dispatch(setIsFetchingGameId({ payload: false })))
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToState)(Board as any)
+export default connect(mapStateToProps)(Board as any)
