@@ -22,6 +22,11 @@ const getMessage = (state: Record<GameState> & Readonly<GameState>) => {
   return  message 
 }
 
+const getMoves = (state: Record<GameState> & Readonly<GameState>) => {
+  const moves = state.get('moves')
+  return  moves 
+}
+
 const getIsGameOver = (state: Record<GameState> & Readonly<GameState>) => {
   const isGameOver = state.get('isGameOver')
   return isGameOver
@@ -32,4 +37,4 @@ const getIsFetchingGameId = (state: Record<GameState> & Readonly<GameState>) => 
   return fetchingData.isFetchingGameId
 }
 
-export { getBoard, getGameId, getActivePlayerColor, getMessage, getIsGameOver, getIsFetchingGameId }
+export { getBoard, getGameId, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId }

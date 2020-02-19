@@ -28,7 +28,7 @@ const NewGameButton = styled.button`
   }
 `
 
-function StartGameDialogContent(props: { getNewGame: any }) {
+function StartAppDialogContent(props: { getNewGame: any }) {
   const { getNewGame } = props
 
   return (
@@ -61,4 +61,4 @@ const mapDispatchToState = (dispatch: any) => {
   }
 }
 
-export default connect(null, mapDispatchToState)(StartGameDialogContent as any)
+export default connect(null, mapDispatchToState)(StartAppDialogContent as any)

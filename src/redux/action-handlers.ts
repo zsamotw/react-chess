@@ -7,6 +7,7 @@ import {
 import { Field } from '../models/field-model'
 import MessageStatus from '../models/message-status'
 import Message from '../models/message'
+import Move from '../models/move-model'
 
 type Row = List<Field>
 
@@ -57,10 +58,13 @@ const handleMakeFigureMove = (
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
   const isGameOver = status === 'checkmate' ? true : false
+  const move = { startingPointCoordinate: from, endPointCoordinate: to, color: currentPlayerColor} as Move
+  const moves = state.get('moves').unshift(move)
   const newState = state
     .set('board', newBoard)
-    .set('activePlayerColor', nextPlayerColor)
     .set('isGameOver', isGameOver)
+    .set('activePlayerColor', nextPlayerColor)
+    .set('moves', moves)
 
   return newState
 }

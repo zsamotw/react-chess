@@ -9,7 +9,7 @@ import {
   setMessage,
 } from '../actions'
 import { rows } from '../../models/board-model'
-import { Record } from 'immutable'
+import { Record, List } from 'immutable'
 import GameState from '../../models/store-model'
 import {
   handleStartNewGame,
@@ -24,15 +24,16 @@ import Color from '../../models/color'
 
 const makeInitialState = Record({
   gameId: null,
-  board: null,
+  board: List([]),
+  isGameOver: false,
   activePlayerColor: Color.white,
   fetchingData: { isFetchingGameId: false, isFetchingMove: false },
   currentMoveStartingPoint: null,
   message: { content: '', status: undefined },
-  isGameOver: false
+  moves: List([])
 } as GameState)
 
-const initialGameState = makeInitialState({ board: rows })
+const initialGameState = makeInitialState({ board: rows, moves: List([]) })
 
 const gameReducer = createReducer(initialGameState, {
   [startNewGame.type]: (state, action) =>

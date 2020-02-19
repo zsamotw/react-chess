@@ -16,6 +16,8 @@ const Wrapper = styled.div`
 const Title = styled.div`
   text-transform: uppercase;
   font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -5px;
 `
 
 const NewGameButton = styled.button`

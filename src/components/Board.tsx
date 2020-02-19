@@ -19,9 +19,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Message from '../models/message'
 import Alert from './Alert'
 import Color from '../models/color'
-import MessageStatus from '../models/message-status'
 import GameDialog from './GameDialog'
-import StartGameDialogContent from './StartGameDialogContent'
+import StartAppDialogContent from './StartAppDialogContent'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -49,7 +48,7 @@ function Board(props: {
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
   const [openProgressBar, setOpenProgressBar] = React.useState(false)
-  const [localMessage, setLocalMessage] = React.useState({
+  const [componentMessage, setComponentMessage] = React.useState({
     content: '',
     status: undefined,
   } as Message)
@@ -70,13 +69,12 @@ function Board(props: {
   useEffect(() => {
     setOpenDialog(!isGame && !isFetchingGameId)
     setOpenProgressBar(isFetchingGameId)
-    if (!!message.content && message !== localMessage) {
-      console.log(isFetchingGameId);
+    if (!!message.content && message !== componentMessage) {
       handleCloseSnackBar(undefined, '')
-      setLocalMessage(message)
+      setComponentMessage(message)
       setOpenSnackBar(true)
     }
-  }, [message, localMessage, isGame, isFetchingGameId])
+  }, [message, componentMessage, isGame, isFetchingGameId])
 
   const backDropClasses = useStyles()
 
@@ -87,7 +85,7 @@ function Board(props: {
         <CircularProgress />
       </Backdrop>
       <GameDialog open={openDialog}>
-        <StartGameDialogContent></StartGameDialogContent>
+        <StartAppDialogContent></StartAppDialogContent>
       </GameDialog>
       <Snackbar
         anchorOrigin={{
@@ -99,8 +97,8 @@ function Board(props: {
         onClose={handleCloseSnackBar}>
         <Alert
           onClose={handleCloseSnackBar}
-          severity={localMessage.status as Severity}>
-          {localMessage.content}
+          severity={componentMessage.status as Severity}>
+          {componentMessage.content}
         </Alert>
       </Snackbar>
     </BoardContainer>

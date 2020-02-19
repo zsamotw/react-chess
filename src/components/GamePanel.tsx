@@ -4,44 +4,70 @@ import {
   getActivePlayerColor,
   getGameId,
   getIsGameOver,
+  getMoves,
 } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { connect } from 'react-redux'
-import { Record } from 'immutable'
+import { Record, List } from 'immutable'
 import Color from '../models/color'
+import Move from '../models/move-model'
 
 const Panel = styled.div`
   background-color: white;
   margin-left: 3rem;
-  width: 30%;
+  width: 20%;
   height: 46rem;
   padding: 1rem;
   user-select: none;
+  font-size: 1rem;
 `
 const ActivePlayerColor = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 6rem;
-  height: 2rem;
-  border-radius: 19px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 30px;
   border: 1px solid black;
   margin-bottom: 1rem;
+  transition: all 0.5s ease;
 `
 
 const Player = styled.div`
   font-size: 0.7rem;
 `
 
-const Moves = styled.div`
-  font-size: 1rem;
+const GameMovesSection = styled.section``
+
+const GameMoves = styled.div`
+  padding: 0.5rem 0.5rem;
+  height: 39rem;
+  overflow: auto;
+  border-top: 1px solid #919191;
+`
+
+const PlayerMove = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+`
+
+const MoveColor = styled.div`
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 20px;
+  border: 1px solid black;
+  display: inline-block;
 `
 
 function GamePanel(props: {
   isGame: boolean
   activePlayerColor: string
+  moves: List<Move>
 }) {
-  const { isGame, activePlayerColor } = props
+  const { isGame, activePlayerColor, moves } = props
   const isWhitePlayer = activePlayerColor === Color.white
   const panelStyles = {
     opacity: isGame ? 1 : 0.4,
@@ -53,13 +79,32 @@ function GamePanel(props: {
   const playerStyle = {
     color: isWhitePlayer ? 'black' : 'white',
   }
+  const getBackgroundColor = (color: string) => ({
+    backgroundColor: color.toLowerCase(),
+  })
+  const startingPointCoordinateStyles = {
+    margin: '0px 1.6rem 0px 3rem',
+  }
 
   return (
     <Panel style={panelStyles}>
       <ActivePlayerColor style={activePlayerColorStyles}>
         <Player style={playerStyle}>{isWhitePlayer ? 'White' : 'Black'}</Player>
       </ActivePlayerColor>
-      <Moves>Game history:</Moves>
+      <GameMovesSection>
+        <GameMoves>
+          {moves.map((move: Move) => (
+            <PlayerMove>
+              <MoveColor
+                style={getBackgroundColor(move.color as string)}></MoveColor>
+              <div style={startingPointCoordinateStyles}>
+                {move.startingPointCoordinate}
+              </div>
+              <div>{move.endPointCoordinate}</div>
+            </PlayerMove>
+          ))}
+        </GameMoves>
+      </GameMovesSection>
     </Panel>
   )
 }
@@ -69,7 +114,8 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const activePlayerColor = getActivePlayerColor(state)
   const isGameOver = getIsGameOver(state)
   const isGame = !!gameId && !isGameOver
-  return { activePlayerColor, isGame }
+  const moves = getMoves(state)
+  return { activePlayerColor, isGame, moves }
 }
 
 export default connect(mapStateToProps, null)(GamePanel as any)
