@@ -82,6 +82,11 @@ function GamePanel(props: {
   const getBackgroundColor = (color: string) => ({
     backgroundColor: color.toLowerCase(),
   })
+  const indexStyles = {
+    width: '1rem',
+    margin: '0px 2rem 0 0',
+    fontSize: '.7rem'
+  }
   const startingPointCoordinateStyles = {
     width: '1rem',
     margin: '0px 1.6rem 0px 3rem',
@@ -94,8 +99,9 @@ function GamePanel(props: {
       </ActivePlayerColor>
       <GameMovesSection>
         <GameMoves>
-          {moves.map((move: Move) => (
+          {moves.map((move: Move, index:number) => (
             <PlayerMove>
+              <div style={indexStyles}>{moves.size - index}</div>
               <MoveColor
                 style={getBackgroundColor(move.color as string)}></MoveColor>
               <div style={startingPointCoordinateStyles}>
