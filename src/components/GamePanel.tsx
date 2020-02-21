@@ -69,42 +69,47 @@ function GamePanel(props: {
 }) {
   const { isGame, activePlayerColor, moves } = props
   const isWhitePlayer = activePlayerColor === Color.white
-  const panelStyles = {
-    opacity: isGame ? 1 : 0.4,
-  }
-  const activePlayerColorStyles = {
-    opacity: isGame ? 1 : 0,
-    backgroundColor: isWhitePlayer ? 'white' : 'black',
-  }
-  const playerStyle = {
-    color: isWhitePlayer ? 'black' : 'white',
-  }
-  const getBackgroundColor = (color: string) => ({
-    backgroundColor: color.toLowerCase(),
-  })
-  const indexStyles = {
-    width: '1rem',
-    margin: '0px 2rem 0 0',
-    fontSize: '.7rem'
-  }
-  const startingPointCoordinateStyles = {
-    width: '1rem',
-    margin: '0px 1.6rem 0px 3rem',
+  const styles = {
+    panelStyles: {
+      opacity: isGame ? 1 : 0.4,
+    },
+
+    activePlayerColorStyles: {
+      opacity: isGame ? 1 : 0,
+      backgroundColor: isWhitePlayer ? 'white' : 'black',
+    },
+    playerStyle: {
+      color: isWhitePlayer ? 'black' : 'white',
+    },
+    indexStyles: {
+      width: '1rem',
+      margin: '0px 2rem 0 0',
+      fontSize: '.7rem',
+    },
+    startingPointCoordinateStyles: {
+      width: '1rem',
+      margin: '0px 1.6rem 0px 3rem',
+    },
+    getBackgroundColor: (color: string) => ({
+      backgroundColor: color.toLowerCase(),
+    }),
   }
 
   return (
-    <Panel style={panelStyles}>
-      <ActivePlayerColor style={activePlayerColorStyles}>
-        <Player style={playerStyle}>{isWhitePlayer ? 'White' : 'Black'}</Player>
+    <Panel style={styles.panelStyles}>
+      <ActivePlayerColor style={styles.activePlayerColorStyles}>
+        <Player style={styles.playerStyle}>
+          {isWhitePlayer ? 'White' : 'Black'}
+        </Player>
       </ActivePlayerColor>
       <GameMovesSection>
         <GameMoves>
-          {moves.map((move: Move, index:number) => (
+          {moves.map((move: Move, index: number) => (
             <PlayerMove>
-              <div style={indexStyles}>{moves.size - index}</div>
+              <div style={styles.indexStyles}>{moves.size - index}</div>
               <MoveColor
-                style={getBackgroundColor(move.color as string)}></MoveColor>
-              <div style={startingPointCoordinateStyles}>
+                style={styles.getBackgroundColor(move.color as string)}></MoveColor>
+              <div style={styles.startingPointCoordinateStyles}>
                 {move.startingPointCoordinate}
               </div>
               <div>{move.endPointCoordinate}</div>

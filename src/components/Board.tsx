@@ -76,12 +76,12 @@ function Board(props: {
     }
   }, [message, componentMessage, isGame, isFetchingGameId])
 
-  const backDropClasses = useStyles()
+  const backDropStyles = useStyles()
 
   return (
     <BoardContainer>
       <Rows board={board} isGame={isGame} />
-      <Backdrop className={backDropClasses.backdrop} open={openProgressBar}>
+      <Backdrop className={backDropStyles.backdrop} open={openProgressBar}>
         <CircularProgress />
       </Backdrop>
       <GameDialog open={openDialog}>

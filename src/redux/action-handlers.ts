@@ -57,9 +57,9 @@ const handleMakeFigureMove = (
     .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
-  const isGameOver = status === 'checkmate' ? true : false
   const move = { startingPointCoordinate: from, endPointCoordinate: to, color: currentPlayerColor} as Move
   const moves = state.get('moves').unshift(move)
+  const isGameOver = status === 'checkmate' ? true : false
   const newState = state
     .set('board', newBoard)
     .set('isGameOver', isGameOver)
