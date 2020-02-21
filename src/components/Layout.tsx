@@ -14,13 +14,13 @@ const Container = styled.div`
   flex-direction: column;
 `
 const HeaderWrapper = styled.header`
-  height: 5%;
-  background-color: #cea426;
+  height: 3%;
+  background-color: #1e1d1b;
 `
 
 const ContentWrapper = styled.div`
-  height: 90%;
-  background-color: #436a43;
+  height: 92%;
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   padding-top: 3rem;
@@ -28,7 +28,7 @@ const ContentWrapper = styled.div`
 
 const FooterWrapper = styled.footer`
   height: 5%;
-  background-color: #436a43;
+  background-color: #f0f0f0;
 `
 
 export default function Layout() {

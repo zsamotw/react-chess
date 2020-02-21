@@ -83,6 +83,7 @@ function GamePanel(props: {
     backgroundColor: color.toLowerCase(),
   })
   const startingPointCoordinateStyles = {
+    width: '1rem',
     margin: '0px 1.6rem 0px 3rem',
   }
 

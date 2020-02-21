@@ -14,22 +14,23 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.div`
+  color: #f4f4f4;
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: -5px;
 `
 
 const NewGameButton = styled.button`
-  color: white;
+  color: #d0cccc;
   border-radius: 5px;
-  background-color: #db0a00;
+  background-color: transparent;
   border-color: transparent;
   padding: 0.1rem 0.2rem;
   cursor: pointer;
 
   &:hover {
-    background-color: #bd0900;
+    color: #fff;
   }
 `
 
