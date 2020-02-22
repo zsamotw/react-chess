@@ -4,6 +4,7 @@ import Color from './color'
 import FetchingData from './fetching-data'
 import Message from './message'
 import Move from './move-model'
+import HitFigures from './hit-figures'
 
 type Row = List<Field>
 
@@ -16,4 +17,5 @@ export default interface GameState {
   currentMoveStartingPoint: string | null
   message: Message
   moves: List<Move>
+  hitFigures: HitFigures
 }

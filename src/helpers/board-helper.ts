@@ -1,5 +1,7 @@
 import Color from "../models/color"
 import MessageStatus from "../models/message-status"
+import HitFigures from "../models/hit-figures"
+import Figure from "../models/figure-model"
 
 const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')
@@ -48,4 +50,14 @@ const getMessage = (apiStatus: string, from: string, to: string, currentPlayerCo
   }
 }
 
-export { parseMoveData, switchPlayerColor, getMessage }
+const computeHitFigures = (figure: Figure, hitFigures: HitFigures) => {
+  if (figure.color === 'None') {
+    return hitFigures
+  } else if (figure.color === 'Black') {
+    return {...hitFigures, black: hitFigures.black.push(figure.icon)}
+  } else {
+    return {...hitFigures, white: hitFigures.white.push(figure.icon)}
+  }
+}
+
+export { parseMoveData, switchPlayerColor, getMessage, computeHitFigures }

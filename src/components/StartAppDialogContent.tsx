@@ -15,14 +15,13 @@ const ContentContainer = styled.div`
 const NewGameButton = styled.button`
   border-radius: 5px;
   background-color: #d0cccc; 
-  border-color: #d0cccc;
+  border-color: transparent;
   padding: 0.1rem 0.2rem;
   cursor: pointer;
   width: 50%;
 
   &:hover {
     background-color: #c4c4c4;
-    border-color: #c4c4c4;
   }
 `
 

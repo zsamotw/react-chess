@@ -37,4 +37,10 @@ const getIsFetchingGameId = (state: Record<GameState> & Readonly<GameState>) => 
   return fetchingData.isFetchingGameId
 }
 
-export { getBoard, getGameId, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId }
+const getHitFigures = (state: Record<GameState> & Readonly<GameState>) => {
+  const hitFigures = state.get('hitFigures')
+  return hitFigures
+}
+
+
+export { getBoard, getGameId, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId, getHitFigures }

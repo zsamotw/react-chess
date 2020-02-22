@@ -5,6 +5,7 @@ import { useDrag } from 'react-dnd'
 const IconWrapper = styled.img`
   user-select: none;
   width: 88%;
+  cursor: move;
 `
 
 export const iconType = 'icon'
