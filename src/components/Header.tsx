@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { startNewGame, setIsFetchingGameId, setMessage } from '../redux/actions'
+import { startNewGame, setIsFetchingGameId, setMessage, getNewGameId } from '../redux/actions'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import MessageStatus from '../models/message-status'
@@ -18,7 +18,7 @@ const Title = styled.div`
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: bold;
-  letter-spacing: -5px;
+  letter-spacing: 30px;
 `
 
 const NewGameButton = styled.button`
@@ -45,19 +45,7 @@ function Header(props: { getNewGame: any }) {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: () => {
-      dispatch(setIsFetchingGameId({ payload: true }))
-      axios
-        .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
-        .then(result => {
-          dispatch(startNewGame({ payload: result.data.game_id }))
-        })
-        .catch(error => {
-          const message = { content:'Problem with getting game id. Check you internet connection', status: MessageStatus.error }
-          dispatch(setMessage({ payload: message }))
-        })
-        .then(() => dispatch(setIsFetchingGameId({ payload: false })))
-    },
+    getNewGame: () => getNewGameId(dispatch)
   }
 }
 

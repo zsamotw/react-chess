@@ -49,6 +49,24 @@ const makePlayerMove = (to: string, dispatch: any) => {
   })
 }
 
+const getNewGameId = (dispatch: any) => {
+  dispatch(setIsFetchingGameId({ payload: true }))
+  axios
+    .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
+    .then(result => {
+      dispatch(startNewGame({ payload: result.data.game_id }))
+    })
+    .catch(error => {
+      const message = {
+        content:
+          'Problem with getting game id. Check you internet connection',
+        status: MessageStatus.error,
+      }
+      dispatch(setMessage({ payload: message }))
+    })
+    .then(() => dispatch(setIsFetchingGameId({ payload: false })))
+}
+
 export {
   makeFigureMove,
   startNewGame,
@@ -58,4 +76,5 @@ export {
   setIsFetchingMove,
   setIsFetchingGameId,
   setMessage,
+  getNewGameId
 }

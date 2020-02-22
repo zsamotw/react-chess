@@ -28,10 +28,16 @@ const BoardContainer = styled.div`
   align-items: center;
 `
 
-const useStyles = makeStyles(theme => ({
+const useStylesBackDrop = makeStyles(theme => ({
   backdrop: {
     opacity: 0.6,
     zIndex: 10000
+  },
+}))
+
+const useStylesProgressBar = makeStyles(theme => ({
+  root: {
+    color: '#575757'
   },
 }))
 
@@ -76,13 +82,14 @@ function Board(props: {
     }
   }, [message, componentMessage, isGame, isFetchingGameId])
 
-  const backDropStyles = useStyles()
+  const backDropStyles = useStylesBackDrop()
+  const progressBarStyles = useStylesProgressBar()
 
   return (
     <BoardContainer>
       <Rows board={board} isGame={isGame} />
       <Backdrop className={backDropStyles.backdrop} open={openProgressBar}>
-        <CircularProgress />
+        <CircularProgress classes={progressBarStyles} />
       </Backdrop>
       <GameDialog open={openDialog}>
         <StartAppDialogContent></StartAppDialogContent>

@@ -1,9 +1,7 @@
 import React from 'react'
 import { DialogTitle } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { setIsFetchingGameId, startNewGame, setMessage } from '../redux/actions'
-import MessageStatus from '../models/message-status'
-import axios from 'axios'
+import { getNewGameId } from '../redux/actions'
 import styled from 'styled-components'
 
 const ContentContainer = styled.div`
@@ -41,23 +39,7 @@ function StartAppDialogContent(props: { getNewGame: any }) {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: () => {
-      dispatch(setIsFetchingGameId({ payload: true }))
-      axios
-        .get('http://chess-api-chess.herokuapp.com/api/v1/chess/one')
-        .then(result => {
-          dispatch(startNewGame({ payload: result.data.game_id }))
-        })
-        .catch(error => {
-          const message = {
-            content:
-              'Problem with getting game id. Check you internet connection',
-            status: MessageStatus.error,
-          }
-          dispatch(setMessage({ payload: message }))
-        })
-        .then(() => dispatch(setIsFetchingGameId({ payload: false })))
-    },
+    getNewGame: () => getNewGameId(dispatch)
   }
 }
 
