@@ -21,6 +21,7 @@ const handleStartNewGame = (
     .set('message', message)
     .set('gameId', gameId)
     .set('isGameOver', false)
+    .set('isNewGameModalOpened', false)
   return newState
 }
 
@@ -62,7 +63,7 @@ const handleMakeFigureMove = (
   const moves = state.get('moves').unshift(move)
   const capturedFigures = state.get('capturedFigures')
   const newCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
-  const isGameOver = status === 'checkmate' ? true : false
+  const isGameOver = status === 'check mate' ? true : false
   const newState = state
     .set('board', newBoard)
     .set('isGameOver', isGameOver)
@@ -109,6 +110,20 @@ const handleSetMessage = (
   return newState
 }
 
+const handleSetNewGameModalOpened = (
+  state: Record<GameState> & Readonly<GameState>,
+) => {
+  const newState = state.set('isNewGameModalOpened', true)
+  return newState
+}
+
+const handleSetNewGameModalClosed = (
+  state: Record<GameState> & Readonly<GameState>,
+) => {
+  const newState = state.set('isNewGameModalOpened', false)
+  return newState
+}
+
 export {
   handleStartNewGame,
   handleSetFromCoordinates,
@@ -117,4 +132,6 @@ export {
   handleSetIsFetchingMove,
   handleSetIsFetchingGameId,
   handleSetMessage,
+  handleSetNewGameModalOpened,
+  handleSetNewGameModalClosed
 }

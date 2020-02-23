@@ -7,6 +7,8 @@ import {
   setIsFetchingMove,
   setIsFetchingGameId,
   setMessage,
+  setNewGameModalClosed,
+  setNewGameModalOpened,
 } from '../actions'
 import { rows } from '../../models/board-model'
 import { Record, List } from 'immutable'
@@ -19,6 +21,8 @@ import {
   handleSetIsFetchingMove,
   handleSetIsFetchingGameId,
   handleSetMessage,
+  handleSetNewGameModalOpened,
+  handleSetNewGameModalClosed,
 } from '../action-handlers'
 import Color from '../../models/color'
 
@@ -31,10 +35,11 @@ const makeInitialState = Record({
   currentMoveStartingPoint: null,
   message: { content: '', status: undefined },
   moves: List([]),
-  capturedFigures: { white: List([]), black: List([])}
+  capturedFigures: { white: List([]), black: List([]) },
+  isNewGameModalOpened: true,
 } as GameState)
 
-const initialGameState = makeInitialState({ board: rows, moves: List([]) })
+const initialGameState = makeInitialState({ board: rows })
 
 const gameReducer = createReducer(initialGameState, {
   [startNewGame.type]: (state, action) =>
@@ -53,7 +58,7 @@ const gameReducer = createReducer(initialGameState, {
       state as Record<GameState> & Readonly<GameState>,
       from,
       to,
-      status
+      status,
     )
   },
   [forbiddenMove.type]: (state, action) =>
@@ -72,6 +77,14 @@ const gameReducer = createReducer(initialGameState, {
     handleSetMessage(
       state as Record<GameState> & Readonly<GameState>,
       action.payload,
+    ),
+  [setNewGameModalOpened.type]: (state) =>
+    handleSetNewGameModalOpened(
+      state as Record<GameState> & Readonly<GameState>,
+    ),
+  [setNewGameModalClosed.type]: (state) =>
+    handleSetNewGameModalClosed(
+      state as Record<GameState> & Readonly<GameState>,
     ),
 })
 

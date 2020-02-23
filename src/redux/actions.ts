@@ -4,11 +4,13 @@ import MessageStatus from '../models/message-status'
 
 const startNewGame = createAction('New game', gameId => gameId)
 const makeFigureMove = createAction('Make move', coordinates => coordinates)
-const setFromCoordinates = createAction( 'Set from coordinates', coordinates => coordinates,)
+const setFromCoordinates = createAction( 'Set from coordinates', coordinates => coordinates)
 const forbiddenMove = createAction('Forbidden move')
 const setMessage = createAction('Set message', message => message)
-const setIsFetchingMove = createAction( 'Set isFetchingMove', isFetching => isFetching,)
-const setIsFetchingGameId = createAction( 'Set isFetchingGameId', isFetching => isFetching,)
+const setIsFetchingMove = createAction( 'Set isFetchingMove', isFetching => isFetching)
+const setIsFetchingGameId = createAction( 'Set isFetchingGameId', isFetching => isFetching)
+const setNewGameModalOpened = createAction( 'Set new game modal opened')
+const setNewGameModalClosed = createAction( 'Set new game modal closed')
 
 const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
@@ -76,5 +78,7 @@ export {
   setIsFetchingMove,
   setIsFetchingGameId,
   setMessage,
-  getNewGameId
+  getNewGameId,
+  setNewGameModalOpened,
+  setNewGameModalClosed
 }

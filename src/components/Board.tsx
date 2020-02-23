@@ -6,7 +6,7 @@ import {
   getGameId,
   getMessage,
   getIsFetchingGameId,
-  getIsGameOver,
+  getIsNewGameModalOpened,
 } from '../redux/selectors'
 import { connect } from 'react-redux'
 import { Board as BoardModel } from '../models/board-model'
@@ -20,7 +20,7 @@ import Message from '../models/message'
 import Alert from './Alert'
 import Color from '../models/color'
 import GameDialog from './GameDialog'
-import StartAppDialogContent from './StartAppDialogContent'
+import NewGameDialogContent from './NewGameDialogContent'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -47,9 +47,9 @@ function Board(props: {
   isGame: boolean
   isFetchingGameId: boolean
   activePlayerColor: Color
-  isGameOver: boolean
+  isNewGameModalOpened: boolean
 }) {
-  const { board, message, isGame, isFetchingGameId } = props
+  const { board, message, isGame, isFetchingGameId, isNewGameModalOpened } = props
 
   const [openSnackBar, setOpenSnackBar] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
@@ -73,14 +73,14 @@ function Board(props: {
   type Severity = 'error' | 'warning' | 'info' | 'success' | undefined
 
   useEffect(() => {
-    setOpenDialog(!isGame && !isFetchingGameId)
+    setOpenDialog(isNewGameModalOpened)
     setOpenProgressBar(isFetchingGameId)
     if (!!message.content && message !== componentMessage) {
       handleCloseSnackBar(undefined, '')
       setComponentMessage(message)
       setOpenSnackBar(true)
     }
-  }, [message, componentMessage, isGame, isFetchingGameId])
+  }, [message, componentMessage, isFetchingGameId, isNewGameModalOpened])
 
   const backDropStyles = useStylesBackDrop()
   const progressBarStyles = useStylesProgressBar()
@@ -92,7 +92,7 @@ function Board(props: {
         <CircularProgress classes={progressBarStyles} />
       </Backdrop>
       <GameDialog open={openDialog}>
-        <StartAppDialogContent></StartAppDialogContent>
+        <NewGameDialogContent></NewGameDialogContent>
       </GameDialog>
       <Snackbar
         anchorOrigin={{
@@ -117,9 +117,9 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
   const message = getMessage(state)
   const isFetchingGameId = getIsFetchingGameId(state)
-  const isGameOver = getIsGameOver(state)
-  const isGame = !!gameId && !isGameOver
-  return { board, isGame, message, isFetchingGameId }
+  const isGame = !!gameId
+  const isNewGameModalOpened = getIsNewGameModalOpened(state)
+  return { board, isGame, message, isFetchingGameId, isNewGameModalOpened }
 }
 
 export default connect(mapStateToProps)(Board as any)

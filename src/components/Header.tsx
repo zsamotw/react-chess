@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { startNewGame, setIsFetchingGameId, setMessage, getNewGameId } from '../redux/actions'
+import { setNewGameModalOpened } from '../redux/actions'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import MessageStatus from '../models/message-status'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,18 +32,18 @@ const NewGameButton = styled.button`
   }
 `
 
-function Header(props: { getNewGame: any }) {
+function Header(props: { openNewGameModal: any }) {
   return (
     <Wrapper>
       <Title>Chess</Title>
-      <NewGameButton onClick={props.getNewGame}>New Game</NewGameButton>
+      <NewGameButton onClick={props.openNewGameModal}>New Game</NewGameButton>
     </Wrapper>
   )
 }
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: () => getNewGameId(dispatch)
+    openNewGameModal: () => dispatch(setNewGameModalOpened())
   }
 }
 

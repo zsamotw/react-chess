@@ -1,7 +1,7 @@
 import React from 'react'
 import { DialogTitle } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { getNewGameId } from '../redux/actions'
+import { getNewGameId, setNewGameModalClosed } from '../redux/actions'
 import styled from 'styled-components'
 
 const ContentContainer = styled.div`
@@ -25,21 +25,27 @@ const NewGameButton = styled.button`
   }
 `
 
-function StartAppDialogContent(props: { getNewGame: any }) {
-  const { getNewGame } = props
+function NewGameDialogContent(props: { getNewGame: any, closeModal: any }) {
+  const { getNewGame, closeModal } = props
+
+  const handleStartNewGame = () => {
+    closeModal()
+    getNewGame() 
+  }
 
   return (
     <ContentContainer>
       <DialogTitle>Start new game</DialogTitle>
-      <NewGameButton onClick={getNewGame}>New Game</NewGameButton>
+      <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
     </ContentContainer>
   )
 }
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: () => getNewGameId(dispatch)
+    getNewGame: () => getNewGameId(dispatch),
+    closeModal: () => dispatch(setNewGameModalClosed())
   }
 }
 
-export default connect(null, mapDispatchToState)(StartAppDialogContent as any)
+export default connect(null, mapDispatchToState)(NewGameDialogContent as any)

@@ -38,14 +38,12 @@ function Field(props: {
   firstFieldColorInRow: FieldColor
   setCoordinatesForStartingPoint: any
   dropOnEndPointField: any
-  isGame: boolean
 }) {
   const {
     field,
     firstFieldColorInRow,
     setCoordinatesForStartingPoint,
     dropOnEndPointField,
-    isGame
   } = props
   const [{ isOver }, drop] = useDrop({
     accept: iconType,
@@ -69,7 +67,6 @@ function Field(props: {
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
-            isGame={isGame}
             onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachEvenGrey>
       )
@@ -79,7 +76,6 @@ function Field(props: {
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
-            isGame={isGame}
             onDragIconFromStartingPoint={handleDragFromStartingPoint}></Icon>
         </FieldEachOddGrey>
       )

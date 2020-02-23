@@ -72,17 +72,23 @@ const MoveColor = styled.div`
   display: inline-block;
 `
 
+const CheckMate = styled.span`
+  color: red;
+  font-size: 1.3rem;
+`
+
 function GamePanel(props: {
   isGame: boolean
+  isGameOver: boolean
   activePlayerColor: string
   moves: List<Move>,
   capturedFigures: CapturedFigures
 }) {
-  const { isGame, activePlayerColor, moves, capturedFigures } = props
+  const { isGame, isGameOver, activePlayerColor, moves, capturedFigures } = props
   const isWhitePlayer = activePlayerColor === Color.white
   const styles = {
     panelStyles: {
-      opacity: isGame ? 1 : 0.4,
+      opacity: isGame && !isGameOver ? 1 : 0.4,
     },
 
     activePlayerColorStyles: {
@@ -114,6 +120,7 @@ function GamePanel(props: {
             {isWhitePlayer ? 'White' : 'Black'}
           </Player>
         </ActivePlayerColor>
+        {isGameOver ? <CheckMate>Check Mate</CheckMate> : null}
       </ActivePlayerColorSection>
       <CapturedFiguresSection>
         <div> {capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)} </div>
@@ -142,10 +149,10 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
   const activePlayerColor = getActivePlayerColor(state)
   const isGameOver = getIsGameOver(state)
-  const isGame = !!gameId && !isGameOver
+  const isGame = !!gameId 
   const moves = getMoves(state)
   const capturedFigures = getCapturedFigures(state)
-  return { activePlayerColor, isGame, moves, capturedFigures }
+  return { activePlayerColor, isGame, moves, capturedFigures, isGameOver }
 }
 
 export default connect(mapStateToProps, null)(GamePanel as any)

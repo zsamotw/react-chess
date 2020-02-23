@@ -24,11 +24,10 @@ const rowContainingFields = (
   firstFieldColorInRow: FieldColor,
   row: Row,
   rowIndex: number,
-  isGame: boolean
 ) => {
   return (
     <Row key={rowIndex}>
-      {row.map((f: FieldModel) => <Field key={f.coordinates} field={f} firstFieldColorInRow={firstFieldColorInRow} isGame={isGame}></Field>)}
+      {row.map((f: FieldModel) => <Field key={f.coordinates} field={f} firstFieldColorInRow={firstFieldColorInRow}></Field>)}
     </Row>
   )
 }
@@ -44,8 +43,8 @@ export default function Rows(props: { board: Board, isGame: boolean }) {
     <RowsContainer style={styles}>
       {board.rows.map((row: Row, rowIndex: number) =>
         isEven(rowIndex)
-          ? rowContainingFields('white', row, rowIndex, isGame)
-          : rowContainingFields('gray', row, rowIndex, isGame)
+          ? rowContainingFields('white', row, rowIndex)
+          : rowContainingFields('gray', row, rowIndex)
       )}
     </RowsContainer>
   )
