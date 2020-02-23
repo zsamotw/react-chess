@@ -31,7 +31,7 @@ const makeInitialState = Record({
   currentMoveStartingPoint: null,
   message: { content: '', status: undefined },
   moves: List([]),
-  hitFigures: { white: List([]), black: List([])}
+  capturedFigures: { white: List([]), black: List([])}
 } as GameState)
 
 const initialGameState = makeInitialState({ board: rows, moves: List([]) })

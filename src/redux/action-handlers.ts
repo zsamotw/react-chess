@@ -3,7 +3,7 @@ import GameState from '../models/store-model'
 import {
   parseMoveData,
   switchPlayerColor,
-  computeHitFigures,
+  computeCapturedFigures,
 } from '../helpers/board-helper'
 import { Field } from '../models/field-model'
 import MessageStatus from '../models/message-status'
@@ -60,15 +60,15 @@ const handleMakeFigureMove = (
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
   const move = { startingPointCoordinate: from, endPointCoordinate: to, color: currentPlayerColor} as Move
   const moves = state.get('moves').unshift(move)
-  const hitFigures = state.get('hitFigures')
-  const newHitFigures = computeHitFigures(fieldTo.figure, hitFigures)
+  const capturedFigures = state.get('capturedFigures')
+  const newCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
   const isGameOver = status === 'checkmate' ? true : false
   const newState = state
     .set('board', newBoard)
     .set('isGameOver', isGameOver)
     .set('activePlayerColor', nextPlayerColor)
     .set('moves', moves)
-    .set('hitFigures', newHitFigures)
+    .set('capturedFigures', newCapturedFigures)
 
   return newState
 }

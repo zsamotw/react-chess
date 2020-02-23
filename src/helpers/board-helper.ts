@@ -1,6 +1,6 @@
 import Color from "../models/color"
 import MessageStatus from "../models/message-status"
-import HitFigures from "../models/hit-figures"
+import CapturedFigures from "../models/captured-figures"
 import Figure from "../models/figure-model"
 
 const parseMoveData = (from: string, to: string) => {
@@ -50,14 +50,14 @@ const getMessage = (apiStatus: string, from: string, to: string, currentPlayerCo
   }
 }
 
-const computeHitFigures = (figure: Figure, hitFigures: HitFigures) => {
+const computeCapturedFigures = (figure: Figure, capturedFigures: CapturedFigures) => {
   if (figure.color === 'None') {
-    return hitFigures
+    return capturedFigures
   } else if (figure.color === 'Black') {
-    return {...hitFigures, black: hitFigures.black.push(figure.icon)}
+    return {...capturedFigures, black: capturedFigures.black.push(figure.icon)}
   } else {
-    return {...hitFigures, white: hitFigures.white.push(figure.icon)}
+    return {...capturedFigures, white: capturedFigures.white.push(figure.icon)}
   }
 }
 
-export { parseMoveData, switchPlayerColor, getMessage, computeHitFigures }
+export { parseMoveData, switchPlayerColor, getMessage, computeCapturedFigures }

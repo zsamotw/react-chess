@@ -5,14 +5,14 @@ import {
   getGameId,
   getIsGameOver,
   getMoves,
-  getHitFigures,
+  getCapturedFigures,
 } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { connect } from 'react-redux'
 import { Record, List } from 'immutable'
 import Color from '../models/color'
 import Move from '../models/move-model'
-import HitFigures from '../models/hit-figures'
+import CapturedFigures from '../models/captured-figures'
 
 const Panel = styled.div`
   background-color: white;
@@ -41,7 +41,7 @@ const ActivePlayerColor = styled.div`
 const Player = styled.div`
   font-size: 0.7rem;
 `
-const HitFiguresSection = styled.section``
+const CapturedFiguresSection = styled.section``
 
 const Icon = styled.img`
   width: 1.4rem;
@@ -51,7 +51,7 @@ const GameMovesSection = styled.section``
 
 const GameMoves = styled.div`
   padding: 0.5rem 0.5rem;
-  height: 39rem;
+  height: 37rem;
   overflow: auto;
   border-top: 1px solid #919191;
 `
@@ -76,9 +76,9 @@ function GamePanel(props: {
   isGame: boolean
   activePlayerColor: string
   moves: List<Move>,
-  hitFigures: HitFigures
+  capturedFigures: CapturedFigures
 }) {
-  const { isGame, activePlayerColor, moves, hitFigures } = props
+  const { isGame, activePlayerColor, moves, capturedFigures } = props
   const isWhitePlayer = activePlayerColor === Color.white
   const styles = {
     panelStyles: {
@@ -115,10 +115,10 @@ function GamePanel(props: {
           </Player>
         </ActivePlayerColor>
       </ActivePlayerColorSection>
-      <HitFiguresSection>
-        <div> {hitFigures.white.map((i) => <Icon  src={i} alt='' key={i}></Icon>)} </div>
-        <div> {hitFigures.black.map((i) => <Icon  src={i} alt='' key={i}></Icon>)} </div>
-      </HitFiguresSection>
+      <CapturedFiguresSection>
+        <div> {capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)} </div>
+        <div> {capturedFigures.black.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)} </div>
+      </CapturedFiguresSection>
       <GameMovesSection>
         <GameMoves>
           {moves.map((move: Move, index: number) => (
@@ -144,8 +144,8 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const isGameOver = getIsGameOver(state)
   const isGame = !!gameId && !isGameOver
   const moves = getMoves(state)
-  const hitFigures = getHitFigures(state)
-  return { activePlayerColor, isGame, moves, hitFigures }
+  const capturedFigures = getCapturedFigures(state)
+  return { activePlayerColor, isGame, moves, capturedFigures }
 }
 
 export default connect(mapStateToProps, null)(GamePanel as any)
