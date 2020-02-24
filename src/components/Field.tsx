@@ -35,9 +35,9 @@ const FieldEachOddGrey = styled(FieldGeneric)`
 type FieldColor = 'white' | 'gray'
 
 function Field(props: {
-  field: FieldModel
-  firstFieldColorInRow: FieldColor
-  setCoordinatesForStartingPoint: any
+  field: FieldModel,
+  firstFieldColorInRow: FieldColor,
+  setCoordinatesForStartingPoint: any,
   dropOnEndPointField: any
 }) {
   const {

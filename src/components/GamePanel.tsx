@@ -88,9 +88,9 @@ const CheckMate = styled.span`
 `
 
 function GamePanel(props: {
-  isGame: boolean
-  isGameOver: boolean
-  activePlayerColor: string
+  isGame: boolean,
+  isGameOver: boolean,
+  activePlayerColor: string,
   moves: List<Move>,
   capturedFigures: CapturedFigures
 }) {

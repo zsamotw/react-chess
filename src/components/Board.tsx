@@ -42,11 +42,11 @@ const useStylesProgressBar = makeStyles(theme => ({
 }))
 
 function Board(props: {
-  board: BoardModel
-  message: Message
-  isGame: boolean
-  isFetchingGameId: boolean
-  activePlayerColor: Color
+  board: BoardModel,
+  message: Message,
+  isGame: boolean,
+  isFetchingGameId: boolean,
+  activePlayerColor: Color,
   isNewGameModalOpened: boolean
 }) {
   const { board, message, isGame, isFetchingGameId, isNewGameModalOpened } = props
