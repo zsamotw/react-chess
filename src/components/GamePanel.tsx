@@ -18,10 +18,18 @@ const Panel = styled.div`
   background-color: white;
   margin-left: 3rem;
   width: 20%;
-  height: 46rem;
+  height: 64vh;
+  box-sizing: border-box;
   padding: 1rem;
   user-select: none;
   font-size: 1rem;
+
+  @media screen and (max-width: 1200px) {
+    width: 64vh;
+    margin-left: 0;
+    margin-top: 3rem; 
+    height: 28vh;
+  }
 `
 
 const ActivePlayerColorSection = styled.section``
@@ -47,13 +55,15 @@ const Icon = styled.img`
   width: 1.4rem;
 `
 
-const GameMovesSection = styled.section``
-
-const GameMoves = styled.div`
+const GameMovesSection = styled.section`
   padding: 0.5rem 0.5rem;
-  height: 37rem;
+  height: 40vh;
   overflow: auto;
   border-top: 1px solid #919191;
+
+  @media screen and (max-width: 1200px) {
+    height: 8vh;
+  }
 `
 
 const PlayerMove = styled.div`
@@ -123,23 +133,21 @@ function GamePanel(props: {
         {isGameOver ? <CheckMate>Check Mate</CheckMate> : null}
       </ActivePlayerColorSection>
       <CapturedFiguresSection>
-        <div> {capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)} </div>
-        <div> {capturedFigures.black.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)} </div>
+        <div>{capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)}</div>
+        <div>{capturedFigures.black.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)}</div>
       </CapturedFiguresSection>
       <GameMovesSection>
-        <GameMoves>
-          {moves.map((move: Move, index: number) => (
-            <PlayerMove key={index}>
-              <div style={styles.indexStyles}>{moves.size - index}</div>
-              <MoveColor
-                style={styles.getBackgroundColor(move.color as string)}></MoveColor>
-              <div style={styles.startingPointCoordinateStyles}>
-                {move.startingPointCoordinate}
-              </div>
-              <div>{move.endPointCoordinate}</div>
-            </PlayerMove>
-          ))}
-        </GameMoves>
+        {moves.map((move: Move, index: number) => (
+          <PlayerMove key={index}>
+            <div style={styles.indexStyles}>{moves.size - index}</div>
+            <MoveColor
+              style={styles.getBackgroundColor(move.color as string)}></MoveColor>
+            <div style={styles.startingPointCoordinateStyles}>
+              {move.startingPointCoordinate}
+            </div>
+            <div>{move.endPointCoordinate}</div>
+          </PlayerMove>
+        ))}
       </GameMovesSection>
     </Panel>
   )

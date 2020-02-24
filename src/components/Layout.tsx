@@ -14,20 +14,21 @@ const Container = styled.div`
   flex-direction: column;
 `
 const HeaderWrapper = styled.header`
-  height: 3%;
+  height: 3vh;
   background-color: #1e1d1b;
 `
 
 const ContentWrapper = styled.div`
-  height: 92%;
+  height: 92vh;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   padding-top: 3rem;
 `
 
 const FooterWrapper = styled.footer`
-  height: 5%;
+  height: 5vh;
   background-color: #f0f0f0;
 `
 

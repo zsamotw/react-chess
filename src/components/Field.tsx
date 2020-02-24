@@ -11,10 +11,11 @@ const FieldGeneric = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 5rem;
-  width: 5rem;
+  height: 8vh;
+  width: 8vh;
   font-size: 1.2rem;
   padding: 0.5rem;
+  box-sizing: border-box;
 `
 const FieldEachEvenGrey = styled(FieldGeneric)`
   background-color: white;
