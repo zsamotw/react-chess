@@ -7,21 +7,38 @@ import styled from 'styled-components'
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: 12vh;
   padding: 2rem;
 `
 
-const NewGameButton = styled.button`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+`
+
+const ModalButton = styled.button`
   border-radius: 5px;
-  background-color: #d0cccc; 
   border-color: transparent;
-  padding: 0.1rem 0.2rem;
+  padding: 0.3rem 0.3rem;
   cursor: pointer;
-  width: 50%;
+`
+const NewGameButton = styled(ModalButton)`
+  background-color: #d0cccc; 
+  margin-left: 2rem;
 
   &:hover {
-    background-color: #c4c4c4;
+    background-color: #9f9f9f;
+  }
+`
+const CancelButton = styled(ModalButton)`
+  background-color:#f4f4f4; 
+
+  &:hover {
+    background-color:#6c6b6b;
+    color: white;
   }
 `
 
@@ -36,7 +53,10 @@ function NewGameDialogContent(props: { getNewGame: any, closeModal: any }) {
   return (
     <ContentContainer>
       <DialogTitle>Start new game</DialogTitle>
-      <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
+      <ButtonsWrapper>
+        <CancelButton onClick={closeModal}>Cancel</CancelButton>
+        <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
+      </ButtonsWrapper>
     </ContentContainer>
   )
 }
