@@ -1,8 +1,10 @@
 import React from 'react'
-import { DialogTitle } from '@material-ui/core'
+import { DialogTitle, makeStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { getNewGameId, setNewGameModalClosed } from '../redux/actions'
 import styled from 'styled-components'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
 
 const ContentContainer = styled.div`
   display: flex;
@@ -16,43 +18,58 @@ const ContentContainer = styled.div`
 const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
 `
 
 const ModalButton = styled.button`
   border-radius: 5px;
   border-color: transparent;
-  padding: 0.3rem 0.3rem;
+  padding: .3rem .5rem;
   cursor: pointer;
+  transition: all .3s;
 `
 const NewGameButton = styled(ModalButton)`
-  background-color: #d0cccc; 
+  background-color: #dbdbdb;
   margin-left: 2rem;
 
   &:hover {
-    background-color: #9f9f9f;
+    background-color: #7d7c7c;
+    color: #EEEDED;
   }
 `
 const CancelButton = styled(ModalButton)`
-  background-color:#f4f4f4; 
+  background-color: #FFF;
 
   &:hover {
-    background-color:#6c6b6b;
-    color: white;
+    background-color: rgb(245, 245, 245);
   }
 `
 
-function NewGameDialogContent(props: { getNewGame: any, closeModal: any }) {
+const useStyles = makeStyles({
+  iconButton: {
+    right: '5px',
+    top: '5px',
+    position: 'absolute',
+    padding: '6px'
+  },
+})
+
+function NewGameDialogContent(props: { getNewGame: any; closeModal: any }) {
   const { getNewGame, closeModal } = props
 
   const handleStartNewGame = () => {
     closeModal()
-    getNewGame() 
+    getNewGame()
   }
+
+  const classes = useStyles();
 
   return (
     <ContentContainer>
       <DialogTitle>Start new game</DialogTitle>
+      <IconButton aria-label='close' className={classes.iconButton} onClick={closeModal}>
+        <CloseIcon />
+      </IconButton>
       <ButtonsWrapper>
         <CancelButton onClick={closeModal}>Cancel</CancelButton>
         <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
@@ -64,7 +81,7 @@ function NewGameDialogContent(props: { getNewGame: any, closeModal: any }) {
 const mapDispatchToState = (dispatch: any) => {
   return {
     getNewGame: () => getNewGameId(dispatch),
-    closeModal: () => dispatch(setNewGameModalClosed())
+    closeModal: () => dispatch(setNewGameModalClosed()),
   }
 }
 
