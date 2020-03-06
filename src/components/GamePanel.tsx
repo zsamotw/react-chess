@@ -13,6 +13,7 @@ import { Record, List } from 'immutable'
 import Color from '../models/color'
 import Move from '../models/move-model'
 import CapturedFigures from '../models/captured-figures'
+import { undoLastMove } from '../redux/actions'
 
 const Panel = styled.div`
   background-color: white;
@@ -32,7 +33,11 @@ const Panel = styled.div`
   }
 `
 
-const ActivePlayerColorSection = styled.section``
+const ActivePlayerColorSection = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+`
 
 const ActivePlayerColor = styled.div`
   display: flex;
@@ -49,6 +54,23 @@ const ActivePlayerColor = styled.div`
 const Player = styled.div`
   font-size: 0.7rem;
 `
+
+const UndoButton = styled.button`
+  /* temporary display none */
+  display: none;
+  border-radius: 5px;
+  border-color: transparent;
+  padding: .3rem .5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #dbdbdb;
+
+  &:hover {
+    background-color: #7d7c7c;
+    color: #EEEDED;
+  }
+`
+
 const CapturedFiguresSection = styled.section``
 
 const Icon = styled.img`
@@ -92,9 +114,10 @@ function GamePanel(props: {
   isGameOver: boolean,
   activePlayerColor: string,
   moves: List<Move>,
-  capturedFigures: CapturedFigures
+  capturedFigures: CapturedFigures,
+  undoMove: any
 }) {
-  const { isGame, isGameOver, activePlayerColor, moves, capturedFigures } = props
+  const { isGame, isGameOver, activePlayerColor, moves, capturedFigures, undoMove } = props
   const isWhitePlayer = activePlayerColor === Color.white
   const styles = {
     panelStyles: {
@@ -107,6 +130,9 @@ function GamePanel(props: {
     },
     playerStyle: {
       color: isWhitePlayer ? 'black' : 'white',
+    },
+    undoButtonStyles: {
+      opacity: isGame ? 1 : 0,
     },
     indexStyles: {
       width: '1rem',
@@ -131,6 +157,7 @@ function GamePanel(props: {
           </Player>
         </ActivePlayerColor>
         {isGameOver ? <CheckMate>Check Mate</CheckMate> : null}
+        <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>UNDO</UndoButton>
       </ActivePlayerColorSection>
       <CapturedFiguresSection>
         <div>{capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)}</div>
@@ -162,5 +189,10 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const capturedFigures = getCapturedFigures(state)
   return { activePlayerColor, isGame, moves, capturedFigures, isGameOver }
 }
+const mapDispatchToState = (dispatch: any) => {
+  return {
+    undoMove: () => undoLastMove(dispatch)
+  }
+}
 
-export default connect(mapStateToProps, null)(GamePanel as any)
+export default connect(mapStateToProps, mapDispatchToState)(GamePanel as any)

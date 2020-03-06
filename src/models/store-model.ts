@@ -19,4 +19,5 @@ export default interface GameState {
   moves: List<Move>
   capturedFigures: CapturedFigures
   isNewGameModalOpened: boolean
+  gameSnapshots: List<GameState>
 }

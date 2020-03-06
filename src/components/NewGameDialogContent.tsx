@@ -26,7 +26,7 @@ const ModalButton = styled.button`
   border-color: transparent;
   padding: .3rem .5rem;
   cursor: pointer;
-  transition: all .3s;
+  text-transform: uppercase;
 `
 const NewGameButton = styled(ModalButton)`
   background-color: #dbdbdb;

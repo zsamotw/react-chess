@@ -17,20 +17,20 @@ const handleStartNewGame = (
   gameId: string,
 ) => {
   const message = {content: 'New game starts', status: MessageStatus.info}
-  const newState = state
+  const nextState = state
     .set('message', message)
     .set('gameId', gameId)
     .set('isGameOver', false)
     .set('isNewGameModalOpened', false)
-  return newState
+  return nextState
 }
 
 const handleSetFromCoordinates = (
   state: Record<GameState> & Readonly<GameState>,
   from: string,
 ) => {
-  const newState = state.set('currentMoveStartingPoint', from)
-  return newState
+  const nextState = state.set('currentMoveStartingPoint', from)
+  return nextState
 }
 
 const handleMakeFigureMove = (
@@ -49,37 +49,39 @@ const handleMakeFigureMove = (
   const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
   const fieldTo = board.getIn([toRowIndex, toFieldIndex])
   const figure = fieldFrom.figure
-  const newEmptyField = {
+  const nextEmptyField = {
     coordinates: fieldFrom.coordinates,
     figure: { type: 'Empty', icon: '', color: 'None' },
   }
-  const newNotEmptyField = { coordinates: fieldTo.coordinates, figure }
-  const newBoard = board
-    .setIn([fromRowIndex, fromFieldIndex], newEmptyField)
-    .setIn([toRowIndex, toFieldIndex], newNotEmptyField)
+  const nextNotEmptyField = { coordinates: fieldTo.coordinates, figure }
+  const nextBoard = board
+    .setIn([fromRowIndex, fromFieldIndex], nextEmptyField)
+    .setIn([toRowIndex, toFieldIndex], nextNotEmptyField)
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
   const move = { startingPointCoordinate: from, endPointCoordinate: to, color: currentPlayerColor} as Move
   const moves = state.get('moves').unshift(move)
   const capturedFigures = state.get('capturedFigures')
-  const newCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
+  const nextCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
   const isGameOver = status === 'check mate' ? true : false
-  const newState = state
-    .set('board', newBoard)
+  const nextGameSnapshots = state.get('gameSnapshots').unshift(state)
+  const nextState = state
+    .set('board', nextBoard)
     .set('isGameOver', isGameOver)
     .set('activePlayerColor', nextPlayerColor)
     .set('moves', moves)
-    .set('capturedFigures', newCapturedFigures)
+    .set('capturedFigures', nextCapturedFigures)
+    .set('gameSnapshots', nextGameSnapshots)
 
-  return newState
+  return nextState
 }
 
 const handleForbiddenMove = (
   state: Record<GameState> & Readonly<GameState>,
 ) => {
   const message = {content: 'It is forbidden move', status: MessageStatus.warning}
-  state = state.set('message', message)
-  return state
+  const nextState = state.set('message', message)
+  return nextState
 }
 
 const handleSetIsFetchingMove = (
@@ -88,8 +90,8 @@ const handleSetIsFetchingMove = (
 ) => {
   const fetchingData = state.get('fetchingData')
   const changedFetchingData = { ...fetchingData, isFetchingMove: isFetching }
-  const newState = state.set('fetchingData', changedFetchingData)
-  return newState
+  const nextState = state.set('fetchingData', changedFetchingData)
+  return nextState
 }
 
 const handleSetIsFetchingGameId = (
@@ -98,31 +100,48 @@ const handleSetIsFetchingGameId = (
 ) => {
   const fetchingData = state.get('fetchingData')
   const changedFetchingData = { ...fetchingData, isFetchingGameId: isFetching }
-  const newState = state.set('fetchingData', changedFetchingData)
-  return newState
+  const nextState = state.set('fetchingData', changedFetchingData)
+  return nextState
 }
 
 const handleSetMessage = (
   state: Record<GameState> & Readonly<GameState>,
   message: Message,
 ) => {
-  const newState = state.set('message', message)
-  return newState
+  const nextState = state.set('message', message)
+  return nextState
 }
 
 const handleSetNewGameModalOpened = (
   state: Record<GameState> & Readonly<GameState>,
 ) => {
-  const newState = state.set('isNewGameModalOpened', true)
-  return newState
+  const nextState = state.set('isNewGameModalOpened', true)
+  return nextState
 }
 
 const handleSetNewGameModalClosed = (
   state: Record<GameState> & Readonly<GameState>,
 ) => {
-  const newState = state.set('isNewGameModalOpened', false)
-  return newState
+  const nextState = state.set('isNewGameModalOpened', false)
+  return nextState
 }
+
+const handleSetLastGameSnapshot = (
+  state: Record<GameState> & Readonly<GameState>,
+) => {
+  const lastGameSnapshot = state.get('gameSnapshots').first() as Record<GameState> & Readonly<GameState>
+  const restGameSnapshots = state.get('gameSnapshots').shift()
+
+  if (restGameSnapshots.size > 0) {
+    const nextState = lastGameSnapshot.set('gameSnapshots', restGameSnapshots)
+    return nextState
+  } else {
+    const message = {content: 'No moves to undo', status: MessageStatus.warning}
+    const nextState = state.set('message', message)
+    return nextState
+  }
+}
+
 
 export {
   handleStartNewGame,
@@ -133,5 +152,6 @@ export {
   handleSetIsFetchingGameId,
   handleSetMessage,
   handleSetNewGameModalOpened,
-  handleSetNewGameModalClosed
+  handleSetNewGameModalClosed,
+  handleSetLastGameSnapshot
 }
