@@ -9,11 +9,13 @@ import { Field } from '../models/field-model'
 import MessageStatus from '../models/message-status'
 import Message from '../models/message'
 import Move from '../models/move-model'
+import GameMode from '../models/game-mode'
 
 type Row = List<Field>
 
 const handleStartNewGame = (
   state: Record<GameState> & Readonly<GameState>,
+  gameMode: GameMode,
   gameId: string,
 ) => {
   const message = {content: 'New game starts', status: MessageStatus.info}
@@ -22,6 +24,19 @@ const handleStartNewGame = (
     .set('gameId', gameId)
     .set('isGameOver', false)
     .set('isNewGameModalOpened', false)
+    .set('gameMode', gameMode)
+  return nextState
+}
+
+const handleSetGameMode = (
+  state: Record<GameState> & Readonly<GameState>,
+  gameMode: GameMode,
+) => {
+  const content = gameMode === GameMode.onePlayer ? 'One player mode' : 'Two players mode'
+  const message = {content, status: MessageStatus.info}
+  const nextState = state
+    .set('message', message)
+    .set('gameMode', gameMode)
   return nextState
 }
 
@@ -145,6 +160,7 @@ const handleSetLastGameSnapshot = (
 
 export {
   handleStartNewGame,
+  handleSetGameMode,
   handleSetFromCoordinates,
   handleMakeFigureMove,
   handleForbiddenMove,

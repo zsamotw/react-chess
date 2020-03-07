@@ -10,6 +10,7 @@ import {
   setNewGameModalClosed,
   setNewGameModalOpened,
   setLastGameSnapshot,
+  setGameMode,
 } from '../actions'
 import { rows } from '../../models/board-model'
 import { Record, List } from 'immutable'
@@ -24,12 +25,15 @@ import {
   handleSetMessage,
   handleSetNewGameModalOpened,
   handleSetNewGameModalClosed,
-  handleSetLastGameSnapshot
+  handleSetLastGameSnapshot,
+  handleSetGameMode
 } from '../action-handlers'
 import Color from '../../models/color'
+import GameMode from '../../models/game-mode'
 
 const makeInitialState = Record({
   gameId: null,
+  gameMode: GameMode.onePlayer,
   board: List([]),
   isGameOver: false,
   activePlayerColor: Color.white,
@@ -45,9 +49,18 @@ const makeInitialState = Record({
 const initialGameState = makeInitialState({ board: rows })
 
 const gameReducer = createReducer(initialGameState, {
-  [startNewGame.type]: (state, action) =>
-    handleStartNewGame(
+  [startNewGame.type]: (state, action) => {
+    const gameMode = state.get('gameMode')
+    const gameId = action.payload
+    return handleStartNewGame(
       initialGameState as Record<GameState> & Readonly<GameState>,
+      gameMode,
+      gameId
+    )
+  },
+  [setGameMode.type]: (state, action) =>
+    handleSetGameMode(
+      state as Record<GameState> & Readonly<GameState>,
       action.payload,
     ),
   [setFromCoordinates.type]: (state, action) =>

@@ -6,6 +6,7 @@ import {
   getIsGameOver,
   getMoves,
   getCapturedFigures,
+  getGameMode,
 } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { connect } from 'react-redux'
@@ -14,6 +15,7 @@ import Color from '../models/color'
 import Move from '../models/move-model'
 import CapturedFigures from '../models/captured-figures'
 import { undoLastMove } from '../redux/actions'
+import GameMode from '../models/game-mode'
 
 const Panel = styled.div`
   background-color: white;
@@ -28,12 +30,12 @@ const Panel = styled.div`
   @media screen and (max-width: 1200px) {
     width: 64vh;
     margin-left: 0;
-    margin-top: 3rem; 
+    margin-top: 3rem;
     height: 28vh;
   }
 `
 
-const ActivePlayerColorSection = styled.section`
+const PanelHeader = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -55,19 +57,25 @@ const Player = styled.div`
   font-size: 0.7rem;
 `
 
+const GameModeInfo = styled.div`
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+`
+
 const UndoButton = styled.button`
-  /* temporary display none */
+/* temporary display none */
   display: none;
   border-radius: 5px;
   border-color: transparent;
-  padding: .3rem .5rem;
+  padding: 0.3rem 0.5rem;
   cursor: pointer;
   text-transform: uppercase;
   background-color: #dbdbdb;
 
   &:hover {
     background-color: #7d7c7c;
-    color: #EEEDED;
+    color: #eeeded;
   }
 `
 
@@ -110,14 +118,23 @@ const CheckMate = styled.span`
 `
 
 function GamePanel(props: {
-  isGame: boolean,
-  isGameOver: boolean,
-  activePlayerColor: string,
-  moves: List<Move>,
-  capturedFigures: CapturedFigures,
+  isGame: boolean
+  isGameOver: boolean
+  gameMode: GameMode
+  activePlayerColor: string
+  moves: List<Move>
+  capturedFigures: CapturedFigures
   undoMove: any
 }) {
-  const { isGame, isGameOver, activePlayerColor, moves, capturedFigures, undoMove } = props
+  const {
+    isGame,
+    isGameOver,
+    gameMode,
+    activePlayerColor,
+    moves,
+    capturedFigures,
+    undoMove,
+  } = props
   const isWhitePlayer = activePlayerColor === Color.white
   const styles = {
     panelStyles: {
@@ -130,6 +147,9 @@ function GamePanel(props: {
     },
     playerStyle: {
       color: isWhitePlayer ? 'black' : 'white',
+    },
+    gameModeStyle: {
+      opacity: isGame ? 1 : 0,
     },
     undoButtonStyles: {
       opacity: isGame ? 1 : 0,
@@ -150,25 +170,38 @@ function GamePanel(props: {
 
   return (
     <Panel style={styles.panelStyles}>
-      <ActivePlayerColorSection>
+      <PanelHeader>
         <ActivePlayerColor style={styles.activePlayerColorStyles}>
           <Player style={styles.playerStyle}>
             {isWhitePlayer ? 'White' : 'Black'}
           </Player>
         </ActivePlayerColor>
         {isGameOver ? <CheckMate>Check Mate</CheckMate> : null}
-        <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>UNDO</UndoButton>
-      </ActivePlayerColorSection>
+        <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>
+          UNDO
+        </UndoButton>
+      </PanelHeader>
       <CapturedFiguresSection>
-        <div>{capturedFigures.white.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)}</div>
-        <div>{capturedFigures.black.map((icon: string, index: number) => <Icon  src={icon} alt='' key={icon+index}></Icon>)}</div>
+        <div>
+          {capturedFigures.white.map((icon: string, index: number) => (
+            <Icon src={icon} alt='' key={icon + index}></Icon>
+          ))}
+        </div>
+        <div>
+          {capturedFigures.black.map((icon: string, index: number) => (
+            <Icon src={icon} alt='' key={icon + index}></Icon>
+          ))}
+        </div>
       </CapturedFiguresSection>
+      <GameModeInfo style={styles.gameModeStyle}>{gameMode}</GameModeInfo>
       <GameMovesSection>
         {moves.map((move: Move, index: number) => (
           <PlayerMove key={index}>
             <div style={styles.indexStyles}>{moves.size - index}</div>
             <MoveColor
-              style={styles.getBackgroundColor(move.color as string)}></MoveColor>
+              style={styles.getBackgroundColor(
+                move.color as string,
+              )}></MoveColor>
             <div style={styles.startingPointCoordinateStyles}>
               {move.startingPointCoordinate}
             </div>
@@ -184,14 +217,22 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
   const activePlayerColor = getActivePlayerColor(state)
   const isGameOver = getIsGameOver(state)
-  const isGame = !!gameId 
+  const isGame = !!gameId
   const moves = getMoves(state)
   const capturedFigures = getCapturedFigures(state)
-  return { activePlayerColor, isGame, moves, capturedFigures, isGameOver }
+  const gameMode = getGameMode(state)
+  return {
+    activePlayerColor,
+    isGame,
+    moves,
+    capturedFigures,
+    isGameOver,
+    gameMode,
+  }
 }
 const mapDispatchToState = (dispatch: any) => {
   return {
-    undoMove: () => undoLastMove(dispatch)
+    undoMove: () => undoLastMove(dispatch),
   }
 }
 
