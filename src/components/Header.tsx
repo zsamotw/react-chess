@@ -20,15 +20,16 @@ const Title = styled.div`
 `
 
 const NewGameButton = styled.button`
-  color: #d0cccc;
+  color: #fff;
   border-radius: 5px;
   background-color: transparent;
   border-color: transparent;
   padding: 0.1rem 0.2rem;
   cursor: pointer;
+  text-transform: uppercase;
 
   &:hover {
-    color: #fff;
+    color: #dfdfdf;
   }
 `
 

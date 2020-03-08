@@ -104,6 +104,7 @@ function NewGameDialogContent(props: {
           onChange={setOnePlayerMode}
           value='One player'
           name='radio-one-player'
+          color="default"
           size='small'
         />
         <Radio
@@ -111,6 +112,7 @@ function NewGameDialogContent(props: {
           onChange={setTwoPlayersMode}
           value='Two players'
           name='radio-two-players'
+          color="default"
           size='small'
         />
         <label>{GameMode.twoPlayers}</label>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useDrag } from 'react-dnd'
-import { getGameId, getIsGameOver } from '../redux/selectors'
+import { getGameId, getIsGameOver, getIsFetchingMove } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { Record } from 'immutable'
 import { connect } from 'react-redux'
@@ -19,13 +19,14 @@ function Icon(props: {
   coordinates: string,
   onDragIconFromStartingPoint: (coordinates: string) => any,
   gameId: string | null,
-  isGameOver: boolean
+  isGameOver: boolean,
+  isFetchingMove: boolean
 }) {
-  const { icon, coordinates, onDragIconFromStartingPoint, gameId, isGameOver } = props
+  const { icon, coordinates, onDragIconFromStartingPoint, gameId, isGameOver, isFetchingMove } = props
   const [{ isDragging }, drag] = useDrag({
     item: { type: iconType },
     begin: () => onDragIconFromStartingPoint(coordinates),
-    canDrag: () => !!gameId && !isGameOver,
+    canDrag: () => !!gameId && !isGameOver && !isFetchingMove,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -41,7 +42,8 @@ function Icon(props: {
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
   const isGameOver = getIsGameOver(state)
-  return { gameId, isGameOver }
+  const isFetchingMove = getIsFetchingMove(state)
+  return { gameId, isGameOver, isFetchingMove }
 }
 
 export default connect(mapStateToProps)(Icon)

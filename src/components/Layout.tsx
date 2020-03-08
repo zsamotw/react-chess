@@ -23,8 +23,8 @@ const ContentWrapper = styled.div`
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  padding-top: 3rem;
 `
 
 const FooterWrapper = styled.footer`

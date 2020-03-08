@@ -3,6 +3,12 @@ import axios from 'axios'
 import MessageStatus from '../models/message-status'
 import GameMode from '../models/game-mode'
 
+const axios$ = axios.create({
+  baseURL: 'http://chess-api-chess.herokuapp.com/api/v1/chess'
+})
+
+// Actions
+
 const startNewGame = createAction('New game', gameId => gameId)
 const setGameMode = createAction('Set game mode', gameMode => gameMode)
 const makeFigureMove = createAction('Make move', coordinates => coordinates)
@@ -15,6 +21,9 @@ const setNewGameModalOpened = createAction('Set new game modal opened')
 const setNewGameModalClosed = createAction('Set new game modal closed')
 const setLastGameSnapshot = createAction('Set last game snapshot')
 
+
+// Thunk actions
+
 const makePlayerMove = (to: string, dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
     const from = getState().get('currentMoveStartingPoint')
@@ -23,8 +32,8 @@ const makePlayerMove = (to: string, dispatch: any) => {
       dispatch(setIsFetchingMove({ payload: true }))
       const game_id = getState().get('gameId')
       const gameMode = getState().get('gameMode')
-      const urlPostMove = gameMode === GameMode.onePlayer ? 'http://chess-api-chess.herokuapp.com/api/v1/chess/one/move/player' : 'http://chess-api-chess.herokuapp.com/api/v1/chess/two/move'
-      axios
+      const urlPostMove = gameMode === GameMode.onePlayer ? '/one/move/player' : '/two/move'
+      axios$
         .post(
           urlPostMove,
           { from, to, game_id },
@@ -34,16 +43,17 @@ const makePlayerMove = (to: string, dispatch: any) => {
           if (data.status === 'error: invalid move!') {
             dispatch(forbiddenMove())
           } else {
-            const urlPostCheck = gameMode === GameMode.onePlayer ? 'http://chess-api-chess.herokuapp.com/api/v1/chess/one/check' : 'http://chess-api-chess.herokuapp.com/api/v1/chess/two/check'
-            axios
+            const urlPostCheck = gameMode === GameMode.onePlayer ? '/one/check' : '/two/check'
+            axios$
               .post(
                 urlPostCheck,
                 { game_id },
               )
               .then(result => {
                 const { status } = result.data
+                const isGameOver = getState().get('isGameOver')
                 dispatch(makeFigureMove({ payload: { from, to, status } }))
-                if (gameMode === GameMode.onePlayer)
+                if (gameMode === GameMode.onePlayer && !isGameOver)
                   makeComputerMove(dispatch, game_id)
               })
           }
@@ -58,14 +68,14 @@ const makePlayerMove = (to: string, dispatch: any) => {
 }
 
 const makeComputerMove = (dispatch: any, gameId: string) => {
-  axios
-    .post('http://chess-api-chess.herokuapp.com/api/v1/chess/one/move/ai', {
+  axios$
+    .post('/one/move/ai', {
       game_id: gameId,
     })
     .then(moveResult => {
       const { from, to } = moveResult.data
-      axios
-        .post('http://chess-api-chess.herokuapp.com/api/v1/chess/one/check', {
+      axios$
+        .post('/one/check', {
           game_od: gameId,
         })
         .then(gameStatusResult => {
@@ -84,8 +94,8 @@ const makeComputerMove = (dispatch: any, gameId: string) => {
 
 const getNewGameId = (dispatch: any, gameMode: GameMode) => {
   dispatch(setIsFetchingGameId({ payload: true }))
-  const url = gameMode === GameMode.onePlayer ? 'http://chess-api-chess.herokuapp.com/api/v1/chess/one' : 'http://chess-api-chess.herokuapp.com/api/v1/chess/two'
-  axios
+  const url = gameMode === GameMode.onePlayer ? '/one' : '/two'
+  axios$
     .get(url)
     .then(result => {
       dispatch(startNewGame({ payload: result.data.game_id }))
@@ -101,8 +111,8 @@ const undoLastMove = (dispatch: any) => {
   return dispatch((dispatch: any, getState: any) => {
     const game_id = getState().get('gameId')
     const gameMode = getState().get('gameMode')
-    const url = gameMode === GameMode.onePlayer ? 'http://chess-api-chess.herokuapp.com/api/v1/chess/one/undo' : 'http://chess-api-chess.herokuapp.com/api/v1/chess/two/undo'
-    axios
+    const url = gameMode === GameMode.onePlayer ? '/one/undo' : '/two/undo'
+    axios$
       .post(url, {
         game_id,
       })

@@ -42,6 +42,11 @@ const getIsFetchingGameId = (state: Record<GameState> & Readonly<GameState>) => 
   return fetchingData.isFetchingGameId
 }
 
+const getIsFetchingMove = (state: Record<GameState> & Readonly<GameState>) => {
+  const fetchingData = state.get('fetchingData')
+  return fetchingData.isFetchingMove
+}
+
 const getCapturedFigures = (state: Record<GameState> & Readonly<GameState>) => {
   const capturedFigures = state.get('capturedFigures')
   return capturedFigures
@@ -52,4 +57,4 @@ const getIsNewGameModalOpened = (state: Record<GameState> & Readonly<GameState>)
   return isNewGameModalOpened
 }
 
-export { getBoard, getGameId, getGameMode, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId, getCapturedFigures, getIsNewGameModalOpened }
+export { getBoard, getGameId, getGameMode, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId, getIsFetchingMove, getCapturedFigures, getIsNewGameModalOpened }
