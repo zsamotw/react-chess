@@ -15,4 +15,5 @@ Source of chess icons: https://commons.wikimedia.org/wiki/File:Chess_Pieces_Spri
 ## Screens
 ![screen gif](/readme/chess1.png)  
 ![screen gif](/readme/chess2.png)  
+![screen gif](/readme/chess3.png)  
 ![screen gif](/readme/chess.gif)
