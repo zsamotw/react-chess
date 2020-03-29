@@ -35,6 +35,7 @@ const makeInitialState = Record({
   gameId: null,
   gameMode: GameMode.onePlayer,
   board: List([]),
+  status: '',
   isGameOver: false,
   activePlayerColor: Color.white,
   fetchingData: { isFetchingGameId: false, isFetchingMove: false },

@@ -7,6 +7,7 @@ import {
   getMoves,
   getCapturedFigures,
   getGameMode,
+  getStatus,
 } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { connect } from 'react-redux'
@@ -49,7 +50,7 @@ const ActivePlayerColor = styled.div`
   height: 3rem;
   border-radius: 30px;
   border: 1px solid black;
-  margin-bottom: 1rem;
+  margin: 0 1rem 1rem 0;
   transition: all 0.5s ease;
 `
 
@@ -112,22 +113,24 @@ const MoveColor = styled.div`
   display: inline-block;
 `
 
-const CheckMate = styled.span`
+const EndGameStatus = styled.div`
   color: red;
   font-size: 1.3rem;
 `
 
 function GamePanel(props: {
-  isGame: boolean
-  isGameOver: boolean
-  gameMode: GameMode
-  activePlayerColor: string
-  moves: List<Move>
-  capturedFigures: CapturedFigures
+  isGame: boolean,
+  status: string,
+  isGameOver: boolean,
+  gameMode: GameMode,
+  activePlayerColor: string,
+  moves: List<Move>,
+  capturedFigures: CapturedFigures,
   undoMove: any
 }) {
   const {
     isGame,
+    status,
     isGameOver,
     gameMode,
     activePlayerColor,
@@ -176,7 +179,7 @@ function GamePanel(props: {
             {isWhitePlayer ? 'White' : 'Black'}
           </Player>
         </ActivePlayerColor>
-        {isGameOver ? <CheckMate>Check Mate</CheckMate> : null}
+        {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
         <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>
           UNDO
         </UndoButton>
@@ -216,6 +219,7 @@ function GamePanel(props: {
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameId = getGameId(state)
   const activePlayerColor = getActivePlayerColor(state)
+  const status = getStatus(state)
   const isGameOver = getIsGameOver(state)
   const isGame = !!gameId
   const moves = getMoves(state)
@@ -226,6 +230,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
     isGame,
     moves,
     capturedFigures,
+    status,
     isGameOver,
     gameMode,
   }

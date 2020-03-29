@@ -78,10 +78,11 @@ const handleMakeFigureMove = (
   const moves = state.get('moves').unshift(move)
   const capturedFigures = state.get('capturedFigures')
   const nextCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
-  const isGameOver = status === 'check mate' ? true : false
+  const isGameOver = status !== 'game continues'
   const nextGameSnapshots = state.get('gameSnapshots').unshift(state)
   const nextState = state
     .set('board', nextBoard)
+    .set('status', status)
     .set('isGameOver', isGameOver)
     .set('activePlayerColor', nextPlayerColor)
     .set('moves', moves)

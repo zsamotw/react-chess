@@ -13,6 +13,7 @@ export default interface GameState {
   gameId: string | null,
   gameMode: GameMode,
   board: List<Row>,
+  status: string,
   isGameOver: boolean,
   activePlayerColor: Color,
   fetchingData: FetchingData,

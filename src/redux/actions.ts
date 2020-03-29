@@ -76,7 +76,7 @@ const makeComputerMove = (dispatch: any, gameId: string) => {
       const { from, to } = moveResult.data
       axios$
         .post('/one/check', {
-          game_od: gameId,
+          game_id: gameId,
         })
         .then(gameStatusResult => {
           const { status } = gameStatusResult.data

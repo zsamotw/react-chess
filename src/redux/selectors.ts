@@ -32,6 +32,11 @@ const getMoves = (state: Record<GameState> & Readonly<GameState>) => {
   return  moves 
 }
 
+const getStatus = (state: Record<GameState> & Readonly<GameState>) => {
+  const status = state.get('status')
+  return status
+}
+
 const getIsGameOver = (state: Record<GameState> & Readonly<GameState>) => {
   const isGameOver = state.get('isGameOver')
   return isGameOver
@@ -57,4 +62,17 @@ const getIsNewGameModalOpened = (state: Record<GameState> & Readonly<GameState>)
   return isNewGameModalOpened
 }
 
-export { getBoard, getGameId, getGameMode, getActivePlayerColor, getMessage, getMoves, getIsGameOver, getIsFetchingGameId, getIsFetchingMove, getCapturedFigures, getIsNewGameModalOpened }
+export {
+  getBoard,
+  getGameId,
+  getGameMode,
+  getActivePlayerColor,
+  getMessage,
+  getMoves,
+  getStatus,
+  getIsGameOver,
+  getIsFetchingGameId,
+  getIsFetchingMove,
+  getCapturedFigures,
+  getIsNewGameModalOpened,
+}
