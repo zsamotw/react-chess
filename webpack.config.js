@@ -38,8 +38,19 @@ module.exports = {
             __dirname,
             './webpack.ts-transformers.js'
           )
-        }
-      }
+        },
+      },
+      {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[hash]-[name].[ext]',
+            },
+          },
+        ],
+      },
     ]
   },
   "plugins": [new HtmlWebPackPlugin({
