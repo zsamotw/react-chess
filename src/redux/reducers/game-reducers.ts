@@ -26,7 +26,7 @@ import {
   handleSetNewGameModalOpened,
   handleSetNewGameModalClosed,
   handleSetLastGameSnapshot,
-  handleSetGameMode
+  handleSetGameMode,
 } from '../action-handlers'
 import Color from '../../models/color'
 import GameMode from '../../models/game-mode'
@@ -44,7 +44,7 @@ const makeInitialState = Record({
   moves: List([]),
   capturedFigures: { white: List([]), black: List([]) },
   isNewGameModalOpened: true,
-  gameSnapshots: List([])
+  gameSnapshots: List([]),
 } as GameState)
 
 const initialGameState = makeInitialState({ board: rows })
@@ -56,57 +56,29 @@ const gameReducer = createReducer(initialGameState, {
     return handleStartNewGame(
       initialGameState as Record<GameState> & Readonly<GameState>,
       gameMode,
-      gameId
+      gameId,
     )
   },
   [setGameMode.type]: (state, action) =>
-    handleSetGameMode(
-      state as Record<GameState> & Readonly<GameState>,
-      action.payload,
-    ),
+    handleSetGameMode(state as any, action.payload),
   [setFromCoordinates.type]: (state, action) =>
-    handleSetFromCoordinates(
-      state as Record<GameState> & Readonly<GameState>,
-      action.payload,
-    ),
+    handleSetFromCoordinates(state as any, action.payload),
   [makeFigureMove.type]: (state, action) => {
     const { from, to, status } = action.payload
-    return handleMakeFigureMove(
-      state as Record<GameState> & Readonly<GameState>,
-      from,
-      to,
-      status,
-    )
+    return handleMakeFigureMove(state as any, from, to, status)
   },
-  [forbiddenMove.type]: (state) =>
-    handleForbiddenMove(state as Record<GameState> & Readonly<GameState>),
+  [forbiddenMove.type]: state => handleForbiddenMove(state as any),
   [setIsFetchingMove.type]: (state, action) =>
-    handleSetIsFetchingMove(
-      state as Record<GameState> & Readonly<GameState>,
-      action.payload,
-    ),
+    handleSetIsFetchingMove(state as any, action.payload),
   [setIsFetchingGameId.type]: (state, action) =>
-    handleSetIsFetchingGameId(
-      state as Record<GameState> & Readonly<GameState>,
-      action.payload,
-    ),
+    handleSetIsFetchingGameId(state as any, action.payload),
   [setMessage.type]: (state, action) =>
-    handleSetMessage(
-      state as Record<GameState> & Readonly<GameState>,
-      action.payload,
-    ),
-  [setNewGameModalOpened.type]: (state) =>
-    handleSetNewGameModalOpened(
-      state as Record<GameState> & Readonly<GameState>,
-    ),
-  [setNewGameModalClosed.type]: (state) =>
-    handleSetNewGameModalClosed(
-      state as Record<GameState> & Readonly<GameState>,
-    ),
-  [setLastGameSnapshot.type]: (state) =>
-    handleSetLastGameSnapshot(
-      state as Record<GameState> & Readonly<GameState>
-    ),
+    handleSetMessage(state as any, action.payload),
+  [setNewGameModalOpened.type]: state =>
+    handleSetNewGameModalOpened(state as any),
+  [setNewGameModalClosed.type]: state =>
+    handleSetNewGameModalClosed(state as any),
+  [setLastGameSnapshot.type]: state => handleSetLastGameSnapshot(state as any),
 })
 
 export { gameReducer }

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Radio from '@material-ui/core/Radio'
-import { getGameMode } from '../redux/selectors'
+import { getGameMode, isGameIdNotNull } from '../redux/selectors'
 import GameState from '../models/store-model'
 import { Record } from 'immutable'
 import GameMode from '../models/game-mode'
@@ -42,7 +42,6 @@ const ModalButton = styled.button`
 `
 const NewGameButton = styled(ModalButton)`
   background-color: #dbdbdb;
-  margin-left: 2rem;
 
   &:hover {
     background-color: #7d7c7c;
@@ -51,6 +50,7 @@ const NewGameButton = styled(ModalButton)`
 `
 const CancelButton = styled(ModalButton)`
   background-color: #fff;
+  margin-right: 2rem;
 
   &:hover {
     background-color: rgb(245, 245, 245);
@@ -67,20 +67,21 @@ const useStyles = makeStyles({
 })
 
 function NewGameDialogContent(props: {
-  getNewGame: any
-  closeModal: any
-  gameMode: GameMode
-  setOnePlayerMode: any
-  setTwoPlayersMode: any
+  getNewGame: any,
+  closeModal: any,
+  gameMode: GameMode,
+  canClose: boolean,
+  setOnePlayerMode: any,
+  setTwoPlayersMode: any,
 }) {
   const {
     getNewGame,
     closeModal,
     gameMode,
+    canClose,
     setOnePlayerMode,
     setTwoPlayersMode,
   } = props
-
   const handleStartNewGame = () => {
     closeModal()
     getNewGame(gameMode)
@@ -88,15 +89,18 @@ function NewGameDialogContent(props: {
 
   const classes = useStyles()
 
-  return (
-    <ContentContainer>
-      <DialogTitle>Start new game</DialogTitle>
+  const closeIcon = 
       <IconButton
         aria-label='close'
         className={classes.iconButton}
         onClick={closeModal}>
         <CloseIcon />
       </IconButton>
+
+  return (
+    <ContentContainer>
+      <DialogTitle>Start new game</DialogTitle>
+      {canClose ? closeIcon : null}
       <GameModeRadio>
         <label>{GameMode.onePlayer}</label>
         <Radio
@@ -118,7 +122,7 @@ function NewGameDialogContent(props: {
         <label>{GameMode.twoPlayers}</label>
       </GameModeRadio>
       <ButtonsWrapper>
-        <CancelButton onClick={closeModal}>Cancel</CancelButton>
+        {canClose ? <CancelButton onClick={closeModal}>Cancel</CancelButton> : null}
         <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
       </ButtonsWrapper>
     </ContentContainer>
@@ -127,7 +131,8 @@ function NewGameDialogContent(props: {
 
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameMode = getGameMode(state)
-  return { gameMode }
+  const canClose = isGameIdNotNull(state)
+  return { gameMode, canClose }
 }
 
 const mapDispatchToState = (dispatch: any) => {
