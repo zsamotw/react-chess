@@ -2,10 +2,6 @@ import Color from "../models/color"
 import MessageStatus from "../models/message-status"
 import CapturedFigures from "../models/captured-figures"
 import Figure from "../models/figure-model"
-import { List } from "immutable"
-import { Field } from "../models/field-model"
-
-type Row = List<Field>
 
 const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')
@@ -16,46 +12,6 @@ const parseMoveData = (from: string, to: string) => {
     toRowIndex: mapNumberToIndex(toRowNumber),
     toFieldIndex: mapLetterToFieldIndex(toFieldLetter)
   }
-}
-
-const makeFigureMove = (from: string, to: string, board: List<Row>) => {
-  const {
-    fromRowIndex,
-    fromFieldIndex,
-    toRowIndex,
-    toFieldIndex,
-  } = parseMoveData(from, to)
-  const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
-  const fieldTo = board.getIn([toRowIndex, toFieldIndex])
-  const figure = fieldFrom.figure
-  const nextEmptyField = {
-    coordinates: fieldFrom.coordinates,
-    figure: { type: 'Empty', icon: '', color: 'None' },
-  }
-  const nextNotEmptyField = { coordinates: fieldTo.coordinates, figure }
-  const nextBoard = board
-    .setIn([fromRowIndex, fromFieldIndex], nextEmptyField)
-    .setIn([toRowIndex, toFieldIndex], nextNotEmptyField)
-  return {nextBoard, possibleCapturedFigure: fieldTo.figure}
-}
-
-const checkCastling = (from: string, to: string, board: List<Row>) => {
-  if (from === 'e1' && to === 'g1')
-    return makeFigureMove('h1', 'f1', board)
-  else if (from === 'e1' && to === 'c1')
-    return makeFigureMove('a1', 'd1', board)
-  else if (from === 'e8' && to === 'g8')
-    return makeFigureMove('h8', 'f8', board)
-  else if (from === 'e8' && to === 'c8')
-    return makeFigureMove('a8', 'd8', board)
-  else
-    return {nextBoard: board}
-}
-
-const getBoardAfterMove = (from: string, to: string, board: List<Row>) => {
-  const stateAfterFigureMove = makeFigureMove(from, to, board)
-  const {nextBoard} = checkCastling(from, to, stateAfterFigureMove.nextBoard)
-  return {nextBoard, possibleCapturedFigure: stateAfterFigureMove.possibleCapturedFigure}
 }
 
 const mapLetterToFieldIndex = (letter: string) => {
@@ -104,4 +60,4 @@ const computeCapturedFigures = (figure: Figure, capturedFigures: CapturedFigures
   }
 }
 
-export { parseMoveData, getBoardAfterMove, switchPlayerColor, getMessage, computeCapturedFigures }
+export { parseMoveData, switchPlayerColor, getMessage, computeCapturedFigures }

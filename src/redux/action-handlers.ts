@@ -1,9 +1,9 @@
 import { List, Record } from 'immutable'
 import GameState from '../models/store-model'
 import {
+  parseMoveData,
   switchPlayerColor,
   computeCapturedFigures,
-  getBoardAfterMove,
 } from '../helpers/board-helper'
 import { Field } from '../models/field-model'
 import MessageStatus from '../models/message-status'
@@ -54,14 +54,30 @@ const handleMakeFigureMove = (
   to: string,
   status: string
 ) => {
+  const {
+    fromRowIndex,
+    fromFieldIndex,
+    toRowIndex,
+    toFieldIndex,
+  } = parseMoveData(from, to)
   const board = state.get('board') as List<Row>
-  const { nextBoard, possibleCapturedFigure } = getBoardAfterMove(from, to, board)
+  const fieldFrom = board.getIn([fromRowIndex, fromFieldIndex])
+  const fieldTo = board.getIn([toRowIndex, toFieldIndex])
+  const figure = fieldFrom.figure
+  const nextEmptyField = {
+    coordinates: fieldFrom.coordinates,
+    figure: { type: 'Empty', icon: '', color: 'None' },
+  }
+  const nextNotEmptyField = { coordinates: fieldTo.coordinates, figure }
+  const nextBoard = board
+    .setIn([fromRowIndex, fromFieldIndex], nextEmptyField)
+    .setIn([toRowIndex, toFieldIndex], nextNotEmptyField)
   const currentPlayerColor = state.get('activePlayerColor')
   const nextPlayerColor = switchPlayerColor(currentPlayerColor)
   const move = { startingPointCoordinate: from, endPointCoordinate: to, color: currentPlayerColor} as Move
   const moves = state.get('moves').unshift(move)
   const capturedFigures = state.get('capturedFigures')
-  const nextCapturedFigures = computeCapturedFigures(possibleCapturedFigure, capturedFigures)
+  const nextCapturedFigures = computeCapturedFigures(fieldTo.figure, capturedFigures)
   const isGameOver = status !== 'game continues'
   const nextGameSnapshots = state.get('gameSnapshots').unshift(state)
   const nextState = state
