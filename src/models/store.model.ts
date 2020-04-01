@@ -1,13 +1,11 @@
 import { List } from 'immutable'
-import { Field } from './field-model'
-import Color from './color'
-import FetchingData from './fetching-data'
-import Message from './message'
-import Move from './move-model'
-import CapturedFigures from './captured-figures'
-import GameMode from './game-mode'
-
-type Row = List<Field>
+import Color from './color.model'
+import FetchingData from './fetching-data.model'
+import Message from './message.model'
+import Move from './move.model'
+import CapturedFigures from './captured-figures.model'
+import GameMode from './game.mode'
+import { Row } from './row-type'
 
 export default interface GameState {
   gameId: string | null,

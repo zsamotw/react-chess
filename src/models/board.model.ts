@@ -1,5 +1,5 @@
 import { List } from 'immutable'
-import { Field } from './field-model'
+import { Row } from './row-type'
 import BlackPawn from '../../public/images/Chess_pdt45.svg'
 import WhitePawn from '../../public/images/Chess_plt45.svg'
 import WhiteRook from  '../../public/images/Chess_rlt45.svg'
@@ -12,8 +12,6 @@ import BlackKnight from  '../../public/images/Chess_ndt45.svg'
 import BlackBishop from  '../../public/images/Chess_bdt45.svg'
 import BlackQueen from  '../../public/images/Chess_qdt45.svg'
 import BlackKing from  '../../public/images/Chess_kdt45.svg'
-
-type Row = List<Field>
 
 export interface Board {
   rows: List<Row>

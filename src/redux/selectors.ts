@@ -1,4 +1,4 @@
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import { Record } from 'immutable'
 
 

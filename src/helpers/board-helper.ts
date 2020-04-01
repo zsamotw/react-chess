@@ -1,11 +1,9 @@
-import Color from "../models/color"
-import MessageStatus from "../models/message-status"
-import CapturedFigures from "../models/captured-figures"
-import Figure from "../models/figure-model"
+import Color from "../models/color.model"
+import MessageStatus from "../models/message-status.model"
+import CapturedFigures from "../models/captured-figures.model"
+import Figure from "../models/figure.model"
 import { List } from "immutable"
-import { Field } from "../models/field-model"
-
-type Row = List<Field>
+import { Row } from '../models/row-type'
 
 const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')

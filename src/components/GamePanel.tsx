@@ -9,14 +9,14 @@ import {
   getGameMode,
   getStatus,
 } from '../redux/selectors'
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import { connect } from 'react-redux'
 import { Record, List } from 'immutable'
-import Color from '../models/color'
-import Move from '../models/move-model'
-import CapturedFigures from '../models/captured-figures'
+import Color from '../models/color.model'
+import Move from '../models/move.model'
+import CapturedFigures from '../models/captured-figures.model'
 import { undoLastMove } from '../redux/actions'
-import GameMode from '../models/game-mode'
+import GameMode from '../models/game.mode'
 
 const Panel = styled.div`
   background-color: white;

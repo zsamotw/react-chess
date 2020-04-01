@@ -1,4 +1,4 @@
-import Color from "./color";
+import Color from "./color.model";
 
 export default interface Move {
   startingPointCoordinate: string

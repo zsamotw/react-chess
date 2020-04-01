@@ -1,4 +1,4 @@
-import MessageStatus from "./message-status";
+import MessageStatus from "./message-status.model";
 
 export default interface Message {
   content: string

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field as FieldModel} from '../models/field-model'
+import {Field as FieldModel} from '../models/field.model'
 import styled from 'styled-components'
 import Icon, { iconType } from './Icon'
 import { useDrop } from 'react-dnd'
