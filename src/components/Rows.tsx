@@ -18,14 +18,14 @@ const Row = styled.div`
 
 type FieldColor = 'white' | 'gray'
 
-const rowContainingFields = (
+const rowToHtml = (
   firstFieldColorInRow: FieldColor,
   row: Row,
   rowIndex: number,
 ) => {
   return (
     <Row key={rowIndex}>
-      {row.map((f: FieldModel) => <Field key={f.coordinates} field={f} firstFieldColorInRow={firstFieldColorInRow}></Field>)}
+      {row.map((f: FieldModel, fieldIndex: number) => <Field key={f.coordinates} field={f} fieldIndex={fieldIndex} rowIndex={rowIndex} firstFieldColorInRow={firstFieldColorInRow}></Field>)}
     </Row>
   )
 }
@@ -41,8 +41,8 @@ export default function Rows(props: { board: Board, isGame: boolean }) {
     <RowsContainer style={styles}>
       {board.rows.map((row: Row, rowIndex: number) =>
         isEven(rowIndex)
-          ? rowContainingFields('white', row, rowIndex)
-          : rowContainingFields('gray', row, rowIndex)
+          ? rowToHtml('white', row, rowIndex)
+          : rowToHtml('gray', row, rowIndex)
       )}
     </RowsContainer>
   )

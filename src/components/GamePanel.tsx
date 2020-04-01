@@ -116,6 +116,7 @@ const MoveColor = styled.div`
 const EndGameStatus = styled.div`
   color: red;
   font-size: 1.3rem;
+  text-transform: uppercase;
 `
 
 function GamePanel(props: {

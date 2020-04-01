@@ -5,6 +5,7 @@ import Icon, { iconType } from './Icon'
 import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
 import { setFromCoordinates, makePlayerMove } from '../redux/actions'
+import { mapRowNumber, mapFieldIndexToLetter } from '../helpers/board-helper'
 
 const FieldGeneric = styled.div`
   position: relative;
@@ -32,16 +33,37 @@ const FieldEachOddGrey = styled(FieldGeneric)`
   }
 `
 
+const Latitude = styled.div`
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  color: #958e8e;
+  font-size: .8rem;
+`
+
+const Longitude = styled.div`
+  position: absolute;
+  bottom: 0.3rem;
+  right: 0.3rem;
+  color: #958e8e;
+  font-size: .8rem;
+  text-transform: uppercase;
+`
+
 type FieldColor = 'white' | 'gray'
 
 function Field(props: {
   field: FieldModel,
+  fieldIndex: number,
+  rowIndex: number,
   firstFieldColorInRow: FieldColor,
   setCoordinatesForStartingPoint: any,
   dropOnEndPointField: any
 }) {
   const {
     field,
+    fieldIndex,
+    rowIndex,
     firstFieldColorInRow,
     setCoordinatesForStartingPoint,
     dropOnEndPointField,
@@ -65,6 +87,8 @@ function Field(props: {
     case 'white':
       return (
         <FieldEachEvenGrey key={field.coordinates} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
+          {fieldIndex === 0 ? <Latitude>{mapRowNumber(rowIndex)}</Latitude> : null}
+          {rowIndex === 7 ? <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude> : null}
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
@@ -74,6 +98,8 @@ function Field(props: {
     case 'gray':
       return (
         <FieldEachOddGrey key={field.coordinates} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
+          {fieldIndex === 0 ? <Latitude>{mapRowNumber(rowIndex)}</Latitude> : null}
+          {rowIndex === 7 ? <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude> : null}
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
