@@ -1,12 +1,9 @@
 import React from 'react'
-import { List } from 'immutable'
 import {Field as FieldModel} from '../models/field.model'
 import { Board } from '../models/board.model'
 import styled from 'styled-components'
 import Field from './Field'
 import { Row } from '../models/row-type'
-
-// type Row = List<FieldModel>
 
 const RowsContainer = styled.div`
   display: flex;
