@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import MessageStatus from '../models/message-status'
-import GameMode from '../models/game-mode'
+import MessageStatus from '../models/message-status.model'
+import GameMode from '../models/game.mode'
 
 const axios$ = axios.create({
   baseURL: 'http://chess-api-chess.herokuapp.com/api/v1/chess'

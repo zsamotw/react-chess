@@ -1,17 +1,15 @@
 import { List, Record } from 'immutable'
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import {
   switchPlayerColor,
   computeCapturedFigures,
   getBoardAfterMove,
 } from '../helpers/board-helper'
-import { Field } from '../models/field-model'
-import MessageStatus from '../models/message-status'
-import Message from '../models/message'
-import Move from '../models/move-model'
-import GameMode from '../models/game-mode'
-
-type Row = List<Field>
+import MessageStatus from '../models/message-status.model'
+import Message from '../models/message.model'
+import Move from '../models/move.model'
+import GameMode from '../models/game.mode'
+import { Row } from '../models/row-type'
 
 const handleStartNewGame = (
   state: Record<GameState> & Readonly<GameState>,

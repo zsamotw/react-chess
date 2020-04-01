@@ -1,4 +1,4 @@
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import { Record } from 'immutable'
 
 
@@ -62,11 +62,6 @@ const getIsNewGameModalOpened = (state: Record<GameState> & Readonly<GameState>)
   return isNewGameModalOpened
 }
 
-const isGameIdNotNull = (state: Record<GameState> & Readonly<GameState>) => {
-  const gameId = state.get('gameId')
-  return !!gameId
-}
-
 export {
   getBoard,
   getGameId,
@@ -80,5 +75,4 @@ export {
   getIsFetchingMove,
   getCapturedFigures,
   getIsNewGameModalOpened,
-  isGameIdNotNull
 }

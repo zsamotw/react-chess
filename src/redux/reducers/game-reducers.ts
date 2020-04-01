@@ -12,9 +12,9 @@ import {
   setLastGameSnapshot,
   setGameMode,
 } from '../actions'
-import { rows } from '../../models/board-model'
+import { rows } from '../../models/board.model'
 import { Record, List } from 'immutable'
-import GameState from '../../models/store-model'
+import GameState from '../../models/store.model'
 import {
   handleStartNewGame,
   handleMakeFigureMove,
@@ -28,8 +28,8 @@ import {
   handleSetLastGameSnapshot,
   handleSetGameMode,
 } from '../action-handlers'
-import Color from '../../models/color'
-import GameMode from '../../models/game-mode'
+import Color from '../../models/color.model'
+import GameMode from '../../models/game.mode'
 
 const makeInitialState = Record({
   gameId: null,
@@ -44,7 +44,7 @@ const makeInitialState = Record({
   moves: List([]),
   capturedFigures: { white: List([]), black: List([]) },
   isNewGameModalOpened: true,
-  gameSnapshots: List([]),
+  gameSnapshots: List([])
 } as GameState)
 
 const initialGameState = makeInitialState({ board: rows })
