@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useDrag } from 'react-dnd'
 import { getGameId, getIsGameOver, getIsFetchingMove } from '../redux/selectors'
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import { Record } from 'immutable'
 import { connect } from 'react-redux'
 

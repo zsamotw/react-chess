@@ -10,10 +10,10 @@ import styled from 'styled-components'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Radio from '@material-ui/core/Radio'
-import { getGameMode, isGameIdNotNull } from '../redux/selectors'
-import GameState from '../models/store-model'
+import { getGameMode, getGameId } from '../redux/selectors'
+import GameState from '../models/store.model'
 import { Record } from 'immutable'
-import GameMode from '../models/game-mode'
+import GameMode from '../models/game.mode'
 
 const ContentContainer = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ function NewGameDialogContent(props: {
   getNewGame: any,
   closeModal: any,
   gameMode: GameMode,
-  canClose: boolean,
+  canCloseModal: boolean,
   setOnePlayerMode: any,
   setTwoPlayersMode: any,
 }) {
@@ -78,7 +78,7 @@ function NewGameDialogContent(props: {
     getNewGame,
     closeModal,
     gameMode,
-    canClose,
+    canCloseModal,
     setOnePlayerMode,
     setTwoPlayersMode,
   } = props
@@ -89,18 +89,20 @@ function NewGameDialogContent(props: {
 
   const classes = useStyles()
 
-  const closeIcon = 
-      <IconButton
-        aria-label='close'
-        className={classes.iconButton}
-        onClick={closeModal}>
-        <CloseIcon />
-      </IconButton>
+  const closeIcon =
+    <IconButton
+      aria-label='close'
+      className={classes.iconButton}
+      onClick={closeModal}>
+      <CloseIcon />
+    </IconButton>
+
+  const closeButton = <CancelButton onClick={closeModal}>Cancel</CancelButton>
 
   return (
     <ContentContainer>
       <DialogTitle>Start new game</DialogTitle>
-      {canClose ? closeIcon : null}
+      {canCloseModal ? closeIcon : null}
       <GameModeRadio>
         <label>{GameMode.onePlayer}</label>
         <Radio
@@ -122,7 +124,7 @@ function NewGameDialogContent(props: {
         <label>{GameMode.twoPlayers}</label>
       </GameModeRadio>
       <ButtonsWrapper>
-        {canClose ? <CancelButton onClick={closeModal}>Cancel</CancelButton> : null}
+        {canCloseModal ? closeButton : null}
         <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
       </ButtonsWrapper>
     </ContentContainer>
@@ -131,8 +133,8 @@ function NewGameDialogContent(props: {
 
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   const gameMode = getGameMode(state)
-  const canClose = isGameIdNotNull(state)
-  return { gameMode, canClose }
+  const canCloseModal = !!getGameId(state)
+  return { gameMode, canCloseModal }
 }
 
 const mapDispatchToState = (dispatch: any) => {

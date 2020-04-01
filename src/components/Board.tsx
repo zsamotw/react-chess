@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Rows from './Rows'
-import GameState from '../models/store-model'
+import GameState from '../models/store.model'
 import {
   getBoard,
   getGameId,
@@ -9,16 +9,16 @@ import {
   getIsNewGameModalOpened,
 } from '../redux/selectors'
 import { connect } from 'react-redux'
-import { Board as BoardModel } from '../models/board-model'
+import { Board as BoardModel } from '../models/board.model'
 import styled from 'styled-components'
 import { Record } from 'immutable'
 import Snackbar from '@material-ui/core/Snackbar'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles } from '@material-ui/core/styles'
-import Message from '../models/message'
+import Message from '../models/message.model'
 import Alert from './Alert'
-import Color from '../models/color'
+import Color from '../models/color.model'
 import GameDialog from './GameDialog'
 import NewGameDialogContent from './NewGameDialogContent'
 

@@ -14,7 +14,7 @@ const AuthorInfo = styled.div`
 export default function Footer() {
   return (
     <Wrapper>
-      <AuthorInfo>Created by Tomasz</AuthorInfo>
+      <AuthorInfo>Created by Tomasz. Powered by <a href="https://github.com/anzemur/chess-api">Chess API</a></AuthorInfo>
     </Wrapper>
   )
 }
