@@ -12,8 +12,8 @@ const FieldGeneric = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70px;
-  width: 70px;
+  height: 8vmin;
+  width: 8vmin;
   font-size: 1.2rem;
   padding: 0.5rem;
   box-sizing: border-box;

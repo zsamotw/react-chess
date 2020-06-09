@@ -20,11 +20,16 @@ import GameMode from '../models/game.mode'
 
 const Panel = styled.div`
   background-color: white;
-  width: 560px;
+  width: 20vmax;
   box-sizing: border-box;
   user-select: none;
   font-size: 1rem;
-  margin-top: 3rem;
+  margin: 0 0 0 3rem;
+
+  @media screen and (max-width: 1024px){
+    width: 64vmin;
+    margin: 3rem 0 0 0;
+  }
 `
 
 const PanelHeader = styled.section`
@@ -93,8 +98,8 @@ const PlayerMove = styled.div`
 `
 
 const MoveColor = styled.div`
-  width: 0.9rem;
-  height: 0.9rem;
+  min-width: 0.9rem;
+  min-height: 0.9rem;
   border-radius: 20px;
   border: 1px solid black;
   display: inline-block;

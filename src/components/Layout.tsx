@@ -12,7 +12,12 @@ const Container = styled.div`
  `
 
 const ContentWrapper = styled.div`
+  display: flex;
   margin: 3rem auto;
+
+  @media screen and (max-width: 1024px){
+    flex-direction: column;
+  }
 `
 
 export default function Layout() {
