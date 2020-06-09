@@ -7,8 +7,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem 0 2rem;
-  height: 100%;
+  padding: .5rem 2rem;
+  background-color: #1e1d1b;
 `
 
 const Title = styled.div`
@@ -19,7 +19,7 @@ const Title = styled.div`
   letter-spacing: 30px;
 `
 
-const NewGameButton = styled.button`
+const ButtonNewGame = styled.button`
   color: #fff;
   border-radius: 5px;
   background-color: transparent;
@@ -37,7 +37,7 @@ function Header(props: { openNewGameModal: any }) {
   return (
     <Wrapper>
       <Title>Chess</Title>
-      <NewGameButton onClick={props.openNewGameModal}>New Game</NewGameButton>
+      <ButtonNewGame onClick={props.openNewGameModal}>New Game</ButtonNewGame>
     </Wrapper>
   )
 }

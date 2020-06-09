@@ -12,21 +12,21 @@ const FieldGeneric = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 8vh;
-  width: 8vh;
+  height: 70px;
+  width: 70px;
   font-size: 1.2rem;
   padding: 0.5rem;
   box-sizing: border-box;
 `
 const FieldEachEvenGrey = styled(FieldGeneric)`
-  background-color: white;
+  background-color: #f7f7f7;
 
   &:nth-child(even) {
     background-color: #c8c4c4;
   }
 `
 const FieldEachOddGrey = styled(FieldGeneric)`
-  background-color: white;
+  background-color: #f7f7f7;
 
   &:nth-child(odd) {
     background-color: #c8c4c4;
@@ -38,7 +38,7 @@ const Latitude = styled.div`
   top: 0.3rem;
   left: 0.3rem;
   color: #958e8e;
-  font-size: .8rem;
+  font-size: .6rem;
 `
 
 const Longitude = styled.div`
@@ -46,7 +46,7 @@ const Longitude = styled.div`
   bottom: 0.3rem;
   right: 0.3rem;
   color: #958e8e;
-  font-size: .8rem;
+  font-size: .6rem;
   text-transform: uppercase;
 `
 

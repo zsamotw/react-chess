@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 15vh;
+  max-height: 50vh;
   padding: 2rem;
 `
 
@@ -140,6 +140,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 const mapDispatchToState = (dispatch: any) => {
   return {
     getNewGame: (gameMode: GameMode) => getNewGameId(dispatch, gameMode),
+
     closeModal: () => dispatch(setNewGameModalClosed()),
     setOnePlayerMode: () => dispatch(setGameMode({ payload: GameMode.onePlayer })),
     setTwoPlayersMode: () => dispatch(setGameMode({ payload: GameMode.twoPlayers })),

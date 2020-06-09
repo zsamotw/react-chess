@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Rows from './Rows'
 import GameState from '../models/store.model'
 import {
@@ -21,6 +21,7 @@ import Alert from './Alert'
 import Color from '../models/color.model'
 import GameDialog from './GameDialog'
 import NewGameDialogContent from './NewGameDialogContent'
+import { setMessage } from '../redux/actions'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -28,18 +29,18 @@ const BoardContainer = styled.div`
   align-items: center;
 `
 
-const useStylesBackDrop = makeStyles(theme => ({
+const useStyles = makeStyles({
   backdrop: {
     opacity: 0.6,
     zIndex: 10000
-  },
-}))
+  }
+})
 
-const useStylesProgressBar = makeStyles(theme => ({
+const useStylesProgressBar = makeStyles({
   root: {
     color: '#575757'
-  },
-}))
+  }
+})
 
 function Board(props: {
   board: BoardModel,
@@ -47,17 +48,14 @@ function Board(props: {
   isGame: boolean,
   isFetchingGameId: boolean,
   activePlayerColor: Color,
-  isNewGameModalOpened: boolean
+  isNewGameModalOpened: boolean,
+  setGameMessage: any
 }) {
-  const { board, message, isGame, isFetchingGameId, isNewGameModalOpened } = props
+  const { board, message, isGame, isFetchingGameId, isNewGameModalOpened, setGameMessage } = props
 
-  const [openSnackBar, setOpenSnackBar] = React.useState(false)
-  const [openDialog, setOpenDialog] = React.useState(false)
-  const [openProgressBar, setOpenProgressBar] = React.useState(false)
-  const [componentMessage, setComponentMessage] = React.useState({
-    content: '',
-    status: undefined,
-  } as Message)
+  const [openSnackBar, setOpenSnackBar] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [openProgressBar, setOpenProgressBar] = useState(false)
 
   const handleCloseSnackBar = (
     event?: React.SyntheticEvent,
@@ -68,6 +66,7 @@ function Board(props: {
     }
 
     setOpenSnackBar(false)
+    setGameMessage({content: '', status: message.status })
   }
 
   type Severity = 'error' | 'warning' | 'info' | 'success' | undefined
@@ -75,21 +74,21 @@ function Board(props: {
   useEffect(() => {
     setOpenDialog(isNewGameModalOpened)
     setOpenProgressBar(isFetchingGameId)
-    if (!!message.content && message !== componentMessage) {
-      handleCloseSnackBar(undefined, '')
-      setComponentMessage(message)
+    if (!!message.content) {
       setOpenSnackBar(true)
+    } else {
+      setOpenSnackBar(false)
     }
-  }, [message, componentMessage, isFetchingGameId, isNewGameModalOpened])
+  }, [message, isFetchingGameId, isNewGameModalOpened])
 
-  const backDropStyles = useStylesBackDrop()
-  const progressBarStyles = useStylesProgressBar()
+  const classes = useStyles()
+  const classesProgressBar= useStylesProgressBar()
 
   return (
     <BoardContainer>
       <Rows board={board} isGame={isGame} />
-      <Backdrop className={backDropStyles.backdrop} open={openProgressBar}>
-        <CircularProgress classes={progressBarStyles} />
+      <Backdrop className={classes.backdrop} open={openProgressBar}>
+        <CircularProgress classes={classesProgressBar} />
       </Backdrop>
       <GameDialog open={openDialog}>
         <NewGameDialogContent></NewGameDialogContent>
@@ -104,8 +103,8 @@ function Board(props: {
         onClose={handleCloseSnackBar}>
         <Alert
           onClose={handleCloseSnackBar}
-          severity={componentMessage.status as Severity}>
-          {componentMessage.content}
+          severity={message.status as Severity}>
+          {message.content}
         </Alert>
       </Snackbar>
     </BoardContainer>
@@ -122,4 +121,10 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
   return { board, isGame, message, isFetchingGameId, isNewGameModalOpened }
 }
 
-export default connect(mapStateToProps)(Board as any)
+const mapDispatchToState = (dispatch: any) => {
+  return {
+    setGameMessage: (message: Message) => dispatch(setMessage({payload:  message }))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToState)(Board as any)
