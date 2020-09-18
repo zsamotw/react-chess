@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import Header from './Header'
 import Board from './Board'
 import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import MultiBackend from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch'; // or any other pipeline
 import GamePanel from './GamePanel'
 
 const Container = styled.div`
@@ -21,8 +22,9 @@ const ContentWrapper = styled.div`
 `
 
 export default function Layout() {
+
   return (
-    <DndProvider backend={Backend}>
+    <DndProvider backend={ MultiBackend } options={HTML5toTouch}>
       <Container>
           <Header></Header>
         <ContentWrapper>
