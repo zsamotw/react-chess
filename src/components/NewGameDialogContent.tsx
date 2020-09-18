@@ -40,7 +40,7 @@ const ModalButton = styled.button`
   cursor: pointer;
   text-transform: uppercase;
 `
-const NewGameButton = styled(ModalButton)`
+const NewGameButton = styled(ModalButton as any)`
   background-color: #dbdbdb;
 
   &:hover {
@@ -48,7 +48,7 @@ const NewGameButton = styled(ModalButton)`
     color: #eeeded;
   }
 `
-const CancelButton = styled(ModalButton)`
+const CancelButton = styled(ModalButton as any)`
   background-color: #fff;
   margin-right: 2rem;
 

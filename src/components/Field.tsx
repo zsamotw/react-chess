@@ -18,14 +18,14 @@ const FieldGeneric = styled.div`
   padding: 0.5rem;
   box-sizing: border-box;
 `
-const FieldEachEvenGrey = styled(FieldGeneric)`
+const FieldEachEvenGrey = styled(FieldGeneric as any)`
   background-color: #f7f7f7;
 
   &:nth-child(even) {
     background-color: #c8c4c4;
   }
 `
-const FieldEachOddGrey = styled(FieldGeneric)`
+const FieldEachOddGrey = styled(FieldGeneric as any)`
   background-color: #f7f7f7;
 
   &:nth-child(odd) {
