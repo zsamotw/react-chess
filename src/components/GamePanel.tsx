@@ -26,7 +26,7 @@ const Panel = styled.div`
   font-size: 1rem;
   margin: 0 0 0 3rem;
 
-  @media screen and (max-width: 1024px){
+  @media screen and (max-width: 1024px) {
     width: 64vmin;
     margin: 3rem 0 0 0;
   }
@@ -134,7 +134,8 @@ function GamePanel(props: {
   const isWhitePlayer = activePlayerColor === Color.white
   const styles = {
     panelStyles: {
-      opacity: isGame && !isGameOver ? 1 : 0.4,
+      transition: 'opacity 4s ease',
+      opacity: isGame && !isGameOver ? 1 : 0.1,
     },
 
     activePlayerColorStyles: {
@@ -166,49 +167,47 @@ function GamePanel(props: {
 
   return (
     <>
-      {isGame ? (
-        <Panel style={styles.panelStyles}>
-          <PanelHeader>
-            <ActivePlayerColor style={styles.activePlayerColorStyles}>
-              <Player style={styles.playerStyle}>
-                {isWhitePlayer ? 'White' : 'Black'}
-              </Player>
-            </ActivePlayerColor>
-            {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
-            <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>
-              UNDO
-            </UndoButton>
-          </PanelHeader>
-          <CapturedFiguresSection>
-            <div>
-              {capturedFigures.white.map((icon: string, index: number) => (
-                <Icon src={icon} alt='' key={icon + index}></Icon>
-              ))}
-            </div>
-            <div>
-              {capturedFigures.black.map((icon: string, index: number) => (
-                <Icon src={icon} alt='' key={icon + index}></Icon>
-              ))}
-            </div>
-          </CapturedFiguresSection>
-          <GameModeInfo style={styles.gameModeStyle}>{gameMode}</GameModeInfo>
-          <GameMovesSection>
-            {moves.map((move: Move, index: number) => (
-              <PlayerMove key={index}>
-                <div style={styles.indexStyles}>{moves.size - index}</div>
-                <MoveColor
-                  style={styles.getBackgroundColor(
-                    move.color as string,
-                  )}></MoveColor>
-                <div style={styles.startingPointCoordinateStyles}>
-                  {move.startingPointCoordinate}
-                </div>
-                <div>{move.endPointCoordinate}</div>
-              </PlayerMove>
+      <Panel style={styles.panelStyles}>
+        <PanelHeader>
+          <ActivePlayerColor style={styles.activePlayerColorStyles}>
+            <Player style={styles.playerStyle}>
+              {isWhitePlayer ? 'White' : 'Black'}
+            </Player>
+          </ActivePlayerColor>
+          {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
+          <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>
+            UNDO
+          </UndoButton>
+        </PanelHeader>
+        <CapturedFiguresSection>
+          <div>
+            {capturedFigures.white.map((icon: string, index: number) => (
+              <Icon src={icon} alt='' key={icon + index}></Icon>
             ))}
-          </GameMovesSection>
-        </Panel>
-      ) : null}
+          </div>
+          <div>
+            {capturedFigures.black.map((icon: string, index: number) => (
+              <Icon src={icon} alt='' key={icon + index}></Icon>
+            ))}
+          </div>
+        </CapturedFiguresSection>
+        <GameModeInfo style={styles.gameModeStyle}>{gameMode}</GameModeInfo>
+        <GameMovesSection>
+          {moves.map((move: Move, index: number) => (
+            <PlayerMove key={index}>
+              <div style={styles.indexStyles}>{moves.size - index}</div>
+              <MoveColor
+                style={styles.getBackgroundColor(
+                  move.color as string,
+                )}></MoveColor>
+              <div style={styles.startingPointCoordinateStyles}>
+                {move.startingPointCoordinate}
+              </div>
+              <div>{move.endPointCoordinate}</div>
+            </PlayerMove>
+          ))}
+        </GameMovesSection>
+      </Panel>
     </>
   )
 }
