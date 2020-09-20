@@ -30,10 +30,7 @@ const handleSetGameMode = (
   state: Record<GameState> & Readonly<GameState>,
   gameMode: GameMode,
 ) => {
-  const content = gameMode === GameMode.onePlayer ? 'One player mode' : 'Two players mode'
-  const message = {content, status: MessageStatus.info}
   const nextState = state
-    .set('message', message)
     .set('gameMode', gameMode)
   return nextState
 }
