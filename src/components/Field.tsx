@@ -54,8 +54,6 @@ const Longitude = styled.div`
   left: 0.3rem;
   color: #000;
   font-size: 0.4rem;
-  /* color: #040404;
-  font-size: 0.6rem; */
   text-transform: uppercase;
   width: 15px;
   height: 15px;
