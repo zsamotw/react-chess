@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field as FieldModel} from '../models/field.model'
+import { Field as FieldModel } from '../models/field.model'
 import styled from 'styled-components'
 import Icon, { iconType } from './Icon'
 import { useDrop } from 'react-dnd'
@@ -36,28 +36,44 @@ const FieldEachOddGrey = styled(FieldGeneric as any)`
 const Latitude = styled.div`
   position: absolute;
   top: 0.3rem;
-  left: 0.3rem;
-  color: #958e8e;
-  font-size: .6rem;
+  left: -1.5rem;
+  color: #000;
+  font-size: 0.4rem;
+  width: 15px;
+  height: 15px;
+  border: 1px solid gray;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Longitude = styled.div`
   position: absolute;
-  bottom: 0.3rem;
-  right: 0.3rem;
-  color: #958e8e;
-  font-size: .6rem;
+  bottom: -1.5rem;
+  left: 0.3rem;
+  color: #000;
+  font-size: 0.4rem;
+  /* color: #040404;
+  font-size: 0.6rem; */
   text-transform: uppercase;
+  width: 15px;
+  height: 15px;
+  border: 1px solid gray;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 type FieldColor = 'white' | 'gray'
 
 function Field(props: {
-  field: FieldModel,
-  fieldIndex: number,
-  rowIndex: number,
-  firstFieldColorInRow: FieldColor,
-  setCoordinatesForStartingPoint: any,
+  field: FieldModel
+  fieldIndex: number
+  rowIndex: number
+  firstFieldColorInRow: FieldColor
+  setCoordinatesForStartingPoint: any
   dropOnEndPointField: any
 }) {
   const {
@@ -72,12 +88,12 @@ function Field(props: {
     accept: iconType,
     drop: () => dropOnEndPointField(field.coordinates),
     collect: monitor => ({
-      isOver: !!monitor.isOver()
-    })
+      isOver: !!monitor.isOver(),
+    }),
   })
 
   const backgroundOnOver = {
-    backgroundColor: '#95a6bb'
+    backgroundColor: '#95a6bb',
   }
 
   const handleDragFromStartingPoint = (coordinates: string) =>
@@ -86,9 +102,16 @@ function Field(props: {
   switch (firstFieldColorInRow) {
     case 'white':
       return (
-        <FieldEachEvenGrey key={field.coordinates} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
-          {fieldIndex === 0 ? <Latitude>{mapRowNumber(rowIndex)}</Latitude> : null}
-          {rowIndex === 7 ? <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude> : null}
+        <FieldEachEvenGrey
+          key={field.coordinates}
+          ref={drop}
+          style={!!isOver ? backgroundOnOver : {}}>
+          {fieldIndex === 0 ? (
+            <Latitude>{mapRowNumber(rowIndex)}</Latitude>
+          ) : null}
+          {rowIndex === 7 ? (
+            <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>
+          ) : null}
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
@@ -97,9 +120,16 @@ function Field(props: {
       )
     case 'gray':
       return (
-        <FieldEachOddGrey key={field.coordinates} ref={drop} style={!!isOver ? backgroundOnOver : {}}>
-          {fieldIndex === 0 ? <Latitude>{mapRowNumber(rowIndex)}</Latitude> : null}
-          {rowIndex === 7 ? <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude> : null}
+        <FieldEachOddGrey
+          key={field.coordinates}
+          ref={drop}
+          style={!!isOver ? backgroundOnOver : {}}>
+          {fieldIndex === 0 ? (
+            <Latitude>{mapRowNumber(rowIndex)}</Latitude>
+          ) : null}
+          {rowIndex === 7 ? (
+            <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>
+          ) : null}
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
@@ -113,7 +143,7 @@ const mapDispatchToState = (dispatch: any) => {
   return {
     setCoordinatesForStartingPoint: (from: string) =>
       dispatch(setFromCoordinates({ payload: from })),
-    dropOnEndPointField: (to: string) => makePlayerMove(to, dispatch)
+    dropOnEndPointField: (to: string) => makePlayerMove(to, dispatch),
   }
 }
 
