@@ -33,35 +33,27 @@ const FieldEachOddGrey = styled(FieldGeneric as any)`
   }
 `
 
-const Latitude = styled.div`
+const FieldCoordinates = styled.div`
   position: absolute;
-  top: 0.3rem;
-  left: -1.5rem;
   color: #000;
   font-size: 0.4rem;
   width: 15px;
   height: 15px;
-  border: 1px solid gray;
+  border: 1px solid #c8c4c4;
   border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
 `
+const Latitude = styled(FieldCoordinates as any)`
+  top: 0.3rem;
+  left: -1.5rem;
+`
 
-const Longitude = styled.div`
-  position: absolute;
+const Longitude = styled(FieldCoordinates as any)`
   bottom: -1.5rem;
   left: 0.3rem;
-  color: #000;
-  font-size: 0.4rem;
   text-transform: uppercase;
-  width: 15px;
-  height: 15px;
-  border: 1px solid gray;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `
 
 type FieldColor = 'white' | 'gray'
