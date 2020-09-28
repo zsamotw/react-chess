@@ -30,15 +30,12 @@ const BoardContainer = styled.div`
 `
 
 const useStyles = makeStyles({
+  circularProgress: {
+    color: '#575757'
+  },
   backdrop: {
     opacity: 0.6,
     zIndex: 10000
-  }
-})
-
-const useStylesProgressBar = makeStyles({
-  root: {
-    color: '#575757'
   }
 })
 
@@ -82,13 +79,12 @@ function Board(props: {
   }, [message, isFetchingGameId, isNewGameModalOpened])
 
   const classes = useStyles()
-  const classesProgressBar= useStylesProgressBar()
 
   return (
     <BoardContainer>
       <Rows board={board} isGame={isGame} />
       <Backdrop className={classes.backdrop} open={openProgressBar}>
-        <CircularProgress classes={classesProgressBar} />
+        <CircularProgress className={classes.circularProgress} />
       </Backdrop>
       <GameDialog open={openDialog}>
         <NewGameDialogContent></NewGameDialogContent>

@@ -46,13 +46,13 @@ const FieldCoordinates = styled.div`
   justify-content: center;
 `
 const Latitude = styled(FieldCoordinates as any)`
-  top: 0.3rem;
+  top: auto;
   left: -1.5rem;
 `
 
 const Longitude = styled(FieldCoordinates as any)`
   bottom: -1.5rem;
-  left: 0.3rem;
+  left: auto;
   text-transform: uppercase;
 `
 

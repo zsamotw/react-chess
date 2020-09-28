@@ -17,6 +17,7 @@ import Move from '../models/move.model'
 import CapturedFigures from '../models/captured-figures.model'
 import { undoLastMove } from '../redux/actions'
 import GameMode from '../models/game.mode'
+import { makeStyles } from '@material-ui/core/styles'
 
 const Panel = styled.div`
   background-color: white;
@@ -111,6 +112,18 @@ const EndGameStatus = styled.div`
   text-transform: uppercase;
 `
 
+const useStyles = makeStyles({
+  index: {
+    width: '1rem',
+    margin: '0px 2rem 0 0',
+    fontSize: '.7rem',
+  },
+  startingPointCoordinate: {
+    width: '1rem',
+    margin: '0px 1.6rem 0px 3rem',
+  },
+})
+
 function GamePanel(props: {
   isGame: boolean
   status: string
@@ -132,6 +145,8 @@ function GamePanel(props: {
     undoMove,
   } = props
   const isWhitePlayer = activePlayerColor === Color.white
+
+  const classes = useStyles()
   const styles = {
     panelStyles: {
       transition: 'opacity 4s ease',
@@ -150,15 +165,6 @@ function GamePanel(props: {
     },
     undoButtonStyles: {
       opacity: isGame ? 1 : 0,
-    },
-    indexStyles: {
-      width: '1rem',
-      margin: '0px 2rem 0 0',
-      fontSize: '.7rem',
-    },
-    startingPointCoordinateStyles: {
-      width: '1rem',
-      margin: '0px 1.6rem 0px 3rem',
     },
     getBackgroundColor: (color: string) => ({
       backgroundColor: color.toLowerCase(),
@@ -195,12 +201,12 @@ function GamePanel(props: {
         <GameMovesSection>
           {moves.map((move: Move, index: number) => (
             <PlayerMove key={index}>
-              <div style={styles.indexStyles}>{moves.size - index}</div>
+              <div className={classes.index}>{moves.size - index}</div>
               <MoveColor
                 style={styles.getBackgroundColor(
                   move.color as string,
                 )}></MoveColor>
-              <div style={styles.startingPointCoordinateStyles}>
+              <div className={classes.startingPointCoordinate}>
                 {move.startingPointCoordinate}
               </div>
               <div>{move.endPointCoordinate}</div>
