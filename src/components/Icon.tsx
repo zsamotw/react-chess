@@ -6,10 +6,11 @@ import GameState from '../models/store.model'
 import { Record } from 'immutable'
 import { connect } from 'react-redux'
 
-const IconWrapper = styled.img`
+const IconWrapper = styled.img<{isDragging: boolean}>`
   user-select: none;
   width: 88%;
   cursor: move;
+  opacity: ${props => props.isDragging ? 0.5 : 1};
 `
 
 export const iconType = 'icon'
@@ -32,11 +33,7 @@ function Icon(props: {
     }),
   })
 
-  const iconStyles = {
-    opacity: !!isDragging ? 0.5 : 1,
-  }
-
-  return <IconWrapper src={icon} ref={drag} style={iconStyles}></IconWrapper>
+  return <IconWrapper src={icon} ref={drag}  isDragging={isDragging}></IconWrapper>
 }
 
 const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
