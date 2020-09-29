@@ -19,13 +19,15 @@ import { undoLastMove } from '../redux/actions'
 import GameMode from '../models/game.mode'
 import { makeStyles } from '@material-ui/core/styles'
 
-const Panel = styled.div`
+const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
   background-color: white;
   width: 20vmax;
   box-sizing: border-box;
   user-select: none;
   font-size: 1rem;
   margin: 0 0 0 3rem;
+  transition: 'opacity 4s ease';
+  opacity: ${props => props.isGame && !props.isGameOver ? 1 : 0.1};
 
   @media screen and (max-width: 1024px) {
     width: 64vmin;
@@ -39,7 +41,7 @@ const PanelHeader = styled.section`
   align-items: baseline;
 `
 
-const ActivePlayerColor = styled.div`
+const ActivePlayerColor = styled.div<{isGame: boolean, isWhitePlayer: boolean}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,19 +51,23 @@ const ActivePlayerColor = styled.div`
   border: 1px solid black;
   margin: 0 1rem 1rem 0;
   transition: all 0.5s ease;
+  opacity: ${props => props.isGame ? 1 : 0};
+  background-color: ${props => props.isWhitePlayer ? 'white' : 'black'};
 `
 
-const Player = styled.div`
+const Player = styled.div<{isWhitePlayer: boolean}>`
   font-size: 0.7rem;
+  color: ${props => props.isWhitePlayer ? 'black' : 'white'};
 `
 
-const GameModeInfo = styled.div`
+const GameModeInfo = styled.div<{isGame: boolean}>`
   font-size: 0.8rem;
   margin-top: 0.5rem;
   margin-bottom: 0.3rem;
+  opacity: ${props => props.isGame ? 1 : 0};
 `
 
-const UndoButton = styled.button`
+const UndoButton = styled.button<{isGame: boolean}>`
   /* temporary display none */
   display: none;
   border-radius: 5px;
@@ -70,6 +76,7 @@ const UndoButton = styled.button`
   cursor: pointer;
   text-transform: uppercase;
   background-color: #dbdbdb;
+  opacity: ${props => props.isGame ? 1 : 0};
 
   &:hover {
     background-color: #7d7c7c;
@@ -147,41 +154,21 @@ function GamePanel(props: {
   const isWhitePlayer = activePlayerColor === Color.white
 
   const classes = useStyles()
-  const styles = {
-    panelStyles: {
-      transition: 'opacity 4s ease',
-      opacity: isGame && !isGameOver ? 1 : 0.1,
-    },
-
-    activePlayerColorStyles: {
-      opacity: isGame ? 1 : 0,
-      backgroundColor: isWhitePlayer ? 'white' : 'black',
-    },
-    playerStyle: {
-      color: isWhitePlayer ? 'black' : 'white',
-    },
-    gameModeStyle: {
-      opacity: isGame ? 1 : 0,
-    },
-    undoButtonStyles: {
-      opacity: isGame ? 1 : 0,
-    },
-    getBackgroundColor: (color: string) => ({
+  const getBackgroundColor = (color: string) => ({
       backgroundColor: color.toLowerCase(),
-    }),
-  }
+    })
 
   return (
     <>
-      <Panel style={styles.panelStyles}>
+      <Panel isGame={isGame} isGameOver={isGameOver}>
         <PanelHeader>
-          <ActivePlayerColor style={styles.activePlayerColorStyles}>
-            <Player style={styles.playerStyle}>
+          <ActivePlayerColor isGame={isGame} isWhitePlayer={isWhitePlayer}>
+            <Player isWhitePlayer={isWhitePlayer}>
               {isWhitePlayer ? 'White' : 'Black'}
             </Player>
           </ActivePlayerColor>
           {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
-          <UndoButton style={styles.undoButtonStyles} onClick={undoMove}>
+          <UndoButton onClick={undoMove} isGame={isGame}>
             UNDO
           </UndoButton>
         </PanelHeader>
@@ -197,13 +184,13 @@ function GamePanel(props: {
             ))}
           </div>
         </CapturedFiguresSection>
-        <GameModeInfo style={styles.gameModeStyle}>{gameMode}</GameModeInfo>
+        <GameModeInfo isGame={isGame}>{gameMode}</GameModeInfo>
         <GameMovesSection>
           {moves.map((move: Move, index: number) => (
             <PlayerMove key={index}>
               <div className={classes.index}>{moves.size - index}</div>
               <MoveColor
-                style={styles.getBackgroundColor(
+                style={getBackgroundColor(
                   move.color as string,
                 )}></MoveColor>
               <div className={classes.startingPointCoordinate}>
