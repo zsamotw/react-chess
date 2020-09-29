@@ -22,6 +22,7 @@ import Color from '../models/color.model'
 import GameDialog from './GameDialog'
 import NewGameDialogContent from './NewGameDialogContent'
 import { setMessage } from '../redux/actions'
+import type { Severity } from '../models/severity.model'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -65,8 +66,6 @@ function Board(props: {
     setOpenSnackBar(false)
     setGameMessage({content: '', status: message.status })
   }
-
-  type Severity = 'error' | 'warning' | 'info' | 'success' | undefined
 
   useEffect(() => {
     setOpenDialog(isNewGameModalOpened)
