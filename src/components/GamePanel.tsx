@@ -27,7 +27,7 @@ const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
   font-size: 1rem;
   margin: 0 0 0 3rem;
   transition: 'opacity 4s ease';
-  opacity: ${props => props.isGame && !props.isGameOver ? 1 : 0.1};
+  opacity: ${props => props.isGame && !props.isGameOver ? 1 : 0.3};
 
   @media screen and (max-width: 1024px) {
     width: 64vmin;
