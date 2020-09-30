@@ -119,12 +119,15 @@ const getMessage = (apiStatus: string, from: string, to: string, currentPlayerCo
 }
 
 const computeCapturedFigures = (figure: Figure, capturedFigures: CapturedFigures) => {
-  if (figure.color === 'None') {
-    return capturedFigures
-  } else if (figure.color === 'Black') {
-    return {...capturedFigures, black: capturedFigures.black.push(figure.icon)}
-  } else {
-    return {...capturedFigures, white: capturedFigures.white.push(figure.icon)}
+  switch (figure.color) {
+    case 'None':
+      return capturedFigures
+    case 'Black':
+      return {...capturedFigures, black: capturedFigures.black.push(figure.icon)}
+    case 'White':
+      return {...capturedFigures, white: capturedFigures.white.push(figure.icon)}
+    default:
+      return capturedFigures
   }
 }
 
