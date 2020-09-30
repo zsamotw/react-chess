@@ -20,6 +20,8 @@ import GameMode from '../models/game.mode'
 import { makeStyles } from '@material-ui/core/styles'
 
 const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
+  display: flex;
+  flex-direction: column;
   background-color: white;
   width: 20vmax;
   box-sizing: border-box;
@@ -91,10 +93,14 @@ const Icon = styled.img`
 `
 
 const GameMovesSection = styled.section`
+  flex: 1 1 0px;
+  overflow-y: auto;
   padding: 0.5rem 0.5rem;
-  max-height: 20vh;
-  overflow: auto;
   border-top: 1px solid #919191;
+
+  @media screen and (max-width: 1024px) {
+    overflow: visible;
+  }
 `
 
 const PlayerMove = styled.div`
