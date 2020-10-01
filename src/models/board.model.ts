@@ -13,6 +13,7 @@ import BlackBishop from  '../../public/images/Chess_bdt45.svg'
 import BlackQueen from  '../../public/images/Chess_qdt45.svg'
 import BlackKing from  '../../public/images/Chess_kdt45.svg'
 import Color from './color.model'
+import FigureType from './figure-type.model'
 
 export interface Board {
   rows: List<Row>
@@ -23,14 +24,14 @@ export interface Board {
 const numbers = List([6, 5, 4, 3])
 const letters = List(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
 const types = List([
-  'Rook',
-  'Knight',
-  'Bishop',
-  'King',
-  'Queen',
-  'Bishop',
-  'Knight',
-  'Rook'
+  FigureType.rook,
+  FigureType.knight,
+  FigureType.bishop,
+  FigureType.king,
+  FigureType.queen,
+  FigureType.bishop,
+  FigureType.knight,
+  FigureType.rook
 ])
 
 const whiteIcons = List([
@@ -65,7 +66,7 @@ const blackFiguresRow = letters.zip(blackFigures).map(([l, [t, s]]) => {
 const blackPawnRow = letters.map(l => {
   return {
     coordinates: `${l}7`,
-    figure: { type: 'Pawn', icon: BlackPawn, color: Color.black }
+    figure: { type: FigureType.pawn, icon: BlackPawn, color: Color.black }
   }
 }) as Row
 
@@ -73,7 +74,7 @@ const emptyRows = numbers.map(n => {
   return letters.map(l => {
     return {
       coordinates: `${l + n}`,
-      figure: { type: 'Empty', icon: '', color: Color.none }
+      figure: { type: FigureType.empty, icon: '', color: Color.none }
     }
   })
 }) as List<Row>
@@ -81,7 +82,7 @@ const emptyRows = numbers.map(n => {
 const whitePawnRow = letters.map(l => {
   return {
     coordinates: `${l}2`,
-    figure: { type: 'Pawn', icon: WhitePawn, color: Color.white }
+    figure: { type: FigureType.pawn, icon: WhitePawn, color: Color.white }
   }
 }) as Row
 

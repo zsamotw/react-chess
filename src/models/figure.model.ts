@@ -1,8 +1,8 @@
 import Color from '../models/color.model'
-type Type = 'King' | 'Queen' | 'Rook' | 'Knight' | 'Bishop' | 'Pawn' | 'Empty'
+import FigureType from '../models/figure-type.model'
 
 export default interface Figure {
-  type: Type
+  type: FigureType
   icon: string
   color: Color
 }
