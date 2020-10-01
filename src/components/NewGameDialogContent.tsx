@@ -41,19 +41,19 @@ const ModalButton = styled.button`
   text-transform: uppercase;
 `
 const NewGameButton = styled(ModalButton as any)`
-  background-color: #dbdbdb;
+  background-color: ${props => props.theme.secondary.dark};
 
   &:hover {
-    background-color: #7d7c7c;
-    color: #eeeded;
+    background-color: ${props => props.theme.primary.light};
+    color: ${props => props.theme.secondary.main};
   }
 `
 const CancelButton = styled(ModalButton as any)`
-  background-color: #fff;
+  background-color: ${props => props.theme.background.white};
   margin-right: 2rem;
 
   &:hover {
-    background-color: rgb(245, 245, 245);
+    background-color: ${props => props.theme.secondary.main};
   }
 `
 

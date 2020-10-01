@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Field as FieldModel } from '../models/field.model'
 import styled from 'styled-components'
 import Icon, { iconType } from './Icon'
@@ -6,6 +6,7 @@ import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
 import { setFromCoordinates, makePlayerMove } from '../redux/actions'
 import { mapRowNumber, mapFieldIndexToLetter } from '../helpers/board-helper'
+import { ThemeContext } from 'styled-components';
 
 const FieldGeneric = styled.div`
   position: relative;
@@ -19,23 +20,23 @@ const FieldGeneric = styled.div`
   box-sizing: border-box;
 `
 const FieldEachEvenGrey = styled(FieldGeneric as any)`
-  background-color: #f7f7f7;
+  background-color: ${props => props.theme.secondary.main};
 
   &:nth-child(even) {
-    background-color: #c8c4c4;
+    background-color: ${props => props.theme.primary.xLight};
   }
 `
 const FieldEachOddGrey = styled(FieldGeneric as any)`
-  background-color: #f7f7f7;
+  background-color: ${props => props.theme.secondary.main};
 
   &:nth-child(odd) {
-    background-color: #c8c4c4;
+    background-color: ${props => props.theme.primary.xLight};
   }
 `
 
 const FieldCoordinates = styled.div`
   position: absolute;
-  color: #000;
+  color: ${props => props.theme.primary.main};
   font-size: 0.4rem;
   width: 15px;
   height: 15px;
@@ -81,9 +82,9 @@ function Field(props: {
       isOver: !!monitor.isOver(),
     }),
   })
-
+  const theme = useContext(ThemeContext);
   const backgroundOnOver = {
-    backgroundColor: '#95a6bb',
+    backgroundColor: theme.primary.light
   }
 
   const handleDragFromStartingPoint = (coordinates: string) =>

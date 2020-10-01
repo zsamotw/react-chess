@@ -22,7 +22,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: ${props => props.theme.background.white};
   width: 20vmax;
   box-sizing: border-box;
   user-select: none;
@@ -50,16 +50,16 @@ const ActivePlayerColor = styled.div<{isGame: boolean, isWhitePlayer: boolean}>`
   min-width: 3rem;
   min-height: 3rem;
   border-radius: 30px;
-  border: 1px solid black;
+  border: 1px solid ${props => props.theme.primary.main};
   margin: 0 1rem 1rem 0;
   transition: all 0.5s ease;
   opacity: ${props => props.isGame ? 1 : 0};
-  background-color: ${props => props.isWhitePlayer ? 'white' : 'black'};
+  background-color: ${props => props.isWhitePlayer ? props.theme.background.white : props.theme.background.black};
 `
 
 const Player = styled.div<{isWhitePlayer: boolean}>`
   font-size: 0.7rem;
-  color: ${props => props.isWhitePlayer ? 'black' : 'white'};
+  color: ${props => props.isWhitePlayer ? props.theme.primary.main : props.theme.secondary.main};
 `
 
 const GameModeInfo = styled.div<{isGame: boolean}>`
@@ -115,7 +115,7 @@ const MoveColor = styled.div`
   min-width: 0.9rem;
   min-height: 0.9rem;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 1px solid ${props => props.theme.primary.main};
   display: inline-block;
 `
 

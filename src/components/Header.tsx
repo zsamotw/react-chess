@@ -8,11 +8,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: .5rem 2rem;
-  background-color: #1e1d1b;
+  background-color: ${props => props.theme.background.black};
 `
 
 const Title = styled.div`
-  color: #f4f4f4;
+  color: ${props => props.theme.secondary.main};
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: bold;
@@ -20,7 +20,7 @@ const Title = styled.div`
 `
 
 const ButtonNewGame = styled.button`
-  color: #fff;
+  color: ${props => props.theme.secondary.main};
   border-radius: 5px;
   background-color: transparent;
   border-color: transparent;
@@ -29,7 +29,7 @@ const ButtonNewGame = styled.button`
   text-transform: uppercase;
 
   &:hover {
-    color: #dfdfdf;
+    color: ${props => props.theme.secondary.dark};
   }
 `
 
