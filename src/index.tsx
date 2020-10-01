@@ -8,11 +8,15 @@ import store from './redux/store'
 import { DndProvider } from 'react-dnd'
 import MultiBackend from 'react-dnd-multi-backend'
 import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch' // or any other pipeline
+import { theme } from './constants/theme'
+import { ThemeProvider } from 'styled-components'
 
 ReactDOM.render(
   <Provider store={store['store']}>
     <DndProvider backend={MultiBackend} options={HTML5toTouch}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </DndProvider>
   </Provider>,
   document.getElementById('root'),
