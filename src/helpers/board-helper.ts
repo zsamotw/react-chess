@@ -4,6 +4,7 @@ import CapturedFigures from "../models/captured-figures.model"
 import Figure from "../models/figure.model"
 import { List } from "immutable"
 import { Row } from '../models/row-type'
+import ApiStatus from '../models/api-status.model'
 
 const parseMoveData = (from: string, to: string) => {
   const [fromFieldLetter, fromRowNumber] = from.split('')
@@ -109,9 +110,9 @@ const switchPlayerColor = (playerColor: Color) => playerColor === Color.white ? 
 
 const getMessage = (apiStatus: string, from: string, to: string, currentPlayerColor: Color) => {
   switch (apiStatus) {
-    case 'game continues':
+    case ApiStatus.gameContinues:
       return { content: `${currentPlayerColor}: ${from} -> ${to}`, status: MessageStatus.success }
-    case 'checkmate':
+    case ApiStatus.checkMate:
       return { content: `Game Over: ${currentPlayerColor} WIN`, status: MessageStatus.info }
     default:
       return { content: `${currentPlayerColor}: ${from} -> ${to}`, status: MessageStatus.success }
@@ -120,11 +121,11 @@ const getMessage = (apiStatus: string, from: string, to: string, currentPlayerCo
 
 const computeCapturedFigures = (figure: Figure, capturedFigures: CapturedFigures) => {
   switch (figure.color) {
-    case 'None':
+    case Color.none:
       return capturedFigures
-    case 'Black':
+    case Color.black:
       return {...capturedFigures, black: capturedFigures.black.push(figure.icon)}
-    case 'White':
+    case Color.white:
       return {...capturedFigures, white: capturedFigures.white.push(figure.icon)}
     default:
       return capturedFigures
