@@ -5,6 +5,7 @@ import {
   getNewGameId,
   setNewGameModalClosed,
   setGameMode,
+  startNewGameApiRequest
 } from '../redux/actions'
 import styled from 'styled-components'
 import IconButton from '@material-ui/core/IconButton'
@@ -139,8 +140,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: (gameMode: GameMode) => getNewGameId(dispatch, gameMode),
-
+    getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: gameMode})),
     closeModal: () => dispatch(setNewGameModalClosed()),
     setOnePlayerMode: () => dispatch(setGameMode({ payload: GameMode.onePlayer })),
     setTwoPlayersMode: () => dispatch(setGameMode({ payload: GameMode.twoPlayers })),

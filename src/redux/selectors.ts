@@ -62,6 +62,11 @@ const getIsNewGameModalOpened = (state: Record<GameState> & Readonly<GameState>)
   return isNewGameModalOpened
 }
 
+const getCurrentMoveStartingPoint = (state: Record<GameState> & Readonly<GameState>) => {
+  const currentMoveStartingPoint = state.get('currentMoveStartingPoint')
+  return currentMoveStartingPoint 
+}
+
 export {
   getBoard,
   getGameId,
@@ -75,4 +80,5 @@ export {
   getIsFetchingMove,
   getCapturedFigures,
   getIsNewGameModalOpened,
+  getCurrentMoveStartingPoint
 }
