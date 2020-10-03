@@ -140,7 +140,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: gameMode})),
+    getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: {gameMode}})),
     closeModal: () => dispatch(setNewGameModalClosed()),
     setOnePlayerMode: () => dispatch(setGameMode({ payload: GameMode.onePlayer })),
     setTwoPlayersMode: () => dispatch(setGameMode({ payload: GameMode.twoPlayers })),

@@ -134,7 +134,8 @@ const mapDispatchToState = (dispatch: any) => {
   return {
     setCoordinatesForStartingPoint: (from: string) =>
       dispatch(setFromCoordinates({ payload: from })),
-    dropOnEndPointField: (to: string) => dispatch(makePlayerMoveApiRequest({payload: to})),
+    dropOnEndPointField: (to: string) => dispatch(makePlayerMoveApiRequest({payload: {to}})),
+    // dropOnEndPointField: (to: string) => console.log('fofofofofof')
   }
 }
 
