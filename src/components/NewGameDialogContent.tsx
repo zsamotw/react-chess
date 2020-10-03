@@ -2,7 +2,6 @@ import React from 'react'
 import { DialogTitle, makeStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import {
-  getNewGameId,
   setNewGameModalClosed,
   setGameMode,
   startNewGameApiRequest
@@ -140,7 +139,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: gameMode})),
+    getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: {gameMode}})),
     closeModal: () => dispatch(setNewGameModalClosed()),
     setOnePlayerMode: () => dispatch(setGameMode({ payload: GameMode.onePlayer })),
     setTwoPlayersMode: () => dispatch(setGameMode({ payload: GameMode.twoPlayers })),

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Icon, { iconType } from './Icon'
 import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
-import { setFromCoordinates, makePlayerMove, makePlayerMoveApiRequest } from '../redux/actions'
+import { setFromCoordinates, makePlayerMoveApiRequest } from '../redux/actions'
 import { mapRowNumber, mapFieldIndexToLetter } from '../helpers/board-helper'
 import { ThemeContext } from 'styled-components';
 
@@ -134,7 +134,8 @@ const mapDispatchToState = (dispatch: any) => {
   return {
     setCoordinatesForStartingPoint: (from: string) =>
       dispatch(setFromCoordinates({ payload: from })),
-    dropOnEndPointField: (to: string) => dispatch(makePlayerMoveApiRequest({payload: to})),
+    dropOnEndPointField: (to: string) => dispatch(makePlayerMoveApiRequest({payload: {to}})),
+    // dropOnEndPointField: (to: string) => console.log('fofofofofof')
   }
 }
 

@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { gameReducer } from './reducers/game-reducers'
-import thunk from 'redux-thunk'
+import { gameReducers } from './reducers'
 import createSagaMiddleware from 'redux-saga'
-import { rootSaga } from './actions'
+import rootSaga from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
-const store = configureStore({ reducer: gameReducer, middleware: [sagaMiddleware]  })
+const store = configureStore({ reducer: gameReducers, middleware: [sagaMiddleware]  })
 sagaMiddleware.run(rootSaga)
 
 export default { store }
