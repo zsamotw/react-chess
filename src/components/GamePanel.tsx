@@ -15,7 +15,7 @@ import { Record, List } from 'immutable'
 import Color from '../models/color.model'
 import Move from '../models/move.model'
 import CapturedFigures from '../models/captured-figures.model'
-import { undoLastMove } from '../redux/actions'
+import { undoLastMoveApiRequest } from '../redux/actions'
 import GameMode from '../models/game.mode'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -232,7 +232,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 }
 const mapDispatchToState = (dispatch: any) => {
   return {
-    undoMove: () => undoLastMove(dispatch),
+    undoMove: () => undoLastMoveApiRequest(),
   }
 }
 

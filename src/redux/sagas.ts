@@ -2,7 +2,7 @@ import MessageStatus from '../models/message-status.model'
 import GameMode from '../models/game.mode'
 import { call, put, takeLatest, select, all } from 'redux-saga/effects'
 import { getGameId, getGameMode, getCurrentMoveStartingPoint, getIsGameOver } from './selectors'
-import { setIsFetchingMove, forbiddenMove, makeFigureMove, setMessage, setIsFetchingGameId, startNewGame, makePlayerMoveApiRequest, makeComputerMoveApiRequest, startNewGameApiRequest } from './actions'
+import { setIsFetchingMove, forbiddenMove, makeFigureMove, setMessage, setIsFetchingGameId, startNewGame, makePlayerMoveApiRequest, makeComputerMoveApiRequest, startNewGameApiRequest, undoLastMoveApiRequest, setLastGameSnapshot } from './actions'
 import { makeApiGetRequest, makeApiPostRequest } from '../helpers/api-helper'
 
 function* makePlayerMove(action: any) {
@@ -72,10 +72,30 @@ function* getNewGameId(action: any) {
   yield put(setIsFetchingGameId({ payload: false }))
 }
 
+function* undoLastMove() {
+  const game_id = yield select(getGameId)
+  const gameMode = yield select(getGameMode)
+  const url = gameMode === GameMode.onePlayer ? '/one/undo' : '/two/undo'
+  try {
+    const { data: { status } } = yield call(makeApiPostRequest(url), { game_id })
+    if (status === "error: couldn't undo the move!") {
+      const message = { content: "Couldn't undo the move", status: MessageStatus.error }
+      yield put(setMessage({ payload: message }))
+    } else {
+      yield put(setLastGameSnapshot())
+    }
+  }
+  catch {
+    const message = { content: 'Problem with undo last move. Check you internet connection', status: MessageStatus.error }
+    yield put(setMessage({ payload: message }))
+  }
+}
+
 function* chessSaga() {
   yield takeLatest(makePlayerMoveApiRequest.type, makePlayerMove);
   yield takeLatest(makeComputerMoveApiRequest.type, makeComputerMove);
   yield takeLatest(startNewGameApiRequest.type, getNewGameId);
+  yield takeLatest(undoLastMoveApiRequest.type, undoLastMove)
 }
 
 export default function* rootSaga() {
