@@ -9,7 +9,7 @@ function* makePlayerMove(action: any) {
   const { to } = action.payload
   const from = yield select(getCurrentMoveStartingPoint)
   if (from !== to) {
-    yield put(setIsFetchingMove({ payload: true }))
+    yield put(setIsFetchingMove({ payload: {isFetchingMove: true} }))
     try {
       const game_id = yield select(getGameId)
       const gameMode = yield select(getGameMode)
@@ -32,19 +32,20 @@ function* makePlayerMove(action: any) {
     }
     catch {
       const message = { content: 'Oops. Check internet connection', status: MessageStatus.error }
-      yield put(setMessage({ payload: message }))
-      yield put(setIsFetchingMove({ payload: false }))
+      yield put(setMessage({ payload: {message} }))
+      yield put(setIsFetchingMove({ payload: {isFetchingMove: false} }))
 
     }
-    yield put(setIsFetchingMove({ payload: false }))
+    yield put(setIsFetchingMove({ payload: {isFetchingMove: false} }))
   }
 }
 
 function* makeComputerMove(action: any) {
+  const game_id = action.payload
   try {
-    const { data: moveData } = yield call(makeApiPostRequest('/one/move/ai'), action.payload)
+    const { data: moveData } = yield call(makeApiPostRequest('/one/move/ai'), game_id)
     const { from, to } = moveData
-    const { data: checkData } = yield call(makeApiPostRequest('/one/check'), action.payload)
+    const { data: checkData } = yield call(makeApiPostRequest('/one/check'), game_id)
     const { status } = checkData
     yield put(makeFigureMove({ payload: { from, to, status } }))
   }
@@ -53,23 +54,23 @@ function* makeComputerMove(action: any) {
       content: 'Oops. Check internet connection',
       status: MessageStatus.error,
     }
-    yield put(setMessage({ payload: message }))
+    yield put(setMessage({ payload: {message} }))
   }
 }
 
 function* getNewGameId(action: any) {
-  yield put(setIsFetchingGameId({ payload: true }))
+  yield put(setIsFetchingGameId({ payload: {isFetchingGameId: true} }))
   const { gameMode } = action.payload
   const url = gameMode === GameMode.onePlayer ? '/one' : '/two'
   try {
     const { data: { game_id } } = yield call(makeApiGetRequest(), url)
-    yield put(startNewGame({ payload: game_id }))
+    yield put(startNewGame({ payload: {game_id} }))
   }
   catch {
     const message = { content: 'Problem with getting game id. Check you internet connection', status: MessageStatus.error }
-    yield put(setMessage({ payload: message }))
+    yield put(setMessage({ payload: {message} }))
   }
-  yield put(setIsFetchingGameId({ payload: false }))
+  yield put(setIsFetchingGameId({ payload: {isFetchingGameId: false} }))
 }
 
 function* undoLastMove() {
@@ -80,14 +81,14 @@ function* undoLastMove() {
     const { data: { status } } = yield call(makeApiPostRequest(url), { game_id })
     if (status === "error: couldn't undo the move!") {
       const message = { content: "Couldn't undo the move", status: MessageStatus.error }
-      yield put(setMessage({ payload: message }))
+      yield put(setMessage({ payload: {message} }))
     } else {
       yield put(setLastGameSnapshot())
     }
   }
   catch {
     const message = { content: 'Problem with undo last move. Check you internet connection', status: MessageStatus.error }
-    yield put(setMessage({ payload: message }))
+    yield put(setMessage({ payload: {message} }))
   }
 }
 

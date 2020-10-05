@@ -141,8 +141,8 @@ const mapDispatchToState = (dispatch: any) => {
   return {
     getNewGame: (gameMode: GameMode) => dispatch(startNewGameApiRequest({payload: {gameMode}})),
     closeModal: () => dispatch(setNewGameModalClosed()),
-    setOnePlayerMode: () => dispatch(setGameMode({ payload: GameMode.onePlayer })),
-    setTwoPlayersMode: () => dispatch(setGameMode({ payload: GameMode.twoPlayers })),
+    setOnePlayerMode: () => dispatch(setGameMode({ payload: {gameMode: GameMode.onePlayer} })),
+    setTwoPlayersMode: () => dispatch(setGameMode({ payload: {gameMode: GameMode.twoPlayers} })),
   }
 }
 

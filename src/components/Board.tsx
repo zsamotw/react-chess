@@ -118,7 +118,7 @@ const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
 
 const mapDispatchToState = (dispatch: any) => {
   return {
-    setGameMessage: (message: Message) => dispatch(setMessage({payload:  message }))
+    setGameMessage: (message: Message) => dispatch(setMessage({payload:  {message} }))
   }
 }
 

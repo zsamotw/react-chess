@@ -52,28 +52,38 @@ const initialGameState = makeInitialState({ board: rows })
 const gameReducers = createReducer(initialGameState, {
   [startNewGame.type]: (state, action) => {
     const gameMode = state.get('gameMode')
-    const gameId = action.payload
+    const { game_id } = action.payload
     return handleStartNewGame(
       initialGameState as Record<GameState> & Readonly<GameState>,
       gameMode,
-      gameId,
+      game_id,
     )
   },
-  [setGameMode.type]: (state, action) =>
-    handleSetGameMode(state as any, action.payload),
-  [setFromCoordinates.type]: (state, action) =>
-    handleSetFromCoordinates(state as any, action.payload),
+  [setGameMode.type]: (state, action) => {
+    const { gameMode } = action.payload
+    return handleSetGameMode(state as any, gameMode)
+  },
+  [setFromCoordinates.type]: (state, action) => {
+    const { fromCoordinates } = action.payload
+    return handleSetFromCoordinates(state as any, fromCoordinates)
+  },
   [makeFigureMove.type]: (state, action) => {
     const { from, to, status } = action.payload
     return handleMakeFigureMove(state as any, from, to, status)
   },
   [forbiddenMove.type]: state => handleForbiddenMove(state as any),
-  [setIsFetchingMove.type]: (state, action) =>
-    handleSetIsFetchingMove(state as any, action.payload),
-  [setIsFetchingGameId.type]: (state, action) =>
-    handleSetIsFetchingGameId(state as any, action.payload),
-  [setMessage.type]: (state, action) =>
-    handleSetMessage(state as any, action.payload),
+  [setIsFetchingMove.type]: (state, action) => {
+    const { isFetchingMove } = action.payload
+    return handleSetIsFetchingMove(state as any, isFetchingMove)
+  },
+  [setIsFetchingGameId.type]: (state, action) => {
+    const { isFetchingGameId } = action.payload
+    return handleSetIsFetchingGameId(state as any, isFetchingGameId)
+  },
+  [setMessage.type]: (state, action) => {
+    const { message } = action.payload
+    return handleSetMessage(state as any, message)
+  },
   [setNewGameModalOpened.type]: state =>
     handleSetNewGameModalOpened(state as any),
   [setNewGameModalClosed.type]: state =>
