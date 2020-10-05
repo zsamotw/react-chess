@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { useDrag } from 'react-dnd'
 import { getGameId, getIsGameOver, getIsFetchingMove } from '../redux/selectors'
-import GameState from '../models/store.model'
-import { Record } from 'immutable'
 import { connect } from 'react-redux'
+import { State } from '../models/state.model'
 
 const IconWrapper = styled.img<{isDragging: boolean}>`
   user-select: none;
@@ -36,7 +35,7 @@ function Icon(props: {
   return <IconWrapper src={icon} ref={drag}  isDragging={isDragging}></IconWrapper>
 }
 
-const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
+const mapStateToProps = (state: State) => {
   const gameId = getGameId(state)
   const isGameOver = getIsGameOver(state)
   const isFetchingMove = getIsFetchingMove(state)

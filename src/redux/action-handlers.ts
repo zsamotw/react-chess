@@ -1,5 +1,4 @@
-import { List, Record } from 'immutable'
-import GameState from '../models/store.model'
+import type { State } from '../models/state.model'
 import {
   switchPlayerColor,
   computeCapturedFigures,
@@ -10,9 +9,10 @@ import Message from '../models/message.model'
 import Move from '../models/move.model'
 import GameMode from '../models/game.mode'
 import { Row } from '../models/row-type'
+import { List } from 'immutable'
 
 const handleStartNewGame = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   gameMode: GameMode,
   gameId: string,
 ) => {
@@ -27,7 +27,7 @@ const handleStartNewGame = (
 }
 
 const handleSetGameMode = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   gameMode: GameMode,
 ) => {
   const nextState = state
@@ -36,7 +36,7 @@ const handleSetGameMode = (
 }
 
 const handleSetFromCoordinates = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   from: string,
 ) => {
   const nextState = state.set('currentMoveStartingPoint', from)
@@ -44,7 +44,7 @@ const handleSetFromCoordinates = (
 }
 
 const handleMakeFigureMove = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   from: string,
   to: string,
   status: string
@@ -72,7 +72,7 @@ const handleMakeFigureMove = (
 }
 
 const handleForbiddenMove = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
 ) => {
   const message = {content: 'It is forbidden move', status: MessageStatus.warning}
   const nextState = state.set('message', message)
@@ -80,7 +80,7 @@ const handleForbiddenMove = (
 }
 
 const handleSetIsFetchingMove = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   isFetching: boolean,
 ) => {
   const fetchingData = state.get('fetchingData')
@@ -90,7 +90,7 @@ const handleSetIsFetchingMove = (
 }
 
 const handleSetIsFetchingGameId = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   isFetching: boolean,
 ) => {
   const fetchingData = state.get('fetchingData')
@@ -100,7 +100,7 @@ const handleSetIsFetchingGameId = (
 }
 
 const handleSetMessage = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
   message: Message,
 ) => {
   const nextState = state.set('message', message)
@@ -108,23 +108,23 @@ const handleSetMessage = (
 }
 
 const handleSetNewGameModalOpened = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
 ) => {
   const nextState = state.set('isNewGameModalOpened', true)
   return nextState
 }
 
 const handleSetNewGameModalClosed = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
 ) => {
   const nextState = state.set('isNewGameModalOpened', false)
   return nextState
 }
 
 const handleSetLastGameSnapshot = (
-  state: Record<GameState> & Readonly<GameState>,
+  state: State,
 ) => {
-  const lastGameSnapshot = state.get('gameSnapshots').first() as Record<GameState> & Readonly<GameState>
+  const lastGameSnapshot = state.get('gameSnapshots').first() as State 
   const restGameSnapshots = state.get('gameSnapshots').shift()
 
   if (restGameSnapshots.size > 0) {

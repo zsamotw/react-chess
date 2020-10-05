@@ -14,7 +14,7 @@ import {
 } from './actions'
 import { rows } from '../models/board.model'
 import { Record, List } from 'immutable'
-import GameState from '../models/store.model'
+import GameState from '../models/game-state.model'
 import {
   handleStartNewGame,
   handleMakeFigureMove,
@@ -30,6 +30,7 @@ import {
 } from './action-handlers'
 import Color from '../models/color.model'
 import GameMode from '../models/game.mode'
+import { State } from '../models/state.model'
 
 const makeInitialState = Record({
   gameId: null,
@@ -54,7 +55,7 @@ const gameReducers = createReducer(initialGameState, {
     const gameMode = state.get('gameMode')
     const { game_id } = action.payload
     return handleStartNewGame(
-      initialGameState as Record<GameState> & Readonly<GameState>,
+      initialGameState as State,
       gameMode,
       game_id,
     )

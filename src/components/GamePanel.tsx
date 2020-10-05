@@ -9,15 +9,15 @@ import {
   getGameMode,
   getStatus,
 } from '../redux/selectors'
-import GameState from '../models/store.model'
 import { connect } from 'react-redux'
-import { Record, List } from 'immutable'
 import Color from '../models/color.model'
 import Move from '../models/move.model'
 import CapturedFigures from '../models/captured-figures.model'
 import { undoLastMoveApiRequest } from '../redux/actions'
 import GameMode from '../models/game.mode'
 import { makeStyles } from '@material-ui/core/styles'
+import { State } from '../models/state.model'
+import { List } from 'immutable'
 
 const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
   display: flex;
@@ -211,7 +211,7 @@ function GamePanel(props: {
   )
 }
 
-const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
+const mapStateToProps = (state: State) => {
   const gameId = getGameId(state)
   const activePlayerColor = getActivePlayerColor(state)
   const status = getStatus(state)

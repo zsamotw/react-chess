@@ -11,9 +11,8 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Radio from '@material-ui/core/Radio'
 import { getGameMode, getGameId } from '../redux/selectors'
-import GameState from '../models/store.model'
-import { Record } from 'immutable'
 import GameMode from '../models/game.mode'
+import { State } from '../models/state.model'
 
 const ContentContainer = styled.div`
   display: flex;
@@ -131,7 +130,7 @@ function NewGameDialogContent(props: {
   )
 }
 
-const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
+const mapStateToProps = (state: State) => {
   const gameMode = getGameMode(state)
   const canCloseModal = !!getGameId(state)
   return { gameMode, canCloseModal }

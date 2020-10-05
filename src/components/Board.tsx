@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Rows from './Rows'
-import GameState from '../models/store.model'
 import {
   getBoard,
   getGameId,
@@ -11,7 +10,6 @@ import {
 import { connect } from 'react-redux'
 import { Board as BoardModel } from '../models/board.model'
 import styled from 'styled-components'
-import { Record } from 'immutable'
 import Snackbar from '@material-ui/core/Snackbar'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -23,6 +21,7 @@ import GameDialog from './GameDialog'
 import NewGameDialogContent from './NewGameDialogContent'
 import { setMessage } from '../redux/actions'
 import type { Severity } from '../models/severity.model'
+import { State } from '../models/state.model'
 
 const BoardContainer = styled.div`
   display: flex;
@@ -106,7 +105,7 @@ function Board(props: {
   )
 }
 
-const mapStateToProps = (state: Record<GameState> & Readonly<GameState>) => {
+const mapStateToProps = (state: State) => {
   const board = getBoard(state)
   const gameId = getGameId(state)
   const message = getMessage(state)
