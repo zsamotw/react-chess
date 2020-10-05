@@ -16,7 +16,7 @@ const Title = styled.div`
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: bold;
-  letter-spacing: 30px;
+  letter-spacing: 12px;
 `
 
 const ButtonNewGame = styled.button`
