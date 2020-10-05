@@ -65,8 +65,9 @@ const Player = styled.div<{isWhitePlayer: boolean}>`
 const GameModeInfo = styled.div<{isGame: boolean}>`
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  margin-bottom: 0.3rem;
   opacity: ${props => props.isGame ? 1 : 0};
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #919191;
 `
 
 const UndoButton = styled.button<{isGame: boolean}>`
@@ -95,8 +96,7 @@ const Icon = styled.img`
 const GameMovesSection = styled.section`
   flex: 1 1 0px;
   overflow-y: auto;
-  padding: 0.5rem 0.5rem;
-  border-top: 1px solid #919191;
+  padding: 0.5rem 0.1rem;
 
   @media screen and (max-width: 1024px) {
     overflow: visible;
@@ -109,6 +109,10 @@ const PlayerMove = styled.div`
   margin-top: 0.4rem;
   font-size: 0.9rem;
   font-weight: bold;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `
 
 const MoveColor = styled.div`
