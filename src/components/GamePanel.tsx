@@ -19,7 +19,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { State } from '../models/state.model'
 import { List } from 'immutable'
 
-const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
+const Panel = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${props => props.theme.background.white};
@@ -29,12 +29,18 @@ const Panel = styled.div<{isGame: boolean, isGameOver: boolean}>`
   font-size: 1rem;
   margin: 0 0 0 3rem;
   transition: 'opacity 4s ease';
-  opacity: ${props => props.isGame && !props.isGameOver ? 1 : 0.3};
 
   @media screen and (max-width: 1024px) {
     width: 64vmin;
     margin: 3rem 0 0 0;
   }
+`
+
+const PanelContentWrapper = styled.div<{
+  isGame: boolean
+  isGameOver: boolean
+}>`
+  opacity: ${props => (props.isGame && !props.isGameOver ? 1 : 0.3)};
 `
 
 const PanelHeader = styled.section`
@@ -43,7 +49,10 @@ const PanelHeader = styled.section`
   align-items: baseline;
 `
 
-const ActivePlayerColor = styled.div<{isGame: boolean, isWhitePlayer: boolean}>`
+const ActivePlayerColor = styled.div<{
+  isGame: boolean
+  isWhitePlayer: boolean
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,24 +62,30 @@ const ActivePlayerColor = styled.div<{isGame: boolean, isWhitePlayer: boolean}>`
   border: 1px solid ${props => props.theme.primary.main};
   margin: 0 1rem 1rem 0;
   transition: all 0.5s ease;
-  opacity: ${props => props.isGame ? 1 : 0};
-  background-color: ${props => props.isWhitePlayer ? props.theme.background.white : props.theme.background.black};
+  opacity: ${props => (props.isGame ? 1 : 0)};
+  background-color: ${props =>
+    props.isWhitePlayer
+      ? props.theme.background.white
+      : props.theme.background.black};
 `
 
-const Player = styled.div<{isWhitePlayer: boolean}>`
+const Player = styled.div<{ isWhitePlayer: boolean }>`
   font-size: 0.7rem;
-  color: ${props => props.isWhitePlayer ? props.theme.primary.main : props.theme.secondary.main};
+  color: ${props =>
+    props.isWhitePlayer
+      ? props.theme.primary.main
+      : props.theme.secondary.main};
 `
 
-const GameModeInfo = styled.div<{isGame: boolean}>`
+const GameModeInfo = styled.div<{ isGame: boolean }>`
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  opacity: ${props => props.isGame ? 1 : 0};
+  opacity: ${props => (props.isGame ? 1 : 0)};
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #919191;
 `
 
-const UndoButton = styled.button<{isGame: boolean}>`
+const UndoButton = styled.button<{ isGame: boolean }>`
   /* temporary display none */
   display: none;
   border-radius: 5px;
@@ -79,7 +94,7 @@ const UndoButton = styled.button<{isGame: boolean}>`
   cursor: pointer;
   text-transform: uppercase;
   background-color: #dbdbdb;
-  opacity: ${props => props.isGame ? 1 : 0};
+  opacity: ${props => (props.isGame ? 1 : 0)};
 
   &:hover {
     background-color: #7d7c7c;
@@ -127,6 +142,8 @@ const EndGameStatus = styled.div`
   color: red;
   font-size: 1.3rem;
   text-transform: uppercase;
+  opacity: 1 !important;
+  margin-bottom: 2rem;
 `
 
 const useStyles = makeStyles({
@@ -165,51 +182,51 @@ function GamePanel(props: {
 
   const classes = useStyles()
   const getBackgroundColor = (color: string) => ({
-      backgroundColor: color.toLowerCase(),
-    })
+    backgroundColor: color.toLowerCase(),
+  })
 
   return (
     <>
-      <Panel isGame={isGame} isGameOver={isGameOver}>
-        <PanelHeader>
-          <ActivePlayerColor isGame={isGame} isWhitePlayer={isWhitePlayer}>
-            <Player isWhitePlayer={isWhitePlayer}>
-              {isWhitePlayer ? 'White' : 'Black'}
-            </Player>
-          </ActivePlayerColor>
-          {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
-          <UndoButton onClick={undoMove} isGame={isGame}>
-            UNDO
-          </UndoButton>
-        </PanelHeader>
-        <CapturedFiguresSection>
-          <div>
-            {capturedFigures.white.map((icon: string, index: number) => (
-              <Icon src={icon} alt='' key={icon + index}></Icon>
+      <Panel>
+        {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
+        <PanelContentWrapper isGame={isGame} isGameOver={isGameOver}>
+          <PanelHeader>
+            <ActivePlayerColor isGame={isGame} isWhitePlayer={isWhitePlayer}>
+              <Player isWhitePlayer={isWhitePlayer}>
+                {isWhitePlayer ? 'White' : 'Black'}
+              </Player>
+            </ActivePlayerColor>
+            <UndoButton onClick={undoMove} isGame={isGame}>
+              UNDO
+            </UndoButton>
+          </PanelHeader>
+          <CapturedFiguresSection>
+            <div>
+              {capturedFigures.white.map((icon: string, index: number) => (
+                <Icon src={icon} alt='' key={icon + index}></Icon>
+              ))}
+            </div>
+            <div>
+              {capturedFigures.black.map((icon: string, index: number) => (
+                <Icon src={icon} alt='' key={icon + index}></Icon>
+              ))}
+            </div>
+          </CapturedFiguresSection>
+          <GameModeInfo isGame={isGame}>{gameMode}</GameModeInfo>
+          <GameMovesSection>
+            {moves.map((move: Move, index: number) => (
+              <PlayerMove key={index}>
+                <div className={classes.index}>{moves.size - index}</div>
+                <MoveColor
+                  style={getBackgroundColor(move.color as string)}></MoveColor>
+                <div className={classes.startingPointCoordinate}>
+                  {move.startingPointCoordinate}
+                </div>
+                <div>{move.endPointCoordinate}</div>
+              </PlayerMove>
             ))}
-          </div>
-          <div>
-            {capturedFigures.black.map((icon: string, index: number) => (
-              <Icon src={icon} alt='' key={icon + index}></Icon>
-            ))}
-          </div>
-        </CapturedFiguresSection>
-        <GameModeInfo isGame={isGame}>{gameMode}</GameModeInfo>
-        <GameMovesSection>
-          {moves.map((move: Move, index: number) => (
-            <PlayerMove key={index}>
-              <div className={classes.index}>{moves.size - index}</div>
-              <MoveColor
-                style={getBackgroundColor(
-                  move.color as string,
-                )}></MoveColor>
-              <div className={classes.startingPointCoordinate}>
-                {move.startingPointCoordinate}
-              </div>
-              <div>{move.endPointCoordinate}</div>
-            </PlayerMove>
-          ))}
-        </GameMovesSection>
+          </GameMovesSection>
+        </PanelContentWrapper>
       </Panel>
     </>
   )
