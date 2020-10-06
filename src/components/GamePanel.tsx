@@ -36,10 +36,8 @@ const Panel = styled.div`
   }
 `
 
-const PanelContentWrapper = styled.div<{
-  isGame: boolean
-  isGameOver: boolean
-}>`
+const PanelContentWrapper = styled.div<{ isGame: boolean, isGameOver: boolean }>`
+  flex: auto;
   opacity: ${props => (props.isGame && !props.isGameOver ? 1 : 0.3)};
 `
 
@@ -49,10 +47,7 @@ const PanelHeader = styled.section`
   align-items: baseline;
 `
 
-const ActivePlayerColor = styled.div<{
-  isGame: boolean
-  isWhitePlayer: boolean
-}>`
+const ActivePlayerColor = styled.div<{ isGame: boolean, isWhitePlayer: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,7 +63,6 @@ const ActivePlayerColor = styled.div<{
       ? props.theme.background.white
       : props.theme.background.black};
 `
-
 const Player = styled.div<{ isWhitePlayer: boolean }>`
   font-size: 0.7rem;
   color: ${props =>
@@ -188,7 +182,7 @@ function GamePanel(props: {
   return (
     <>
       <Panel>
-        {isGameOver ? <EndGameStatus>{status}</EndGameStatus> : null}
+        {isGameOver && <EndGameStatus>{status}</EndGameStatus>}
         <PanelContentWrapper isGame={isGame} isGameOver={isGameOver}>
           <PanelHeader>
             <ActivePlayerColor isGame={isGame} isWhitePlayer={isWhitePlayer}>
