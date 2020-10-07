@@ -101,7 +101,7 @@ function NewGameDialogContent(props: {
   return (
     <ContentContainer>
       <DialogTitle>Start new game</DialogTitle>
-      {canCloseModal ? closeIcon : null}
+      {canCloseModal && closeIcon }
       <GameModeRadio>
         <label>{GameMode.onePlayer}</label>
         <Radio
@@ -123,7 +123,7 @@ function NewGameDialogContent(props: {
         <label>{GameMode.twoPlayers}</label>
       </GameModeRadio>
       <ButtonsWrapper>
-        {canCloseModal ? closeButton : null}
+        {canCloseModal && closeButton }
         <NewGameButton onClick={handleStartNewGame}>New Game</NewGameButton>
       </ButtonsWrapper>
     </ContentContainer>

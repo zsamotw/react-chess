@@ -96,13 +96,9 @@ function Field(props: {
         <FieldEachEvenGrey
           key={field.coordinates}
           ref={drop}
-          style={!!isOver ? backgroundOnOver : {}}>
-          {fieldIndex === 0 ? (
-            <Latitude>{mapRowNumber(rowIndex)}</Latitude>
-          ) : null}
-          {rowIndex === 7 ? (
-            <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>
-          ) : null}
+          style={isOver ? backgroundOnOver : {}}>
+          {fieldIndex === 0 && ( <Latitude>{mapRowNumber(rowIndex)}</Latitude>) }
+          {rowIndex === 7 && ( <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>) }
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
@@ -115,12 +111,8 @@ function Field(props: {
           key={field.coordinates}
           ref={drop}
           style={!!isOver ? backgroundOnOver : {}}>
-          {fieldIndex === 0 ? (
-            <Latitude>{mapRowNumber(rowIndex)}</Latitude>
-          ) : null}
-          {rowIndex === 7 ? (
-            <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>
-          ) : null}
+          {fieldIndex === 0 && ( <Latitude>{mapRowNumber(rowIndex)}</Latitude>) }
+          {rowIndex === 7 && ( <Longitude>{mapFieldIndexToLetter(fieldIndex)}</Longitude>) }
           <Icon
             icon={field.figure.icon}
             coordinates={field.coordinates}
