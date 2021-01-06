@@ -18,7 +18,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/redux-logger": "^3.0.7",
     "@types/styled-components": "^4.4.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "immutable": "^4.0.0-rc.12",
     "import-js": "^4.0.2",
     "import-ts": "^4.0.5",
